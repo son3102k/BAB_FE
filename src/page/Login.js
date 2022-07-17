@@ -8,10 +8,13 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import background from '../static/assets/login-background.png';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
+import {createTheme} from "@mui/material";
 
 function Copyright(props) {
     return (
@@ -26,6 +29,22 @@ function Copyright(props) {
     );
 }
 
+const theme = createTheme({
+    typography: {
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+    },
+});
 
 export default function Login() {
     const handleSubmit = (event) => {
@@ -64,52 +83,63 @@ export default function Login() {
                     }}
                 >
                     <Avatar sx={{ m: 3, bgcolor: 'primary.main' }}>
-                        <LockOutlinedIcon />
+                        <LoginOutlinedIcon />
                     </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Đăng nhập
+                        <Typography component="h1" variant="h5" fontWeight="800" fontFamily={theme.typography.fontFamily}>
+                            Chào mừng Quý khách
                         </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, p: 1 }} >
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Tên đăng nhập"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Mật khẩu"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Lưu thông tin"
-                        />
+                        <Box sx={{display: "flex", alignItems: "flex-end"}}>
+                            <PersonOutlineIcon sx={{ color: '#33ccff', mr: 1, my: 0.5 }}/>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Tên đăng nhập"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                                variant="standard"
+                                sx={{minWidth: 350}}
+                            />
+                        </Box>
+                        <Box sx={{display: "flex", alignItems: "flex-end"}}>
+                            <LockOutlinedIcon sx={{ color: '#33ccff', mr: 1, my: 0.5 }}/>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Mật khẩu"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                variant="standard"
+                                sx={{minWidth: 350}}
+                            />
+                        </Box>
+                        {/*<FormControlLabel sx={{mt: 2 }}*/}
+                        {/*    control={<Checkbox value="remember" color="primary" size="small"/>}*/}
+                        {/*    label="Lưu thông tin"*/}
+                        {/*/>*/}
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 3, mb: 2 , fontSize: 13, p: 1.3 ,fontWeight: 'bold',
+                                backgroundImage: "linear-gradient(120deg,#00bfae 0,#0066ad 100%)"}}
                         >
                             Đăng nhập
                         </Button>
-                        <Grid container sx={{mb: 3}}>
+                        <Grid container sx={{mb: 3, mt: 1}}>
                             <Grid item xs>
-                                <Link href="#" variant="body2">
+                                <Link href="#" variant="body2" underline="none" fontWeight="700">
                                     Quên mật khẩu?
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="#" variant="body2" underline="none" fontWeight="700">
                                     {"Đăng ký tài khoản"}
                                 </Link>
                             </Grid>
