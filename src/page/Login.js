@@ -14,6 +14,8 @@ import background from '../static/assets/login-background.png';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
+
+import {useEffect} from "react";
 import {createTheme} from "@mui/material";
 
 function Copyright(props) {
@@ -28,8 +30,7 @@ function Copyright(props) {
         </Typography>
     );
 }
-
-const theme = createTheme({
+const font = createTheme({
     typography: {
         fontFamily: [
             '-apple-system',
@@ -47,6 +48,10 @@ const theme = createTheme({
 });
 
 export default function Login() {
+    useEffect(()=>{
+        document.title = 'Đăng nhập'
+    });
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -85,7 +90,7 @@ export default function Login() {
                     <Avatar sx={{ m: 3, bgcolor: 'primary.main' }}>
                         <LoginOutlinedIcon />
                     </Avatar>
-                        <Typography component="h1" variant="h5" fontWeight="800" fontFamily={theme.typography.fontFamily}>
+                        <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}>
                             Chào mừng Quý khách
                         </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, p: 1 }} >

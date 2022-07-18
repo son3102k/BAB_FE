@@ -5,13 +5,15 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import CreateClientV3 from "./page/CreateClientV3";
 
 function App() {
   return (
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/" element={<Login />}></Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/createclientv3" element={<CreateClientV3 />}/>
         </Routes>
 
       </Router>
