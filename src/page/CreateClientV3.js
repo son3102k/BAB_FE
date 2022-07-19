@@ -12,6 +12,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import '../static/css/CreateClientV3.css'
+import TopBarNav from "../components/topbarnav";
 
 const font = createTheme({
     typography: {
@@ -87,6 +88,8 @@ const Item = styled(Paper)(({theme}) => ({
     color: theme.palette.text.secondary,
     minHeight: '80vh',
     minWidth: 500,
+    borderRadius: 16,
+    width: "95%"
 }));
 
 export default function CreateClientV3() {
@@ -100,13 +103,16 @@ export default function CreateClientV3() {
         console.log('Submited');
     }
     return (
-        <Box sx={{flexGrow: 1}} component="form" onSubmit={handleSubmit}>
-            <Grid container spacing={2} sx={{
+        <div>
+            <TopBarNav />
+            <Box sx={{flexGrow: 1}} component="form" onSubmit={handleSubmit}>
+            <Grid container spacing={3} sx={{
                 display: "flex",
                 flexDirection: "row",
                 flexWrap: "wrap",
                 justifyContent: "center",
                 alignItems: "flex-end",
+                mt: 1,
                 p: 1,
             }}>
                 <Grid item xs={matches ? 6 : 12}>
@@ -403,12 +409,13 @@ export default function CreateClientV3() {
                     type="submit"
 
                     variant="contained"
-                    sx={{ mt: 5, mb: 2 , fontSize: 13, p: 1.3 ,fontWeight: 'bold',
+                    sx={{mt : 5, fontSize: 13, p: 1.3 ,fontWeight: 'bold',
                         backgroundImage: "linear-gradient(120deg,#00bfae 0,#0066ad 100%)"}}
                 >
                     Submit
                 </Button>
             </Grid>
         </Box>
+        </div>
     );
 }
