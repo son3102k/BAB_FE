@@ -8,49 +8,79 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import OWLogo from "./OWLogo";
 import MenuDropdown from "./MenuDropdown.js";
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const pages = [
     {
-    name: 'Clients',
+    name: 'create',
     function: [
         {
-            value:'CreateClientV3',
+            value:'createclientv3',
             label: 'Create Client V3',
         },
         {
-            value: 'CreateClientV4',
-            label: 'Create Client V4',
+            value: 'createcardv3',
+            label: 'Create Card V3',
         }],
     },
     {
-        name: 'Cards',
+        name: 'compound',
         function: [
             {
-                value:'CreateCardV3',
-                label: 'Create Card V3',
-            },
-            {
-                value: 'CreateCardV4',
-                label: 'Create Card V4',
+                value:'createcontractv4',
+                label: 'Create Contract V4',
             }],
     },
     {
-        name: 'Contract',
+        name: 'action',
         function: [
             {
-                value:'CreateContractV3',
-                label: 'Create Contract V3',
+                value:'isspaymenttocontract',
+                label: 'Iss Payment To Contract',
             },
             {
-                value: 'CreateContractV4',
-                label: 'Create Contract V4',
+                value: 'acqpurchase',
+                label: 'Acq Purchase',
+            },
+            {
+                value: 'acqbalanceinquiry',
+                label: 'Acq Balance Inquiry'
+            },
+            {
+                value: 'acqchangepin',
+                label: 'Acq Change Pin'
+            },
+            {
+                value: 'clearpin',
+                label: 'Clear PIN'
+            },
+            {
+                value: 'acqsetpin',
+                label: 'Acq Set Pin',
+            },
+            {
+                value: 'reissuecard',
+                label: 'Reissue Card'
+            }],
+    },
+    {
+        name: 'set_status',
+        function: [
+            {
+                value:'clearpinattempts',
+                label: 'Clear PIN Attempts',
+            },
+            {
+                value: 'activatecard',
+                label: 'Activate Card',
+            },
+            {
+                value: 'setcontractstatus',
+                label: 'Set Contract Status'
             }],
     },
 ];
@@ -85,42 +115,40 @@ const TopBarNav = () => {
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <OWLogo />
-                        {/*<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>*/}
-                            {/*<IconButton*/}
-                            {/*    size="large"*/}
-                            {/*    aria-label="account of current user"*/}
-                            {/*    aria-controls="menu-appbar"*/}
-                            {/*    aria-haspopup="true"*/}
-                            {/*    onClick={handleOpenNavMenu}*/}
-                            {/*    color="inherit"*/}
-                            {/*>*/}
-                            {/*    <MenuIcon />*/}
-                            {/*</IconButton>*/}
-                            {/*<Menu*/}
-                            {/*    id="menu-appbar"*/}
-                            {/*    anchorEl={anchorElNav}*/}
-                            {/*    anchorOrigin={{*/}
-                            {/*        vertical: 'bottom',*/}
-                            {/*        horizontal: 'left',*/}
-                            {/*    }}*/}
-                            {/*    keepMounted*/}
-                            {/*    transformOrigin={{*/}
-                            {/*        vertical: 'top',*/}
-                            {/*        horizontal: 'left',*/}
-                            {/*    }}*/}
-                            {/*    open={Boolean(anchorElNav)}*/}
-                            {/*    onClose={handleCloseNavMenu}*/}
-                            {/*    sx={{*/}
-                            {/*        display: { xs: 'block', md: 'none' },*/}
-                            {/*    }}*/}
-                            {/*>*/}
-                            {/*    {pages.map((page) => (*/}
-                            {/*        <MenuItem key={page} onClick={handleCloseNavMenu}>*/}
-                            {/*            <Typography textAlign="center">{page}</Typography>*/}
-                            {/*        </MenuItem>*/}
-                            {/*    ))}*/}
-                            {/*</Menu>*/}
-                        {/*</Box>*/}
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElNav}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                open={Boolean(anchorElNav)}
+                                onClose={handleCloseNavMenu}
+                                sx={{
+                                    display: { xs: 'block', md: 'none' },
+                                }}
+                            >
+                                {pages.map((page)=>(
+                                    <MenuDropdown page={page} />
+                                ))}
+                            </Menu>
+                        </Box>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                             {pages.map((page)=>(
                                 <MenuDropdown page={page} />

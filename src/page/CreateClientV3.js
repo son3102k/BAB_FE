@@ -12,7 +12,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import '../static/css/CreateClientV3.css'
-import TopBarNav from "../components/topbarnav";
+import TopBarNav from "../components/TopBarNav";
 
 const font = createTheme({
     typography: {
@@ -105,6 +105,14 @@ export default function CreateClientV3() {
     return (
         <div>
             <TopBarNav />
+            <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily} color="#000000"
+                        sx={{
+                            mt: 2,
+                            textAlign: "center",
+                            fontSize: 40
+                        }}>
+                Create Client V3
+            </Typography>
             <Box sx={{flexGrow: 1}} component="form" onSubmit={handleSubmit}>
             <Grid container spacing={3} sx={{
                 display: "flex",
@@ -159,7 +167,7 @@ export default function CreateClientV3() {
                                     inputFormat="MM/dd/yyyy"
                                     // value={new Date()}
                                     // onChange={}
-                                    renderInput={(params) => <TextField {...params} size="small" sx={{width: "40%", m: 1}}/>}
+                                    renderInput={(params) => <TextField {...params} size="small" sx={{width: "30%", m: 1}}/>}
                                 />
                         </LocalizationProvider>
                         <TextField
@@ -168,7 +176,7 @@ export default function CreateClientV3() {
                             label="Gender"
                             // value={}
                             // onChange={handleChange}
-                            sx={{m: 1, width: "25%"}}
+                            sx={{m: 1, width: "30%"}}
                             size="small"
                         >
                             {gender.map((option) => (
@@ -182,7 +190,7 @@ export default function CreateClientV3() {
                             label="Citizen Ship"
                             size="small"
                             sx={{
-                                width: "25%",
+                                width: "30%",
                                 m: 1,
                                 mb: 2,
                             }}
@@ -192,7 +200,7 @@ export default function CreateClientV3() {
                             label="Identity CardNumber"
                             size="small"
                             sx={{
-                                width: "50%",
+                                width: "47%",
                                 m: 1,
                             }}
                         />
@@ -201,7 +209,7 @@ export default function CreateClientV3() {
                             label="Identity Card Type"
                             size="small"
                             sx={{
-                                width: "43%",
+                                width: "46%",
                                 m: 1,
                                 mb: 2,
                             }}
@@ -211,7 +219,7 @@ export default function CreateClientV3() {
                             label="Individual Taxpayer Number"
                             size="small"
                             sx={{
-                                width: "50%",
+                                width: "47%",
                                 m: 1,
                             }}
                         />
@@ -220,17 +228,17 @@ export default function CreateClientV3() {
                             label="Company Name"
                             size="small"
                             sx={{
-                                width: "43%",
+                                width: "46%",
                                 m: 1,
                                 mb: 2,
                             }}
                         />
                         <TextField
                             id="EMail"
-                            label="EMail"
+                            label="Email"
                             size="small"
                             sx={{
-                                width: "60%",
+                                width: "47%",
                                 m: 1,
                             }}
                         />
@@ -239,7 +247,7 @@ export default function CreateClientV3() {
                             label="Mobile Phone"
                             size="small"
                             sx={{
-                                width: "33%",
+                                width: "46%",
                                 m: 1,
                                 mb: 2,
                             }}
@@ -268,7 +276,7 @@ export default function CreateClientV3() {
                                 label="Social Security Number"
                                 size="small"
                                 sx={{
-                                    width: "60%",
+                                    width: "47%",
                                     m: 1,
                                 }}
                             />
@@ -278,7 +286,7 @@ export default function CreateClientV3() {
                             label="Position Code"
                             size="small"
                             sx={{
-                                width: "33%",
+                                width: "46%",
                                 m: 1,
                                 mb: 2,
                             }}
@@ -288,7 +296,7 @@ export default function CreateClientV3() {
                             label="Business Phone"
                             size="small"
                             sx={{
-                                width: "46%",
+                                width: "47%",
                                 m: 1,
                             }}
                         />
@@ -297,7 +305,7 @@ export default function CreateClientV3() {
                             label="Home Phone"
                             size="small"
                             sx={{
-                                width: "47%",
+                                width: "46%",
                                 m: 1,
                                 mb: 2,
                             }}
@@ -318,7 +326,7 @@ export default function CreateClientV3() {
                             label="Institution Branch Code"
                             size="small"
                             sx={{
-                                width: "46%",
+                                width: "47%",
                                 m: 1,
                             }}
                         />
@@ -327,7 +335,7 @@ export default function CreateClientV3() {
                             label="Language Code"
                             size="small"
                             sx={{
-                                width: "47%",
+                                width: "46%",
                                 m: 1,
                                 mb: 2,
                             }}
@@ -337,7 +345,7 @@ export default function CreateClientV3() {
                             label="Marital Status Code"
                             size="small"
                             sx={{
-                                width: "46%",
+                                width: "47%",
                                 m: 1,
                             }}
                         />
@@ -346,7 +354,7 @@ export default function CreateClientV3() {
                             label="Salutation Code"
                             size="small"
                             sx={{
-                                width: "47%",
+                                width: "46%",
                                 m: 1,
                                 mb: 2,
                             }}
@@ -356,7 +364,7 @@ export default function CreateClientV3() {
                             label="Branch"
                             size="small"
                             sx={{
-                                width: "60%",
+                                width: "47%",
                                 m: 1,
                             }}
                         />
@@ -366,7 +374,7 @@ export default function CreateClientV3() {
                             select
                             size="small"
                             sx={{
-                                width: "33%",
+                                width: "46%",
                                 m: 1,
                                 mb: 2,
                             }}
@@ -382,7 +390,7 @@ export default function CreateClientV3() {
                             label="Service Group"
                             size="small"
                             sx={{
-                                width: "60%",
+                                width: "47%",
                                 m: 1,
                             }}
                         />
@@ -392,7 +400,7 @@ export default function CreateClientV3() {
                             select
                             size="small"
                             sx={{
-                                width: "33%",
+                                width: "46%",
                                 m: 1,
                                 mb: 2,
                             }}

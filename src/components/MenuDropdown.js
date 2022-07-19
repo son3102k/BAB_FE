@@ -1,20 +1,15 @@
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Box from "@mui/material/Box";
 import * as React from 'react';
-import {useEffect} from "react";
 
+import {Link} from "react-router-dom"
 
 
 export default function MenuDropdown(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [item, setItem] = React.useState(null);
     const [page, setPage] = React.useState(props.page);
-
-    const handleClickRedirect = () => {
-        console.log(item);
-    }
 
     const handleClickToggle = (event) => {
         if (anchorEl !== event.currentTarget) {
@@ -31,7 +26,7 @@ export default function MenuDropdown(props) {
             <Button
                 key={page.name}
                 onClick={handleClickToggle}
-                sx={{ my: 2, color: 'black', display: 'block' }}
+                sx={{ my: 2, color: 'black', display: 'block', mr: 3}}
                 onMouseOver={handleClickToggle}
             >
                 {page.name}
@@ -46,13 +41,12 @@ export default function MenuDropdown(props) {
                 MenuListProps={{ onMouseLeave: handleCloseToggle }}
                 getContentAnchorEl={null}
             >
-
                 {page.function.map((func)=>(
-                    <MenuItem onClick={()=> console.log(func.value)}>
-                        {func.label}
-                    </MenuItem>
-                ))}
 
+                        <MenuItem component={Link} to={`/${func.value}`}>
+                            {func.label}
+                        </MenuItem>
+                ))}
             </Menu>
         </div>
     );
