@@ -3,7 +3,7 @@ import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import {createTheme, MenuItem, useMediaQuery} from "@mui/material";
@@ -13,6 +13,13 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DesktopDatePicker} from '@mui/x-date-pickers/DesktopDatePicker';
 import '../static/css/CreateClientV3.css'
 import TopBarNav from "../components/TopBarNav";
+import axios from 'axios';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 const font = createTheme({
     typography: {
@@ -95,13 +102,46 @@ const Item = styled(Paper)(({theme}) => ({
 export default function CreateClientV3() {
     const matches = useMediaQuery('(min-width:1024px)');
 
+    const [firstName, setFirstName] = useState('');
+    const [middleName, setMiddleName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [identityCardNumber, setIdentityCardNumber] = useState('Gi cung dc');
+    const [clientNumber, setClientNumber] = useState('Any number');
+    const [branch, setBranch] = useState('0101');
+    const [institutionBranchCode, setInstitutionBranchCode] = useState('0001');
+    const [reason,setReason] = useState('create client');
+    const [clientTypeCode,setClientTypeCode] = useState('PR');
+    const [openDialog, setOpenDialog] = useState(false);
+    const [message,setMessage] = useState('');
+
     useEffect(() => {
         document.title = 'Create Client V3';
     });
 
-    const handleSubmit = (event) => {
-        console.log('Submited');
+    const handleSubmit = async (event) => {
+        const response = await axios.post('http://localhost:8080/createClient',{
+            reason,
+            institutionBranchCode,
+            clientTypeCode,
+            "inObject": {
+                branch,
+                identityCardNumber,
+                clientNumber,
+            }
+        },{
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        setOpenDialog(true);
+        // setMessage(response.data['createClientV3Reusult'])
+        setMessage(response.data['createClientV3Result']['value']['retMsg']['value']);
     }
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    }
+
     return (
         <div>
             <TopBarNav/>
@@ -114,7 +154,7 @@ export default function CreateClientV3() {
                         }}>
                 Create Client V3
             </Typography>
-            <Box sx={{flexGrow: 1}} component="form" onSubmit={handleSubmit}>
+            <Box sx={{flexGrow: 1}}>
                 <Grid container spacing={6} sx={{
                     display: "flex",
                     flexDirection: "row",
@@ -417,6 +457,26 @@ export default function CreateClientV3() {
                                     </MenuItem>
                                 ))}
                             </TextField>
+                            <TextField
+                                id="reasonCode"
+                                label="reason Code"
+                                size="small"
+                                sx={{
+                                    width: "47%",
+                                    m: 1,
+                                }}
+                            />
+                            <TextField
+                                id="reason"
+                                label="reason"
+                                size="small"
+                                sx={{
+                                    width: "46%",
+                                    m: 1,
+                                    mb: 2,
+                                }}
+                            />
+
                         </Item>
                     </Grid>
                     <Grid item xs={12} sx={{
@@ -424,8 +484,7 @@ export default function CreateClientV3() {
                         justifyContent: "center",
                     }}>
                         <Button
-                            type="submit"
-
+                            onClick={handleSubmit}
                             variant="contained"
                             sx={{
                                 mt: 2, fontSize: 13, p: 1.3, fontWeight: 'bold',
@@ -437,6 +496,29 @@ export default function CreateClientV3() {
                     </Grid>
                 </Grid>
             </Box>
+            <div>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Result"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {message}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} autoFocus>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+
         </div>
     );
 }
