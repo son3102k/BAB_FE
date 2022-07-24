@@ -91,7 +91,6 @@ const TopBarNav = () => {
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
-        // console.log(anchorElNav)
     };
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
