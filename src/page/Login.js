@@ -117,7 +117,13 @@ export default function Login() {
                         <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}>
                             Chào mừng Quý khách
                         </Typography>
-                    <Box noValidate sx={{ mt: 1, p: 1 }} >
+                    <Box noValidate sx={{ mt: 1, p: 1 }}
+                         onKeyDown={(e) => {
+                             console.log(e.key);
+                             if (e.key === 'Enter') {
+                                 handleSubmit(e);
+                             }
+                         }}>
                         <Box sx={{display: "flex", alignItems: "flex-end"}}>
                             <PersonOutlineIcon sx={{ color: '#33ccff', mr: 1, my: 0.5 }}/>
                             <TextField
