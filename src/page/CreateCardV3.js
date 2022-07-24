@@ -19,6 +19,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Container from "@mui/material/Container";
 
 
 const font = createTheme({
@@ -105,12 +106,31 @@ export default function CreateClientV3() {
     const [firstName, setFirstName] = useState('');
     const [middleName, setMiddleName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [identityCardNumber, setIdentityCardNumber] = useState('Gi cung dc');
-    const [clientNumber, setClientNumber] = useState('Any number');
-    const [branch, setBranch] = useState('0101');
-    const [institutionBranchCode, setInstitutionBranchCode] = useState('0001');
-    const [reason,setReason] = useState('create client');
-    const [clientTypeCode,setClientTypeCode] = useState('PR');
+    const [BirthDate, setBirthDate] = useState(new Date(0));
+    const [Gender, setGender] = useState(gender[0].value);
+    const [Citizenship, setCitizenship] = useState('');
+    const [identityCardNumber, setIdentityCardNumber] = useState('');
+    const [IdentityCardType, setIdentityCardType] = useState('');
+    const [IndividualTaxpayerNumber, setIndividualTaxpayerNumber] = useState('');
+    const [CompanyName,setCompanyName] = useState('');
+    const [EMail, setEMail] = useState('');
+    const [MobilePhone, setMobilePhone] = useState('');
+    const [RegistrationDate, setRegistrationDate] = useState(new Date());
+    const [DateExpire, setDateExpire] = useState(new Date());
+    const [SocialSecurityNumber, setSocialSecurityNumber] = useState('');
+    const [PositionCode, setPositionCode] = useState('');
+    const [BusinessPhone, setBusinessPhone] = useState('');
+    const [HomePhone, setHomePhone] = useState('');
+    const [institutionBranchCode, setInstitutionBranchCode] = useState('');
+    const [branch, setBranch] = useState('');
+    const [clientTypeCode,setClientTypeCode] = useState('');
+    const [clientNumber, setClientNumber] = useState('');
+    const [reason,setReason] = useState('');
+    const [reasonCode, setreasonCode] = useState('');
+    const [ServiceGroup, setServiceGroup] = useState('');
+    const [LanguageCode, setLanguageCode] = useState('');
+    const [ClientCategory, setClientCategory] = useState(client_category[0].value);
+    const [ProductCategory, setProductCategory] = useState(prodcut_category[0].value);
     const [openDialog, setOpenDialog] = useState(false);
     const [message,setMessage] = useState('');
 
@@ -119,11 +139,20 @@ export default function CreateClientV3() {
     });
 
     const handleSubmit = async (event) => {
+        event.preventDefault();
         const response = await axios.post('http://localhost:8080/createCard',{
             reason,
             institutionBranchCode,
             clientTypeCode,
             "inObject": {
+                firstName,
+                lastName,
+                middleName,
+                Gender,
+                BirthDate,
+                IdentityCardType,
+                Citizenship,
+
                 branch,
                 identityCardNumber,
                 clientNumber,
@@ -135,7 +164,7 @@ export default function CreateClientV3() {
         });
         setOpenDialog(true);
         // setMessage(response.data['createClientV3Reusult'])
-        // setMessage(response.data['createClientV3Result']['value']['retMsg']['value']);
+        setMessage(response.data['createClientV3Result']['value']['retMsg']['value']);
     }
 
     const handleCloseDialog = () => {
@@ -148,13 +177,26 @@ export default function CreateClientV3() {
             <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}
                         color="#000000"
                         sx={{
+                            textAlign: "left",
+                            fontSize: 42,
+                            backgroundColor: "#cc00cc",
+                            p: 2,
+                            color: '#fff',
+                            m: 3.5,
                             mt: 2,
-                            textAlign: "center",
-                            fontSize: 40
+                            minHeight: 70,
                         }}>
-                Create Card
+                CREATE CARD V3
+                <div>
+                    <Container maxWidth="sm" fullWidth sx={{
+                        width: 0.05,
+                        mt: 1,
+                        borderBottom: "5px solid #fff",
+                        float: "left",
+                    }}/>
+                </div>
             </Typography>
-            <Box sx={{flexGrow: 1}}>
+            <Box sx={{flexGrow: 1}} component="form" onSubmit={handleSubmit}>
                 <Grid container spacing={6} sx={{
                     display: "flex",
                     flexDirection: "row",
@@ -172,71 +214,75 @@ export default function CreateClientV3() {
                                             m: 1,
                                             mb: 3,
                                         }}>
-                                Infomation
+                                Information
                             </Typography>
                             <TextField
-                                id="CardNumber"
-                                label="CardNumber"
+                                id="embossedFirstName"
+                                label="First Name"
                                 size="small"
                                 sx={{
                                     width: "30%",
                                     m: 1,
                                 }}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                required
                             />
                             <TextField
-                                id="CardName"
-                                label="CardName"
+                                id="embossedLastName"
+                                label="Last Name"
                                 size="small"
                                 sx={{
                                     width: "30%",
                                     m: 1
                                 }}
+                                onChange={(e) => setLastName(e.target.value)}
+                                required
                             />
                             <TextField
-                                id="Branch"
-                                label="Branch"
+                                id="embossedCompanyName"
+                                label="Company Name"
                                 size="small"
                                 sx={{
                                     width: "30%",
                                     m: 1,
                                     mb: 2
                                 }}
+                                onChange={(e) => setMiddleName(e.target.value)}
+                                required
                             />
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DesktopDatePicker
-                                    id="BirthDate"
-                                    label="Date of Birth"
+                                    id="expirationDate"
+                                    label="Expiration Date"
                                     inputFormat="MM/dd/yyyy"
-                                    // value={new Date()}
-                                    // onChange={}
-                                    renderInput={(params) => <TextField {...params} size="small"
+                                    onChange={(e) => setBirthDate(e)}
+                                    value={BirthDate}
+                                    renderInput={(params) => <TextField {...params} size="small" required
                                                                         sx={{width: "30%", m: 1}}/>}
+
                                 />
-                            </LocalizationProvider>
+                            </LocalizationProvider> */}
                             <TextField
-                                id="Gender"
-                                select
-                                label="Gender"
-                                // value={}
-                                // onChange={handleChange}
-                                sx={{m: 1, width: "30%"}}
-                                size="small"
-                            >
-                                {gender.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                            <TextField
-                                id="Citizenship"
-                                label="Citizen Ship"
+                                id="cbsid"
+                                label="CBS ID"
                                 size="small"
                                 sx={{
-                                    width: "30%",
+                                    width: "47%",
+                                    m: 1,
+                                }}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                required
+                            />
+                            <TextField
+                                id="cbsNumber"
+                                label="CBS Number"
+                                size="small"
+                                sx={{
+                                    width: "46%",
                                     m: 1,
                                     mb: 2,
                                 }}
+                                onChange={(e) => setCitizenship(e.target.value)}
                             />
                             <TextField
                                 id="IdentityCardNumber"
@@ -246,6 +292,8 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
+                                onChange={(e) => setIdentityCardNumber(e.target.value)}
+                                required
                             />
                             <TextField
                                 id="IdentityCardType"
@@ -256,6 +304,7 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
+                                onChange={(e) => setIdentityCardType(e.target.value)}
                             />
                             <TextField
                                 id="IndividualTaxpayerNumber"
@@ -265,6 +314,7 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
+                                onChange={(e) => setIndividualTaxpayerNumber(e.target.value)}
                             />
                             <TextField
                                 id="CompanyName"
@@ -275,6 +325,7 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
+                                onChange={(e) => setCompanyName(e.target.value)}
                             />
                             <TextField
                                 id="EMail"
@@ -284,6 +335,9 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
+                                type="email"
+                                onChange={(e) => setEMail(e.target.value)}
+                                required
                             />
                             <TextField
                                 id="MobilePhone"
@@ -294,14 +348,16 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
+                                onChange={(e) => setMobilePhone(e.target.value)}
+                                required
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DesktopDatePicker
                                     id="RegistrationDate"
                                     label="Registration Date"
                                     inputFormat="MM/dd/yyyy"
-                                    // value={new Date()}
-                                    // onChange={}
+                                    value={RegistrationDate}
+                                    onChange={(e) => setRegistrationDate(e)}
                                     renderInput={(params) => <TextField {...params} size="small"
                                                                         sx={{width: "47%", m: 1}}/>}
                                 />
@@ -311,21 +367,22 @@ export default function CreateClientV3() {
                                     id="DateExpire"
                                     label="Date Expire"
                                     inputFormat="MM/dd/yyyy"
-                                    // value={new Date()}
-                                    // onChange={}
+                                    value={DateExpire}
+                                    onChange={(e) => setDateExpire(e)}
                                     renderInput={(params) => <TextField {...params} size="small"
                                                                         sx={{width: "46%", m: 1, mb: 2}}/>}
                                 />
-                                <TextField
-                                    id="SocialSecurityNumber"
-                                    label="Social Security Number"
-                                    size="small"
-                                    sx={{
-                                        width: "47%",
-                                        m: 1,
-                                    }}
-                                />
                             </LocalizationProvider>
+                            <TextField
+                                id="SocialSecurityNumber"
+                                label="Social Security Number"
+                                size="small"
+                                sx={{
+                                    width: "47%",
+                                    m: 1,
+                                }}
+                                onChange={(e) => setSocialSecurityNumber(e.target.value)}
+                            />
                             <TextField
                                 id="PositionCode"
                                 label="Position Code"
@@ -335,6 +392,7 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
+                                onChange={(e) => setPositionCode(e.target.value)}
                             />
                             <TextField
                                 id="BusinessPhone"
@@ -344,6 +402,7 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
+                                onChange={(e) => setBusinessPhone(e.target.value)}
                             />
                             <TextField
                                 id="HomePhone"
@@ -354,6 +413,7 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
+                                onChange={(e) => setHomePhone(e.target.value)}
                             />
                         </Item>
                     </Grid>
@@ -365,7 +425,7 @@ export default function CreateClientV3() {
                                             m: 1,
                                             mb: 3,
                                         }}>
-                                Other Infomation
+                                Other Information
                             </Typography>
                             <TextField
                                 id="InstitutionBranchCode"
@@ -375,6 +435,75 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
+                                onChange={(e) => setInstitutionBranchCode(e.target.value)}
+                                required
+                            />
+                            <TextField
+                                id="Branch"
+                                label="Branch"
+                                size="small"
+                                sx={{
+                                    width: "46%",
+                                    m: 1,
+                                    mb: 2,
+                                }}
+                                onChange={(e) => setBranch(e.target.value)}
+                                required
+                            />
+                            <TextField
+                                id="ClientTypeCode"
+                                label="Client Type Code"
+                                size="small"
+                                sx={{
+                                    width: "47%",
+                                    m: 1,
+                                }}
+                                onChange={(e) => setClientTypeCode(e.target.value)}
+                                required
+                            />
+                            <TextField
+                                id="ClientNumber"
+                                label="Client Number"
+                                size="small"
+                                sx={{
+                                    width: "46%",
+                                    m: 1,
+                                    mb: 2,
+                                }}
+                                onChange={(e) => setClientNumber(e.target.value)}
+                                required
+                            />
+                            <TextField
+                                id="reason"
+                                label="reason"
+                                size="small"
+                                sx={{
+                                    width: "47%",
+                                    m: 1,
+                                }}
+                                onChange={(e) => setReason(e.target.value)}
+                                required
+                            />
+                            <TextField
+                                id="reasonCode"
+                                label="reason Code"
+                                size="small"
+                                sx={{
+                                    width: "46%",
+                                    m: 1,
+                                    mb: 2,
+                                }}
+                                onChange={(e) => setreasonCode(e.target.value)}
+                            />
+                            <TextField
+                                id="ServiceGroup"
+                                label="Service Group"
+                                size="small"
+                                sx={{
+                                    width: "47%",
+                                    m: 1,
+                                }}
+                                onChange={(e) => setServiceGroup(e.target.value)}
                             />
                             <TextField
                                 id="LanguageCode"
@@ -385,45 +514,19 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
+                                onChange={(e) => setLanguageCode(e.target.value)}
                             />
-                            <TextField
-                                id="MaritalStatusCode"
-                                label="Marital Status Code"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                            />
-                            <TextField
-                                id="SalutationCode"
-                                label="Salutation Code"
-                                size="small"
-                                sx={{
-                                    width: "46%",
-                                    m: 1,
-                                    mb: 2,
-                                }}
-                            />
-                            <TextField
-                                id="Branch"
-                                label="Branch"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                            />
+
                             <TextField
                                 id="ClientCategory"
                                 label="Client Category"
                                 select
                                 size="small"
                                 sx={{
-                                    width: "46%",
+                                    width: "47%",
                                     m: 1,
-                                    mb: 2,
                                 }}
+                                onChange={(e) => setClientCategory(e.target.value)}
                             >
                                 {client_category.map((option) => (
                                     <MenuItem key={option.value} value={option.value}>
@@ -431,15 +534,6 @@ export default function CreateClientV3() {
                                     </MenuItem>
                                 ))}
                             </TextField>
-                            <TextField
-                                id="ServiceGroup"
-                                label="Service Group"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                            />
                             <TextField
                                 id="ProductCategory"
                                 label="Product Category"
@@ -450,6 +544,7 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
+                                onChange={(e) => setProductCategory(e.target.value)}
                             >
                                 {prodcut_category.map((option) => (
                                     <MenuItem key={option.value} value={option.value}>
@@ -457,25 +552,7 @@ export default function CreateClientV3() {
                                     </MenuItem>
                                 ))}
                             </TextField>
-                            <TextField
-                                id="reasonCode"
-                                label="reason Code"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                            />
-                            <TextField
-                                id="reason"
-                                label="reason"
-                                size="small"
-                                sx={{
-                                    width: "46%",
-                                    m: 1,
-                                    mb: 2,
-                                }}
-                            />
+
 
                         </Item>
                     </Grid>
@@ -484,7 +561,7 @@ export default function CreateClientV3() {
                         justifyContent: "center",
                     }}>
                         <Button
-                            onClick={handleSubmit}
+                            type="submit"
                             variant="contained"
                             sx={{
                                 mt: 2, fontSize: 13, p: 1.3, fontWeight: 'bold',
@@ -518,7 +595,6 @@ export default function CreateClientV3() {
         </DialogActions>
       </Dialog>
     </div>
-
         </div>
     );
 }
