@@ -172,11 +172,11 @@ export default function CreateClientV3() {
                                             m: 1,
                                             mb: 3,
                                         }}>
-                                User Infomation
+                                Infomation
                             </Typography>
                             <TextField
-                                id="FirstName"
-                                label="First Name"
+                                id="CardNumber"
+                                label="CardNumber"
                                 size="small"
                                 sx={{
                                     width: "30%",
@@ -184,8 +184,8 @@ export default function CreateClientV3() {
                                 }}
                             />
                             <TextField
-                                id="LastName"
-                                label="Last Name"
+                                id="CardName"
+                                label="CardName"
                                 size="small"
                                 sx={{
                                     width: "30%",
@@ -193,8 +193,8 @@ export default function CreateClientV3() {
                                 }}
                             />
                             <TextField
-                                id="MiddleName"
-                                label="Middle Name"
+                                id="Branch"
+                                label="Branch"
                                 size="small"
                                 sx={{
                                     width: "30%",
