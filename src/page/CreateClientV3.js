@@ -123,7 +123,7 @@ export default function CreateClientV3() {
     const [HomePhone, setHomePhone] = useState('');
     const [institutionBranchCode, setInstitutionBranchCode] = useState('');
     const [branch, setBranch] = useState('');
-    const [clientTypeCode,setClientTypeCode] = useState('');
+    const [clientTypeCode,setClientTypeCode] = useState('PR');
     const [clientNumber, setClientNumber] = useState('');
     const [reason,setReason] = useState('');
     const [reasonCode, setreasonCode] = useState('');
@@ -135,7 +135,7 @@ export default function CreateClientV3() {
     const [message,setMessage] = useState('');
 
     useEffect(() => {
-        document.title = 'Create Client V3';
+        document.title = 'Create Client';
     });
 
     const handleSubmit = async (event) => {
@@ -152,7 +152,6 @@ export default function CreateClientV3() {
                 BirthDate,
                 IdentityCardType,
                 Citizenship,
-
                 branch,
                 identityCardNumber,
                 clientNumber,
@@ -463,8 +462,10 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setClientTypeCode(e.target.value)}
-                                required
+                                value={clientTypeCode}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                             />
                             <TextField
                                 id="ClientNumber"

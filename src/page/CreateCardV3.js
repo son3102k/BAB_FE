@@ -39,62 +39,13 @@ const font = createTheme({
     },
 });
 
-const gender = [
-    {
-        value: 'M',
-        label: 'Male',
-    },
-    {
-        value: 'F',
-        label: 'Female',
-    },
-    {
-        value: 'N',
-        label: 'Other',
-    }
-];
-
-const client_category = [
-    {
-        value: 'P',
-        label: 'Private',
-    },
-    {
-        value: 'C',
-        label: 'Commercial',
-    },
-    {
-        value: 'A',
-        label: 'Accountant',
-    }
-]
-
-const prodcut_category = [
-    {
-        value: 'M',
-        label: 'Acquiring',
-    },
-    {
-        value: 'A',
-        label: 'Accounting',
-    },
-    {
-        value: 'C',
-        label: 'Issuing',
-    },
-    {
-        value: 'B',
-        label: 'Bank Accounting',
-    }
-]
-
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.primary,
-    minHeight: '80vh',
+    minHeight: '45vh',
     minWidth: 500,
     borderRadius: 16,
     width: "95%",
@@ -103,34 +54,20 @@ const Item = styled(Paper)(({theme}) => ({
 export default function CreateClientV3() {
     const matches = useMediaQuery('(min-width:1024px)');
 
-    const [firstName, setFirstName] = useState('');
-    const [middleName, setMiddleName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [BirthDate, setBirthDate] = useState(new Date(0));
-    const [Gender, setGender] = useState(gender[0].value);
-    const [Citizenship, setCitizenship] = useState('');
-    const [identityCardNumber, setIdentityCardNumber] = useState('');
-    const [IdentityCardType, setIdentityCardType] = useState('');
-    const [IndividualTaxpayerNumber, setIndividualTaxpayerNumber] = useState('');
-    const [CompanyName,setCompanyName] = useState('');
-    const [EMail, setEMail] = useState('');
-    const [MobilePhone, setMobilePhone] = useState('');
-    const [RegistrationDate, setRegistrationDate] = useState(new Date());
-    const [DateExpire, setDateExpire] = useState(new Date());
-    const [SocialSecurityNumber, setSocialSecurityNumber] = useState('');
-    const [PositionCode, setPositionCode] = useState('');
-    const [BusinessPhone, setBusinessPhone] = useState('');
-    const [HomePhone, setHomePhone] = useState('');
-    const [institutionBranchCode, setInstitutionBranchCode] = useState('');
-    const [branch, setBranch] = useState('');
-    const [clientTypeCode,setClientTypeCode] = useState('');
-    const [clientNumber, setClientNumber] = useState('');
-    const [reason,setReason] = useState('');
-    const [reasonCode, setreasonCode] = useState('');
-    const [ServiceGroup, setServiceGroup] = useState('');
-    const [LanguageCode, setLanguageCode] = useState('');
-    const [ClientCategory, setClientCategory] = useState(client_category[0].value);
-    const [ProductCategory, setProductCategory] = useState(prodcut_category[0].value);
+    const [ContractSearchMethod,setContractSearchMethod] = useState('CONTRACT_ID');
+    const [ContractIdentifier, setContractIdentifier] = useState('');
+    const [EmbossedFirstName, setEmbossedFirstName] = useState('');
+    const [EmbossedLastName, setEmbossedLastName] = useState('');
+    const [EmbossedCompanyName, setEmbossedCompanyName] = useState('');
+    const [CardName, setCardName] = useState('');
+    const [ExpirationDate, setExpirationDate] = useState(new Date());
+    const [CBSID, setCBSID] = useState('');
+    const [CBSNumber, setCBSNumber] = useState('');
+    const [Branch, setBranch] = useState('');
+    const [ProductIdentifier, setProductIdentifier] = useState('');
+    const [ProductionReason, setProductionReason] = useState('');
+    const [ProductCode, setProductCode] = useState('');
+    const [EmbossedTitleCode , setEmbossedTitleCode] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
     const [message,setMessage] = useState('');
 
@@ -141,21 +78,9 @@ export default function CreateClientV3() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await axios.post('http://localhost:8080/createCard',{
-            reason,
-            institutionBranchCode,
-            clientTypeCode,
-            "inObject": {
-                firstName,
-                lastName,
-                middleName,
-                Gender,
-                BirthDate,
-                IdentityCardType,
-                Citizenship,
 
-                branch,
-                identityCardNumber,
-                clientNumber,
+            "inObject": {
+
             }
         },{
             headers: {
@@ -163,7 +88,6 @@ export default function CreateClientV3() {
             }
         });
         setOpenDialog(true);
-        // setMessage(response.data['createClientV3Reusult'])
         setMessage(response.data['createClientV3Result']['value']['retMsg']['value']);
     }
 
@@ -214,207 +138,99 @@ export default function CreateClientV3() {
                                             m: 1,
                                             mb: 3,
                                         }}>
-                                Information
+                                Card Information
                             </Typography>
                             <TextField
                                 id="embossedFirstName"
-                                label="First Name"
+                                label="Embossed First Name"
                                 size="small"
                                 sx={{
-                                    width: "30%",
+                                    width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setFirstName(e.target.value)}
+                                onChange={(e) => setEmbossedFirstName(e.target.value)}
                                 required
                             />
                             <TextField
                                 id="embossedLastName"
-                                label="Last Name"
+                                label="Embossed Last Name"
                                 size="small"
                                 sx={{
-                                    width: "30%",
-                                    m: 1
+                                    width: "46%",
+                                    m: 1,
+                                    mb: 2,
                                 }}
-                                onChange={(e) => setLastName(e.target.value)}
+                                onChange={(e) => setEmbossedLastName(e.target.value)}
                                 required
                             />
                             <TextField
                                 id="embossedCompanyName"
-                                label="Company Name"
-                                size="small"
-                                sx={{
-                                    width: "30%",
-                                    m: 1,
-                                    mb: 2
-                                }}
-                                onChange={(e) => setMiddleName(e.target.value)}
-                                required
-                            />
-                            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DesktopDatePicker
-                                    id="expirationDate"
-                                    label="Expiration Date"
-                                    inputFormat="MM/dd/yyyy"
-                                    onChange={(e) => setBirthDate(e)}
-                                    value={BirthDate}
-                                    renderInput={(params) => <TextField {...params} size="small" required
-                                                                        sx={{width: "30%", m: 1}}/>}
-
-                                />
-                            </LocalizationProvider> */}
-                            <TextField
-                                id="cbsid"
-                                label="CBS ID"
+                                label="Embossed Company Name"
                                 size="small"
                                 sx={{
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setFirstName(e.target.value)}
+                                onChange={(e) => setEmbossedCompanyName(e.target.value)}
                                 required
                             />
                             <TextField
-                                id="cbsNumber"
+                                id="CardName"
+                                label="Card Name"
+                                size="small"
+                                sx={{
+                                    width: "46%",
+                                    m: 1,
+                                    mb: 2,
+                                }}
+                                onChange={(e) => setCardName(e.target.value)}
+                                required
+                            />
+                            <TextField
+                                id="CBSNumber"
                                 label="CBS Number"
                                 size="small"
                                 sx={{
-                                    width: "46%",
-                                    m: 1,
-                                    mb: 2,
-                                }}
-                                onChange={(e) => setCitizenship(e.target.value)}
-                            />
-                            <TextField
-                                id="IdentityCardNumber"
-                                label="Identity CardNumber"
-                                size="small"
-                                sx={{
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setIdentityCardNumber(e.target.value)}
+                                onChange={(e) => setCBSNumber(e.target.value)}
                                 required
                             />
                             <TextField
-                                id="IdentityCardType"
-                                label="Identity Card Type"
+                                id="CBSID"
+                                label="CBSID"
                                 size="small"
                                 sx={{
                                     width: "46%",
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setIdentityCardType(e.target.value)}
-                            />
-                            <TextField
-                                id="IndividualTaxpayerNumber"
-                                label="Individual Taxpayer Number"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                                onChange={(e) => setIndividualTaxpayerNumber(e.target.value)}
-                            />
-                            <TextField
-                                id="CompanyName"
-                                label="Company Name"
-                                size="small"
-                                sx={{
-                                    width: "46%",
-                                    m: 1,
-                                    mb: 2,
-                                }}
-                                onChange={(e) => setCompanyName(e.target.value)}
-                            />
-                            <TextField
-                                id="EMail"
-                                label="Email"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                                type="email"
-                                onChange={(e) => setEMail(e.target.value)}
+                                onChange={(e) => setCBSID(e.target.value)}
                                 required
                             />
                             <TextField
-                                id="MobilePhone"
-                                label="Mobile Phone"
+                                id="Branch"
+                                label="Branch"
                                 size="small"
                                 sx={{
-                                    width: "46%",
+                                    width: "47%",
                                     m: 1,
-                                    mb: 2,
                                 }}
-                                onChange={(e) => setMobilePhone(e.target.value)}
+                                onChange={(e) => setBranch(e.target.value)}
                                 required
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DesktopDatePicker
-                                    id="RegistrationDate"
-                                    label="Registration Date"
+                                    id="ExpirationDate"
+                                    label="Expiration Date"
                                     inputFormat="MM/dd/yyyy"
-                                    value={RegistrationDate}
-                                    onChange={(e) => setRegistrationDate(e)}
+                                    onChange={(e) => setExpirationDate(e)}
+                                    value={ExpirationDate}
                                     renderInput={(params) => <TextField {...params} size="small"
-                                                                        sx={{width: "47%", m: 1}}/>}
+                                                                        sx={{width: "46%", m: 1}}/>}
                                 />
                             </LocalizationProvider>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DesktopDatePicker
-                                    id="DateExpire"
-                                    label="Date Expire"
-                                    inputFormat="MM/dd/yyyy"
-                                    value={DateExpire}
-                                    onChange={(e) => setDateExpire(e)}
-                                    renderInput={(params) => <TextField {...params} size="small"
-                                                                        sx={{width: "46%", m: 1, mb: 2}}/>}
-                                />
-                            </LocalizationProvider>
-                            <TextField
-                                id="SocialSecurityNumber"
-                                label="Social Security Number"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                                onChange={(e) => setSocialSecurityNumber(e.target.value)}
-                            />
-                            <TextField
-                                id="PositionCode"
-                                label="Position Code"
-                                size="small"
-                                sx={{
-                                    width: "46%",
-                                    m: 1,
-                                    mb: 2,
-                                }}
-                                onChange={(e) => setPositionCode(e.target.value)}
-                            />
-                            <TextField
-                                id="BusinessPhone"
-                                label="Business Phone"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                                onChange={(e) => setBusinessPhone(e.target.value)}
-                            />
-                            <TextField
-                                id="HomePhone"
-                                label="Home Phone"
-                                size="small"
-                                sx={{
-                                    width: "46%",
-                                    m: 1,
-                                    mb: 2,
-                                }}
-                                onChange={(e) => setHomePhone(e.target.value)}
-                            />
                         </Item>
                     </Grid>
                     <Grid item xs={matches ? 5 : 12}>
@@ -428,131 +244,47 @@ export default function CreateClientV3() {
                                 Other Information
                             </Typography>
                             <TextField
-                                id="InstitutionBranchCode"
-                                label="Institution Branch Code"
+                                id="ProductIdentifier"
+                                label="Product Identifier"
                                 size="small"
                                 sx={{
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setInstitutionBranchCode(e.target.value)}
-                                required
+                                onChange={(e) => setProductIdentifier(e.target.value)}
                             />
                             <TextField
-                                id="Branch"
-                                label="Branch"
+                                id="ProductCode"
+                                label="Product Code"
                                 size="small"
                                 sx={{
                                     width: "46%",
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setBranch(e.target.value)}
-                                required
+                                onChange={(e) => setProductCode(e.target.value)}
                             />
                             <TextField
-                                id="ClientTypeCode"
-                                label="Client Type Code"
+                                id="ProductionReason"
+                                label="Production Reason"
                                 size="small"
                                 sx={{
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setClientTypeCode(e.target.value)}
-                                required
+                                onChange={(e) => setProductionReason(e.target.value)}
                             />
                             <TextField
-                                id="ClientNumber"
-                                label="Client Number"
+                                id="EmbossedTitleCode"
+                                label="Embossed Title Code"
                                 size="small"
                                 sx={{
                                     width: "46%",
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setClientNumber(e.target.value)}
-                                required
+                                onChange={(e) => setEmbossedTitleCode(e.target.value)}
                             />
-                            <TextField
-                                id="reason"
-                                label="reason"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                                onChange={(e) => setReason(e.target.value)}
-                                required
-                            />
-                            <TextField
-                                id="reasonCode"
-                                label="reason Code"
-                                size="small"
-                                sx={{
-                                    width: "46%",
-                                    m: 1,
-                                    mb: 2,
-                                }}
-                                onChange={(e) => setreasonCode(e.target.value)}
-                            />
-                            <TextField
-                                id="ServiceGroup"
-                                label="Service Group"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                                onChange={(e) => setServiceGroup(e.target.value)}
-                            />
-                            <TextField
-                                id="LanguageCode"
-                                label="Language Code"
-                                size="small"
-                                sx={{
-                                    width: "46%",
-                                    m: 1,
-                                    mb: 2,
-                                }}
-                                onChange={(e) => setLanguageCode(e.target.value)}
-                            />
-
-                            <TextField
-                                id="ClientCategory"
-                                label="Client Category"
-                                select
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                                onChange={(e) => setClientCategory(e.target.value)}
-                            >
-                                {client_category.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                            <TextField
-                                id="ProductCategory"
-                                label="Product Category"
-                                select
-                                size="small"
-                                sx={{
-                                    width: "46%",
-                                    m: 1,
-                                    mb: 2,
-                                }}
-                                onChange={(e) => setProductCategory(e.target.value)}
-                            >
-                                {prodcut_category.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-
 
                         </Item>
                     </Grid>

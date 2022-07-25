@@ -53,9 +53,10 @@ const Item = styled(Paper)(({theme}) => ({
 
 export default function CreateContractV4() {
     const matches = useMediaQuery('(min-width:1024px)');
-
-    const [ContractNumber, setContractNumber] = useState('');
+    const [ClientIdentifier,setClientIdentifier] = useState('');
+    const [ClientSearchMethod, setClientSearchMethod] = useState('CLIENT_ID');
     const [ContractName, setContractName] = useState('');
+    const [ServiceGroup, setServiceGroup] = useState('');
     const [CBSID, setCBSID] = useState('');
     const [CBSNumber, setCBSNumber] = useState('');
     const [ContractSubtypeCode, setContractSubtypeCode] = useState('');
@@ -63,18 +64,20 @@ export default function CreateContractV4() {
     const [Product, setProduct] = useState('');
     const [ProductCode, setProductCode] = useState('');
     const [ContractRelation, setContractRelation] = useState('');
-    const [ClientIdentifier,setClientIdentifier] = useState('');
+    const [InstitutionCode, setInstitutionCode] = useState('');
     const [ CloseDate,setCloseDate] = useState(new Date());
     const [institutionBranchCode, setInstitutionBranchCode] = useState('');
     const [branch, setBranch] = useState('');
     const [reason,setReason] = useState('');
     const [reasonCode, setreasonCode] = useState('');
+    const [ClientScope, setClientScope] = useState('');
+    const [FieldsToClear, setFieldsToClear] = useState('');
 
     const [openDialog, setOpenDialog] = useState(false);
     const [message,setMessage] = useState('');
 
     useEffect(() => {
-        document.title = 'Create Contract V4';
+        document.title = 'Create Contract';
     });
 
     const handleSubmit = async (event) => {
@@ -144,15 +147,14 @@ export default function CreateContractV4() {
                                 Contract Information
                             </Typography>
                             <TextField
-                                id="ContractNumber"
-                                label="Contract Number"
+                                id="ServiceGroup"
+                                label="Service Group"
                                 size="small"
                                 sx={{
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setContractNumber(e.target.value)}
-                                required
+                                onChange={(e) => setServiceGroup(e.target.value)}
                             />
                             <TextField
                                 id="ContractName"
@@ -172,7 +174,7 @@ export default function CreateContractV4() {
                                     inputFormat="MM/dd/yyyy"
                                     onChange={(e) => setCloseDate(e)}
                                     value={CloseDate}
-                                    renderInput={(params) => <TextField {...params} size="small" required
+                                    renderInput={(params) => <TextField {...params} size="small"
                                                                         sx={{width: "30%", m: 1}}/>}
 
                                 />
@@ -186,6 +188,7 @@ export default function CreateContractV4() {
                                     m: 1,
                                 }}
                                 onChange={(e) => setCBSID(e.target.value)}
+                                required
                             />
                             <TextField
                                 id="CBSNumber"
@@ -197,6 +200,7 @@ export default function CreateContractV4() {
                                     mb: 2,
                                 }}
                                 onChange={(e) => setCBSNumber(e.target.value)}
+                                required
                             />
                             <TextField
                                 id="ContractSubtypeCode"
@@ -207,7 +211,6 @@ export default function CreateContractV4() {
                                     m: 1,
                                 }}
                                 onChange={(e) => setContractSubtypeCode(e.target.value)}
-                                required
                             />
                             <TextField
                                 id="Currency"
@@ -277,29 +280,6 @@ export default function CreateContractV4() {
                                 required
                             />
                             <TextField
-                                id="ClientIdentifier"
-                                label="Client Identifier"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                                onChange={(e) => setClientIdentifier(e.target.value)}
-                                required
-                            />
-                            <TextField
-                                id="ContractRelation"
-                                label="Contract Relation"
-                                size="small"
-                                sx={{
-                                    width: "46%",
-                                    m: 1,
-                                    mb: 2,
-                                }}
-                                onChange={(e) => setContractRelation(e.target.value)}
-                                required
-                            />
-                            <TextField
                                 id="reason"
                                 label="reason"
                                 size="small"
@@ -320,6 +300,48 @@ export default function CreateContractV4() {
                                     mb: 2,
                                 }}
                                 onChange={(e) => setreasonCode(e.target.value)}
+                            />
+                            <TextField
+                                id="InstitutionCode"
+                                label="Institution Code"
+                                size="small"
+                                sx={{
+                                    width: "47%",
+                                    m: 1,
+                                }}
+                                onChange={(e) => setInstitutionCode(e.target.value)}
+                            />
+                            <TextField
+                                id="ClientScope"
+                                label="Client Scope"
+                                size="small"
+                                sx={{
+                                    width: "46%",
+                                    m: 1,
+                                    mb: 2,
+                                }}
+                                onChange={(e) => setClientScope(e.target.value)}
+                            />
+                            <TextField
+                                id="FieldsToClear"
+                                label="Fields To Clear"
+                                size="small"
+                                sx={{
+                                    width: "47%",
+                                    m: 1,
+                                }}
+                                onChange={(e) => setFieldsToClear(e.target.value)}
+                            />
+                            <TextField
+                                id="ContractRelation"
+                                label="Contract Relation"
+                                size="small"
+                                sx={{
+                                    width: "46%",
+                                    m: 1,
+                                    mb: 2,
+                                }}
+                                onChange={(e) => setContractRelation(e.target.value)}
                             />
                         </Item>
                     </Grid>
