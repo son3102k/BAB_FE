@@ -20,7 +20,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Container from "@mui/material/Container";
-
+import {Link, useNavigate} from 'react-router-dom';
 
 const font = createTheme({
     typography: {
@@ -101,6 +101,9 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 export default function CreateClientV3() {
+    // const navigate = useNavigate();
+    
+
     const matches = useMediaQuery('(min-width:1024px)');
 
     const [firstName, setFirstName] = useState('');
@@ -164,6 +167,9 @@ export default function CreateClientV3() {
         setOpenDialog(true);
         // setMessage(response.data['createClientV3Reusult'])
         setMessage(response.data['createClientV3Result']['value']['retMsg']['value']);
+        // var client_id = response.data['createClientV3Result']['value']['newClient']['value'];
+        // navigate('/createContract', {state: {client_id: {client_id},
+        //                          branch_id: {branch} }})
     }
 
     const handleCloseDialog = () => {
@@ -171,6 +177,9 @@ export default function CreateClientV3() {
     }
 
     return (
+        
+            
+        
         <div>
             <TopBarNav/>
             <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}

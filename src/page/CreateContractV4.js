@@ -20,7 +20,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Container from "@mui/material/Container";
-
+import {useLocation} from 'react-router-dom';
 
 const font = createTheme({
     typography: {
@@ -52,6 +52,9 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 export default function CreateContractV4() {
+    // const {state} = useLocation();
+    // const {client_id, branch_id} = state;
+
     const matches = useMediaQuery('(min-width:1024px)');
     const [ClientIdentifier,setClientIdentifier] = useState('');
     const [ClientSearchMethod, setClientSearchMethod] = useState('CLIENT_ID');
@@ -82,7 +85,7 @@ export default function CreateContractV4() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await axios.post('http://localhost:8080/createcontract',{
+        const response = await axios.post('http://localhost:8080/createContract',{
             reason,
             institutionBranchCode,
             "inObject": {
