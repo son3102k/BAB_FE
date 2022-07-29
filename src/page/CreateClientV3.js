@@ -20,7 +20,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Container from "@mui/material/Container";
-
+import {Link, useNavigate} from 'react-router-dom';
 
 const font = createTheme({
     typography: {
@@ -101,8 +101,12 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 export default function CreateClientV3() {
+    // const navigate = useNavigate();
+    
+
     const matches = useMediaQuery('(min-width:1024px)');
 
+    const [shortName, setShortName] = useState('');
     const [firstName, setFirstName] = useState('');
     const [middleName, setMiddleName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -140,11 +144,14 @@ export default function CreateClientV3() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setShortName(lastName + firstName[0] + middleName[0]);
         const response = await axios.post('http://localhost:8080/createClient',{
             reason,
             institutionBranchCode,
             clientTypeCode,
             "inObject": {
+                branch,
+                shortName,
                 firstName,
                 lastName,
                 middleName,
@@ -152,9 +159,8 @@ export default function CreateClientV3() {
                 BirthDate,
                 IdentityCardType,
                 Citizenship,
-                branch,
                 identityCardNumber,
-                clientNumber,
+                clientNumber,  
             }
         },{
             headers: {
@@ -164,6 +170,9 @@ export default function CreateClientV3() {
         setOpenDialog(true);
         // setMessage(response.data['createClientV3Reusult'])
         setMessage(response.data['createClientV3Result']['value']['retMsg']['value']);
+        // var client_id = response.data['createClientV3Result']['value']['newClient']['value'];
+        // navigate('/createContract', {state: {client_id: {client_id},
+        //                          branch_id: {branch} }})
     }
 
     const handleCloseDialog = () => {
@@ -171,6 +180,9 @@ export default function CreateClientV3() {
     }
 
     return (
+        
+            
+        
         <div>
             <TopBarNav/>
             <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}
@@ -227,26 +239,26 @@ export default function CreateClientV3() {
                                 required
                             />
                             <TextField
-                                id="LastName"
-                                label="Last Name"
+                                id="MiddleName"
+                                label="Middle Name"
                                 size="small"
                                 sx={{
                                     width: "30%",
                                     m: 1
                                 }}
-                                onChange={(e) => setLastName(e.target.value)}
+                                onChange={(e) => setMiddleName(e.target.value)}
                                 required
                             />
                             <TextField
-                                id="MiddleName"
-                                label="Middle Name"
+                                id="LastName"
+                                label="Last Name"
                                 size="small"
                                 sx={{
                                     width: "30%",
                                     m: 1,
                                     mb: 2
                                 }}
-                                onChange={(e) => setMiddleName(e.target.value)}
+                                onChange={(e) => setLastName(e.target.value)}
                                 required
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
