@@ -106,6 +106,7 @@ export default function CreateClientV3() {
 
     const matches = useMediaQuery('(min-width:1024px)');
 
+    const [shortName, setShortName] = useState('');
     const [firstName, setFirstName] = useState('');
     const [middleName, setMiddleName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -143,11 +144,14 @@ export default function CreateClientV3() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setShortName(lastName + firstName[0] + middleName[0]);
         const response = await axios.post('http://localhost:8080/createClient',{
             reason,
             institutionBranchCode,
             clientTypeCode,
             "inObject": {
+                branch,
+                shortName,
                 firstName,
                 lastName,
                 middleName,
@@ -155,9 +159,8 @@ export default function CreateClientV3() {
                 BirthDate,
                 IdentityCardType,
                 Citizenship,
-                branch,
                 identityCardNumber,
-                clientNumber,
+                clientNumber,  
             }
         },{
             headers: {
@@ -236,26 +239,26 @@ export default function CreateClientV3() {
                                 required
                             />
                             <TextField
-                                id="LastName"
-                                label="Last Name"
+                                id="MiddleName"
+                                label="Middle Name"
                                 size="small"
                                 sx={{
                                     width: "30%",
                                     m: 1
                                 }}
-                                onChange={(e) => setLastName(e.target.value)}
+                                onChange={(e) => setMiddleName(e.target.value)}
                                 required
                             />
                             <TextField
-                                id="MiddleName"
-                                label="Middle Name"
+                                id="LastName"
+                                label="Last Name"
                                 size="small"
                                 sx={{
                                     width: "30%",
                                     m: 1,
                                     mb: 2
                                 }}
-                                onChange={(e) => setMiddleName(e.target.value)}
+                                onChange={(e) => setLastName(e.target.value)}
                                 required
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
