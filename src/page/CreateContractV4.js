@@ -3,7 +3,7 @@ import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import {createTheme, MenuItem, useMediaQuery} from "@mui/material";
@@ -21,6 +21,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Container from "@mui/material/Container";
 import {useLocation} from 'react-router-dom';
+import {useNavigate} from "react-router";
 
 const font = createTheme({
     typography: {
@@ -52,29 +53,28 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 export default function CreateContractV4() {
-    // const {state} = useLocation();
-    // const {client_id, branch_id} = state;
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const matches = useMediaQuery('(min-width:1024px)');
-    const [ClientIdentifier,setClientIdentifier] = useState('');
     const [ClientSearchMethod, setClientSearchMethod] = useState('CLIENT_ID');
-    const [ContractName, setContractName] = useState('');
-    const [ServiceGroup, setServiceGroup] = useState('');
-    const [CBSID, setCBSID] = useState('');
-    const [CBSNumber, setCBSNumber] = useState('');
-    const [ContractSubtypeCode, setContractSubtypeCode] = useState('');
-    const [Currency, setCurrency] = useState('');
-    const [Product, setProduct] = useState('');
-    const [ProductCode, setProductCode] = useState('');
-    const [ContractRelation, setContractRelation] = useState('');
-    const [InstitutionCode, setInstitutionCode] = useState('');
-    const [ CloseDate,setCloseDate] = useState(new Date());
-    const [institutionBranchCode, setInstitutionBranchCode] = useState('');
-    const [branch, setBranch] = useState('');
-    const [reason,setReason] = useState('');
-    const [reasonCode, setreasonCode] = useState('');
-    const [ClientScope, setClientScope] = useState('');
-    const [FieldsToClear, setFieldsToClear] = useState('');
+    const ContractName = useRef('');
+    const ServiceGroup = useRef('');
+    const CBSID = useRef('');
+    const CBSNumber = useRef('');
+    const ContractSubtypeCode = useRef('');
+    const Currency = useRef('');
+    const Product = useRef('');
+    const [ProductCode, setProductCode] = useState('ISSDEB');
+    const ContractRelation = useRef('');
+    const InstitutionCode = useRef('');
+    const [CloseDate,setCloseDate] = useState(new Date());
+    const [institutionBranchCode, setInstitutionBranchCode] = useState(location.state.institutionBranchCode);
+    const [branch, setBranch] = useState(location.state.branch);
+    const reason = useRef('')
+    const reasonCode = useRef('');
+    const ClientScope = useRef('');
+    const FieldsToClear = useRef('');
 
     const [openDialog, setOpenDialog] = useState(false);
     const [message,setMessage] = useState('');
@@ -85,19 +85,50 @@ export default function CreateContractV4() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await axios.post('http://localhost:8080/createContract',{
-            reason,
-            institutionBranchCode,
-            "inObject": {
-                branch,
-            }
-        },{
+        const response = await axios.post('http://localhost:8080/createContract', {
+            "clientScope": ClientScope.current.value,
+            "clientIdentifier": location.state.client_id,
+            "contractRelation": ContractRelation.current.value,
+            "reasonCode": reasonCode.current.value,
+            "reason": reason.current.value,
+            "fieldsToClear": FieldsToClear.current.value,
+            "createContractInObject": {
+                "branch": branch,
+                "serviceGroup": ServiceGroup.current.value,
+                "institutionCode": InstitutionCode.current.value,
+                "contractSubtypeCode": ContractSubtypeCode.current.value,
+                "currency": Currency.current.value,
+                "product": Product.current.value,
+                "productCode": ProductCode,
+                "contractName": ContractName.current.value,
+                "cbsid": CBSID.current.value,
+                "cbsNumber": CBSNumber.current.value,
+                "closeDate": CloseDate,
+            },
+            "setCustomDataInObject": {
+                "addInfoType": "",
+                "tagName": "",
+                "tagValue": ""
+            },
+            "userInfo": ""
+        }, {
             headers: {
                 'Content-Type': 'application/json'
             }
         });
         setOpenDialog(true);
-        setMessage(response.data['createClientV3Result']['value']['retMsg']['value']);
+        setMessage(response.data['createContractV4Result']['value']['retMsg']['value']);
+
+
+        const {contractNumber} = response.data['createContractV4Result']['value'];
+        if (contractNumber !== null && contractNumber !== "undefined") {
+            const contract_id = response.data['createContractV4Result']['value']['createdContract']['value'];
+            navigate('/createcardv3', {state: {contract_id, firstName: location.state.firstName,
+                middleName: location.state.middleName, lastName: location.state.lastName,
+                CBSNumber: CBSNumber.current.value, CBSID: CBSID.current.value,branch: location.state.branch,
+                ContractSubtypeCode: ContractSubtypeCode.current.value}})
+        }
+
     }
 
     const handleCloseDialog = () => {
@@ -157,7 +188,8 @@ export default function CreateContractV4() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setServiceGroup(e.target.value)}
+                                inputRef={ServiceGroup}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="ContractName"
@@ -168,7 +200,8 @@ export default function CreateContractV4() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setContractName(e.target.value)}
+                                inputRef={ContractName}
+                                autoComplete="off"
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DesktopDatePicker
@@ -190,7 +223,8 @@ export default function CreateContractV4() {
                                     width: "30%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setCBSID(e.target.value)}
+                                inputRef={CBSID}
+                                autoComplete="off"
                                 required
                             />
                             <TextField
@@ -202,7 +236,8 @@ export default function CreateContractV4() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setCBSNumber(e.target.value)}
+                                inputRef={CBSNumber}
+                                autoComplete="off"
                                 required
                             />
                             <TextField
@@ -213,7 +248,8 @@ export default function CreateContractV4() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setContractSubtypeCode(e.target.value)}
+                                inputRef={ContractSubtypeCode}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="Currency"
@@ -224,7 +260,8 @@ export default function CreateContractV4() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setCurrency(e.target.value)}
+                                inputRef={Currency}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="Product"
@@ -234,7 +271,8 @@ export default function CreateContractV4() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setProduct(e.target.value)}
+                                inputRef={Product}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="ProductCode"
@@ -246,6 +284,8 @@ export default function CreateContractV4() {
                                     mb: 2,
                                 }}
                                 onChange={(e) => setProductCode(e.target.value)}
+                                value={ProductCode}
+                                autoComplete="off"
                             />
                         </Item>
                     </Grid>
@@ -267,8 +307,10 @@ export default function CreateContractV4() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setInstitutionBranchCode(e.target.value)}
-                                required
+                                value={institutionBranchCode}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                             />
                             <TextField
                                 id="Branch"
@@ -280,7 +322,10 @@ export default function CreateContractV4() {
                                     mb: 2,
                                 }}
                                 onChange={(e) => setBranch(e.target.value)}
-                                required
+                                value={branch}
+                                InputProps={{
+                                    readOnly: true
+                                }}
                             />
                             <TextField
                                 id="reason"
@@ -290,7 +335,8 @@ export default function CreateContractV4() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setReason(e.target.value)}
+                                inputRef={reason}
+                                autoComplete="off"
                                 required
                             />
                             <TextField
@@ -302,7 +348,8 @@ export default function CreateContractV4() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setreasonCode(e.target.value)}
+                                inputRef={reasonCode}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="InstitutionCode"
@@ -312,7 +359,9 @@ export default function CreateContractV4() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setInstitutionCode(e.target.value)}
+                                InputProps={{
+                                    readOnly: true
+                                }}
                             />
                             <TextField
                                 id="ClientScope"
@@ -323,7 +372,8 @@ export default function CreateContractV4() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setClientScope(e.target.value)}
+                                inputRef={ClientScope}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="FieldsToClear"
@@ -333,7 +383,8 @@ export default function CreateContractV4() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setFieldsToClear(e.target.value)}
+                                inputRef={FieldsToClear}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="ContractRelation"
@@ -344,7 +395,8 @@ export default function CreateContractV4() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setContractRelation(e.target.value)}
+                                inputRef={ContractRelation}
+                                autoComplete="off"
                             />
                         </Item>
                     </Grid>

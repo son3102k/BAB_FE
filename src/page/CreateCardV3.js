@@ -3,7 +3,7 @@ import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import {createTheme, MenuItem, useMediaQuery} from "@mui/material";
@@ -20,6 +20,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Container from "@mui/material/Container";
+import {useLocation} from "react-router-dom";
 
 
 const font = createTheme({
@@ -51,23 +52,26 @@ const Item = styled(Paper)(({theme}) => ({
     width: "95%",
 }));
 
-export default function CreateClientV3() {
+export default function CreateCardV3() {
+    const location = useLocation();
+
     const matches = useMediaQuery('(min-width:1024px)');
 
     const [ContractSearchMethod,setContractSearchMethod] = useState('CONTRACT_ID');
-    const [ContractIdentifier, setContractIdentifier] = useState('');
-    const [EmbossedFirstName, setEmbossedFirstName] = useState('');
-    const [EmbossedLastName, setEmbossedLastName] = useState('');
-    const [EmbossedCompanyName, setEmbossedCompanyName] = useState('');
-    const [CardName, setCardName] = useState('');
+    const [ContractIdentifier, setContractIdentifier] = useState(location.state.contract_id);
+    const [ContractSubtypeCode, setContractSubtypeCode] = useState(location.state.ContractSubtypeCode);
+    const [EmbossedFirstName, setEmbossedFirstName] = useState(location.state.firstName);
+    const [EmbossedLastName, setEmbossedLastName] = useState(`${location.state.middleName} ${location.state.lastName}`);
+    const EmbossedCompanyName = useRef('');
+    const [CardName, setCardName] = useState(`${location.state.lastName} ${location.state.middleName} ${location.state.firstName}`);
     const [ExpirationDate, setExpirationDate] = useState(new Date());
-    const [CBSID, setCBSID] = useState('');
-    const [CBSNumber, setCBSNumber] = useState('');
-    const [Branch, setBranch] = useState('');
-    const [ProductIdentifier, setProductIdentifier] = useState('');
-    const [ProductionReason, setProductionReason] = useState('');
-    const [ProductCode, setProductCode] = useState('');
-    const [EmbossedTitleCode , setEmbossedTitleCode] = useState('');
+    const [CBSID, setCBSID] = useState(location.state.CBSID);
+    const [CBSNumber, setCBSNumber] = useState(location.state.CBSNumber);
+    const [Branch, setBranch] = useState(location.state.branch);
+    const ProductIdentifier = useRef('');
+    const ProductionReason = useRef('');;
+    const [ProductCode, setProductCode] = useState('CARDMAIN');
+    const EmbossedTitleCode = useRef('');
     const [openDialog, setOpenDialog] = useState(false);
     const [message,setMessage] = useState('');
 
@@ -78,17 +82,37 @@ export default function CreateClientV3() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await axios.post('http://localhost:8080/createCard',{
-
+            "contractSearchMethod": ContractSearchMethod,
+            "contractIdentifier": location.state.contract_id,
+            "productIdentifier": ProductIdentifier.current.value,
+            "productCode": ProductCode,
+            "embossedTitleCode": EmbossedTitleCode.current.value,
+            "productionReason": ProductionReason.current.value,
             "inObject": {
-
-            }
+                "branch": Branch,
+                "contractSubtypeCode": ContractSubtypeCode,
+                "cardName": CardName,
+                "expirationDate": ExpirationDate,
+                "cbsid": CBSID,
+                "cbsNumber": CBSNumber,
+                "embossedFirstName": EmbossedFirstName,
+                "embossedLastName": EmbossedLastName,
+                "embossedCompanyName": EmbossedCompanyName.current.value,
+            },
         },{
             headers: {
                 'Content-Type': 'application/json'
             }
         });
         setOpenDialog(true);
-        setMessage(response.data['createClientV3Result']['value']['retMsg']['value']);
+        const {createdCard} = response.data['createCardV3Result']['value'];
+        if (createdCard !== null && createdCard!=="undefined") {
+            setMessage(response.data['createCardV3Result']['value']['retMsg']['value'] + "\n" +
+                response.data['createCardV3Result']['value']['createdCard']['value'])
+        }
+        else {
+            setMessage(response.data['createCardV3Result']['value']['retMsg']['value']);
+        }
     }
 
     const handleCloseDialog = () => {
@@ -103,7 +127,7 @@ export default function CreateClientV3() {
                         sx={{
                             textAlign: "left",
                             fontSize: 42,
-                            backgroundColor: "#cc00cc",
+                            backgroundColor: "#02e69e",
                             p: 2,
                             color: '#fff',
                             m: 3.5,
@@ -148,8 +172,10 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setEmbossedFirstName(e.target.value)}
-                                required
+                                value={EmbossedFirstName}
+                                InputProps={{
+                                    readOnly: true
+                                }}
                             />
                             <TextField
                                 id="embossedLastName"
@@ -160,8 +186,10 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setEmbossedLastName(e.target.value)}
-                                required
+                                value={EmbossedLastName}
+                                InputProps={{
+                                    readOnly: true
+                                }}
                             />
                             <TextField
                                 id="embossedCompanyName"
@@ -171,8 +199,7 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setEmbossedCompanyName(e.target.value)}
-                                required
+                                inputRef={EmbossedCompanyName}
                             />
                             <TextField
                                 id="CardName"
@@ -183,8 +210,10 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setCardName(e.target.value)}
-                                required
+                                value={CardName}
+                                InputProps={{
+                                    readOnly: true
+                                }}
                             />
                             <TextField
                                 id="CBSNumber"
@@ -194,8 +223,10 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setCBSNumber(e.target.value)}
-                                required
+                                value={CBSNumber}
+                                InputProps={{
+                                    readOnly: true
+                                }}
                             />
                             <TextField
                                 id="CBSID"
@@ -206,8 +237,10 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setCBSID(e.target.value)}
-                                required
+                                value={CBSID}
+                                inputProps={{
+                                    readOnly: true
+                                }}
                             />
                             <TextField
                                 id="Branch"
@@ -217,8 +250,10 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setBranch(e.target.value)}
-                                required
+                                value={Branch}
+                                inputProps={{
+                                    readOnly: true
+                                }}
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DesktopDatePicker
@@ -251,7 +286,7 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setProductIdentifier(e.target.value)}
+                                inputRef={ProductIdentifier}
                             />
                             <TextField
                                 id="ProductCode"
@@ -262,7 +297,10 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setProductCode(e.target.value)}
+                                value={ProductCode}
+                                InputProps={{
+                                    readOnly: true
+                                }}
                             />
                             <TextField
                                 id="ProductionReason"
@@ -272,7 +310,7 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setProductionReason(e.target.value)}
+                                inputRef={ProductionReason}
                             />
                             <TextField
                                 id="EmbossedTitleCode"
@@ -283,7 +321,7 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setEmbossedTitleCode(e.target.value)}
+                                inputRef={EmbossedTitleCode}
                             />
 
                         </Item>

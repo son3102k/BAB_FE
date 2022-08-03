@@ -3,7 +3,7 @@ import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import {createTheme, MenuItem, useMediaQuery} from "@mui/material";
@@ -101,38 +101,37 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 export default function CreateClientV3() {
-    // const navigate = useNavigate();
-    
+    const navigate = useNavigate();
 
     const matches = useMediaQuery('(min-width:1024px)');
 
     const [shortName, setShortName] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [middleName, setMiddleName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const firstName = useRef('');
+    const middleName = useRef('');
+    const lastName = useRef('');
     const [BirthDate, setBirthDate] = useState(new Date(0));
     const [Gender, setGender] = useState(gender[0].value);
-    const [Citizenship, setCitizenship] = useState('');
-    const [identityCardNumber, setIdentityCardNumber] = useState('');
-    const [IdentityCardType, setIdentityCardType] = useState('');
-    const [IndividualTaxpayerNumber, setIndividualTaxpayerNumber] = useState('');
-    const [CompanyName,setCompanyName] = useState('');
-    const [EMail, setEMail] = useState('');
-    const [MobilePhone, setMobilePhone] = useState('');
+    const Citizenship = useRef('');
+    const identityCardNumber = useRef('');
+    const IdentityCardType = useRef('');
+    const IndividualTaxpayerNumber = useRef('');
+    const CompanyName = useRef('');
+    const EMail = useRef('');
+    const MobilePhone = useRef('');
     const [RegistrationDate, setRegistrationDate] = useState(new Date());
     const [DateExpire, setDateExpire] = useState(new Date());
-    const [SocialSecurityNumber, setSocialSecurityNumber] = useState('');
-    const [PositionCode, setPositionCode] = useState('');
-    const [BusinessPhone, setBusinessPhone] = useState('');
-    const [HomePhone, setHomePhone] = useState('');
-    const [institutionBranchCode, setInstitutionBranchCode] = useState('');
-    const [branch, setBranch] = useState('');
+    const SocialSecurityNumber = useRef('');
+    const PositionCode = useRef('');
+    const BusinessPhone = useRef('');
+    const HomePhone = useRef('');
+    const institutionBranchCode = useRef('');
+    const branch = useRef('');
     const [clientTypeCode,setClientTypeCode] = useState('PR');
-    const [clientNumber, setClientNumber] = useState('');
-    const [reason,setReason] = useState('');
-    const [reasonCode, setreasonCode] = useState('');
-    const [ServiceGroup, setServiceGroup] = useState('');
-    const [LanguageCode, setLanguageCode] = useState('');
+    const clientNumber = useRef('');
+    const reason = useRef('');
+    const reasonCode = useRef('');
+    const ServiceGroup = useRef('');
+    const LanguageCode = useRef('');
     const [ClientCategory, setClientCategory] = useState(client_category[0].value);
     const [ProductCategory, setProductCategory] = useState(prodcut_category[0].value);
     const [openDialog, setOpenDialog] = useState(false);
@@ -144,23 +143,23 @@ export default function CreateClientV3() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setShortName(lastName + firstName[0] + middleName[0]);
+        setShortName(lastName.current.value + firstName.current.value[0] + middleName.current.value[0]);
         const response = await axios.post('http://localhost:8080/createClient',{
-            reason,
-            institutionBranchCode,
+            reason: reason.current.value,
+            institutionBranchCode: institutionBranchCode.current.value,
             clientTypeCode,
             "inObject": {
-                branch,
+                branch: branch.current.value,
                 shortName,
-                firstName,
-                lastName,
-                middleName,
+                firstName: firstName.current.value,
+                lastName: lastName.current.value,
+                middleName: middleName.current.value,
                 Gender,
                 BirthDate,
-                IdentityCardType,
-                Citizenship,
-                identityCardNumber,
-                clientNumber,  
+                IdentityCardType: IdentityCardType.current.value,
+                Citizenship: Citizenship.current.value,
+                identityCardNumber: identityCardNumber.current.value,
+                clientNumber: clientNumber.current.value,
             }
         },{
             headers: {
@@ -168,11 +167,14 @@ export default function CreateClientV3() {
             }
         });
         setOpenDialog(true);
-        // setMessage(response.data['createClientV3Reusult'])
         setMessage(response.data['createClientV3Result']['value']['retMsg']['value']);
-        // var client_id = response.data['createClientV3Result']['value']['newClient']['value'];
-        // navigate('/createContract', {state: {client_id: {client_id},
-        //                          branch_id: {branch} }})
+        const {newClient} = response.data['createClientV3Result']['value'];
+        if (newClient !== null) {
+            const client_id = response.data['createClientV3Result']['value']['newClient']['value'];
+            navigate('/createcontractv4', {state: {client_id , branch: branch.current.value,
+                    institutionBranchCode: institutionBranchCode.current.value, firstName: firstName.current.value,
+                middleName: middleName.current.value, lastName: lastName.current.value}});
+        }
     }
 
     const handleCloseDialog = () => {
@@ -190,7 +192,7 @@ export default function CreateClientV3() {
                         sx={{
                             textAlign: "left",
                             fontSize: 42,
-                            backgroundColor: "#cc00cc",
+                            backgroundColor: "#0394fc",
                             p: 2,
                             color: '#fff',
                             m: 3.5,
@@ -235,7 +237,8 @@ export default function CreateClientV3() {
                                     width: "30%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setFirstName(e.target.value)}
+                                inputRef={firstName}
+                                autoComplete="off"
                                 required
                             />
                             <TextField
@@ -246,7 +249,9 @@ export default function CreateClientV3() {
                                     width: "30%",
                                     m: 1
                                 }}
-                                onChange={(e) => setMiddleName(e.target.value)}
+                                inputRef={middleName}
+                                value={middleName.current.value}
+                                autoComplete="off"
                                 required
                             />
                             <TextField
@@ -258,7 +263,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2
                                 }}
-                                onChange={(e) => setLastName(e.target.value)}
+                                inputRef={lastName}
+                                autoComplete="off"
                                 required
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -298,7 +304,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setCitizenship(e.target.value)}
+                                inputRef={Citizenship}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="IdentityCardNumber"
@@ -308,7 +315,8 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setIdentityCardNumber(e.target.value)}
+                                inputRef={identityCardNumber}
+                                autoComplete="off"
                                 required
                             />
                             <TextField
@@ -320,7 +328,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setIdentityCardType(e.target.value)}
+                                inputRef={IdentityCardType}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="IndividualTaxpayerNumber"
@@ -330,7 +339,8 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setIndividualTaxpayerNumber(e.target.value)}
+                                inputRef={IndividualTaxpayerNumber}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="CompanyName"
@@ -341,7 +351,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setCompanyName(e.target.value)}
+                                inputRef={CompanyName}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="EMail"
@@ -352,7 +363,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                 }}
                                 type="email"
-                                onChange={(e) => setEMail(e.target.value)}
+                                inputRef={EMail}
+                                autoComplete="off"
                                 required
                             />
                             <TextField
@@ -364,7 +376,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setMobilePhone(e.target.value)}
+                                inputRef={MobilePhone}
+                                autoComplete="off"
                                 required
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -397,7 +410,8 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setSocialSecurityNumber(e.target.value)}
+                                inputRef={SocialSecurityNumber}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="PositionCode"
@@ -408,7 +422,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setPositionCode(e.target.value)}
+                                inputRef={PositionCode}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="BusinessPhone"
@@ -418,7 +433,8 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setBusinessPhone(e.target.value)}
+                                inputRef={BusinessPhone}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="HomePhone"
@@ -429,7 +445,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setHomePhone(e.target.value)}
+                                inputRef={HomePhone}
+                                autoComplete="off"
                             />
                         </Item>
                     </Grid>
@@ -451,7 +468,8 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setInstitutionBranchCode(e.target.value)}
+                                inputRef={institutionBranchCode}
+                                autoComplete="off"
                                 required
                             />
                             <TextField
@@ -463,7 +481,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setBranch(e.target.value)}
+                                inputRef={branch}
+                                autoComplete="off"
                                 required
                             />
                             <TextField
@@ -488,7 +507,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setClientNumber(e.target.value)}
+                                inputRef={clientNumber}
+                                autoComplete="off"
                                 required
                             />
                             <TextField
@@ -499,7 +519,8 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setReason(e.target.value)}
+                                inputRef={reason}
+                                autoComplete="off"
                                 required
                             />
                             <TextField
@@ -511,7 +532,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setreasonCode(e.target.value)}
+                                inputRef={reasonCode}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="ServiceGroup"
@@ -521,7 +543,8 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                onChange={(e) => setServiceGroup(e.target.value)}
+                                inputRef={ServiceGroup}
+                                autoComplete="off"
                             />
                             <TextField
                                 id="LanguageCode"
@@ -532,7 +555,8 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                onChange={(e) => setLanguageCode(e.target.value)}
+                                inputRef={LanguageCode}
+                                autoComplete="off"
                             />
 
                             <TextField
