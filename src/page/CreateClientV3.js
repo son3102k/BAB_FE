@@ -124,8 +124,8 @@ export default function CreateClientV3() {
     const PositionCode = useRef('');
     const BusinessPhone = useRef('');
     const HomePhone = useRef('');
-    const institutionBranchCode = useRef('');
-    const branch = useRef('');
+    const institutionBranchCode = useState('0001');
+    const branch = useState('0101');
     const [clientTypeCode,setClientTypeCode] = useState('PR');
     const clientNumber = useRef('');
     const reason = useRef('');
@@ -155,7 +155,7 @@ export default function CreateClientV3() {
                 lastName: lastName.current.value,
                 middleName: middleName.current.value,
                 Gender,
-                BirthDate,
+                BirthDate: BirthDate,
                 IdentityCardType: IdentityCardType.current.value,
                 Citizenship: Citizenship.current.value,
                 identityCardNumber: identityCardNumber.current.value,
@@ -271,7 +271,7 @@ export default function CreateClientV3() {
                                 <DesktopDatePicker
                                     id="BirthDate"
                                     label="Date of Birth"
-                                    inputFormat="MM/dd/yyyy"
+                                    inputFormat="yyyy/MM/dd"
                                     onChange={(e) => setBirthDate(e)}
                                     value={BirthDate}
                                     renderInput={(params) => <TextField {...params} size="small" required
@@ -384,7 +384,7 @@ export default function CreateClientV3() {
                                 <DesktopDatePicker
                                     id="RegistrationDate"
                                     label="Registration Date"
-                                    inputFormat="MM/dd/yyyy"
+                                    inputFormat="yyyy/MM/dd"
                                     value={RegistrationDate}
                                     onChange={(e) => setRegistrationDate(e)}
                                     renderInput={(params) => <TextField {...params} size="small"
@@ -395,7 +395,7 @@ export default function CreateClientV3() {
                                 <DesktopDatePicker
                                     id="DateExpire"
                                     label="Date Expire"
-                                    inputFormat="MM/dd/yyyy"
+                                    inputFormat="yyyy/MM/dd"
                                     value={DateExpire}
                                     onChange={(e) => setDateExpire(e)}
                                     renderInput={(params) => <TextField {...params} size="small"
@@ -468,9 +468,11 @@ export default function CreateClientV3() {
                                     width: "47%",
                                     m: 1,
                                 }}
-                                inputRef={institutionBranchCode}
+                                value={institutionBranchCode}
                                 autoComplete="off"
-                                required
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                             />
                             <TextField
                                 id="Branch"
@@ -481,9 +483,11 @@ export default function CreateClientV3() {
                                     m: 1,
                                     mb: 2,
                                 }}
-                                inputRef={branch}
+                                value={branch}
                                 autoComplete="off"
-                                required
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                             />
                             <TextField
                                 id="ClientTypeCode"
