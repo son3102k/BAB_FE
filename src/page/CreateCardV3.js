@@ -259,7 +259,7 @@ export default function CreateCardV3() {
                                 <DesktopDatePicker
                                     id="ExpirationDate"
                                     label="Expiration Date"
-                                    inputFormat="MM/dd/yyyy"
+                                    inputFormat="yyyy/MM/dd"
                                     onChange={(e) => setExpirationDate(e)}
                                     value={ExpirationDate}
                                     renderInput={(params) => <TextField {...params} size="small"
