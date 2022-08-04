@@ -207,7 +207,7 @@ export default function CreateContractV4() {
                                 <DesktopDatePicker
                                     id="CloseDate"
                                     label="Close Date"
-                                    inputFormat="MM/dd/yyyy"
+                                    inputFormat="yyyy/MM/dd"
                                     onChange={(e) => setCloseDate(e)}
                                     value={CloseDate}
                                     renderInput={(params) => <TextField {...params} size="small"
@@ -225,7 +225,7 @@ export default function CreateContractV4() {
                                 }}
                                 inputRef={CBSID}
                                 autoComplete="off"
-                                required
+                                
                             />
                             <TextField
                                 id="CBSNumber"
@@ -238,7 +238,7 @@ export default function CreateContractV4() {
                                 }}
                                 inputRef={CBSNumber}
                                 autoComplete="off"
-                                required
+                                
                             />
                             <TextField
                                 id="ContractSubtypeCode"

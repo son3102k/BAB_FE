@@ -124,8 +124,8 @@ export default function CreateClientV3() {
     const PositionCode = useRef('');
     const BusinessPhone = useRef('');
     const HomePhone = useRef('');
-    const institutionBranchCode = useState('0001');
-    const branch = useState('0101');
+    const [institutionBranchCode, setInstitutionBranchCode] = useState('0001');
+    const [branch, setBranch] = useState('0101');
     const [clientTypeCode,setClientTypeCode] = useState('PR');
     const clientNumber = useRef('');
     const reason = useRef('');
@@ -182,8 +182,6 @@ export default function CreateClientV3() {
     }
 
     return (
-        
-            
         
         <div>
             <TopBarNav/>
@@ -296,16 +294,17 @@ export default function CreateClientV3() {
                                 ))}
                             </TextField>
                             <TextField
-                                id="Citizenship"
-                                label="Citizen Ship"
+                                id="ClientNumber"
+                                label="Client Number"
                                 size="small"
                                 sx={{
                                     width: "30%",
                                     m: 1,
                                     mb: 2,
                                 }}
-                                inputRef={Citizenship}
+                                inputRef={clientNumber}
                                 autoComplete="off"
+                                required
                             />
                             <TextField
                                 id="IdentityCardNumber"
@@ -403,26 +402,29 @@ export default function CreateClientV3() {
                                 />
                             </LocalizationProvider>
                             <TextField
-                                id="SocialSecurityNumber"
-                                label="Social Security Number"
+                                
+                                id="reason"
+                                label="Reason"
                                 size="small"
                                 sx={{
                                     width: "47%",
                                     m: 1,
                                 }}
-                                inputRef={SocialSecurityNumber}
+                                inputRef={reason}
                                 autoComplete="off"
+                                required
                             />
                             <TextField
-                                id="PositionCode"
-                                label="Position Code"
+                                
+                                id="reasonCode"
+                                label="Reason Code"
                                 size="small"
                                 sx={{
                                     width: "46%",
                                     m: 1,
                                     mb: 2,
                                 }}
-                                inputRef={PositionCode}
+                                inputRef={reasonCode}
                                 autoComplete="off"
                             />
                             <TextField
@@ -503,33 +505,31 @@ export default function CreateClientV3() {
                                 }}
                             />
                             <TextField
-                                id="ClientNumber"
-                                label="Client Number"
+                                id="Citizenship"
+                                label="Citizen Ship"
                                 size="small"
                                 sx={{
                                     width: "46%",
                                     m: 1,
                                     mb: 2,
                                 }}
-                                inputRef={clientNumber}
+                                inputRef={Citizenship}
                                 autoComplete="off"
-                                required
                             />
                             <TextField
-                                id="reason"
-                                label="reason"
+                                id="SocialSecurityNumber"
+                                label="Social Security Number"
                                 size="small"
                                 sx={{
                                     width: "47%",
                                     m: 1,
                                 }}
-                                inputRef={reason}
+                                inputRef={SocialSecurityNumber}
                                 autoComplete="off"
-                                required
                             />
                             <TextField
                                 id="reasonCode"
-                                label="reason Code"
+                                label="Reason Code"
                                 size="small"
                                 sx={{
                                     width: "46%",
@@ -540,14 +540,15 @@ export default function CreateClientV3() {
                                 autoComplete="off"
                             />
                             <TextField
-                                id="ServiceGroup"
-                                label="Service Group"
+                                id="PositionCode"
+                                label="Position Code"
                                 size="small"
                                 sx={{
-                                    width: "47%",
+                                    width: "46%",
                                     m: 1,
+                                    mb: 2,
                                 }}
-                                inputRef={ServiceGroup}
+                                inputRef={PositionCode}
                                 autoComplete="off"
                             />
                             <TextField
