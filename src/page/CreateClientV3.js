@@ -145,19 +145,20 @@ export default function CreateClientV3() {
         event.preventDefault();
         setShortName(lastName.current.value + firstName.current.value[0] + middleName.current.value[0]);
         const response = await axios.post('http://localhost:8080/createClient',{
+            reasonCode: reasonCode.current.value,
             reason: reason.current.value,
-            institutionBranchCode: institutionBranchCode.current.value,
+            institutionBranchCode,
             clientTypeCode,
             "inObject": {
-                branch: branch.current.value,
-                shortName,
+                branch: branch,
+                shortName: shortName,
+                gender: Gender,
                 firstName: firstName.current.value,
-                lastName: lastName.current.value,
                 middleName: middleName.current.value,
-                Gender,
-                BirthDate: BirthDate,
-                IdentityCardType: IdentityCardType.current.value,
-                Citizenship: Citizenship.current.value,
+                lastName: lastName.current.value,
+                birthDate: BirthDate.toISOString().slice(0,10),
+                identityCardType: IdentityCardType.current.value,
+                citizenship: Citizenship.current.value,
                 identityCardNumber: identityCardNumber.current.value,
                 clientNumber: clientNumber.current.value,
             }
@@ -171,8 +172,8 @@ export default function CreateClientV3() {
         const {newClient} = response.data['createClientV3Result']['value'];
         if (newClient !== null) {
             const client_id = response.data['createClientV3Result']['value']['newClient']['value'];
-            navigate('/createcontractv4', {state: {client_id , branch: branch.current.value,
-                    institutionBranchCode: institutionBranchCode.current.value, firstName: firstName.current.value,
+            navigate('/createcontractv4', {state: {client_id , branch,
+                    institutionBranchCode, firstName: firstName.current.value,
                 middleName: middleName.current.value, lastName: lastName.current.value}});
         }
     }
