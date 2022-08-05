@@ -107,6 +107,7 @@ const TopBarNav = () => {
 
     return (
             <AppBar position="static" color={"transparent"} sx={{
+                backgroundColor: "#ffffff",
                 boxShadow: 0,
                 width: "100%",
                 minWidth: 500,
@@ -185,9 +186,9 @@ const TopBarNav = () => {
                     </Toolbar>
                 </Container>
                 <Container maxWidth="xl" sx={{
-                    width: 0.96,
+                    width: 1,
                     mt: 1,
-                    borderBottom: "1px solid black",
+                    borderBottom: "1px solid #f2f2f2",
                  }}/>
             </AppBar>
 

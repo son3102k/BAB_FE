@@ -185,7 +185,7 @@ export default function CreateClientV3() {
     return (
         
         <div>
-            <TopBarNav/>
+            <TopBarNav />
             <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}
                         color="#000000"
                         sx={{

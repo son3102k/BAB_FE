@@ -77,7 +77,7 @@ export default function Login() {
             }
         });
         if (response.data['success']) {
-            navigate('createclientv3');
+            navigate('dashboard');
         }
         else {
             setNotify(true);
