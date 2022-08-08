@@ -55,7 +55,7 @@ export default function DataGridDemo() {
             }}
                 rows={rows}
                 columns={columns}
-                pageSize={10}
+                pageSize={6}
                 disableSelectionOnClick
                 autoHeight
             />

@@ -2,10 +2,11 @@ import * as React from 'react';
 import {useEffect } from "react";
 import {createTheme} from "@mui/material";
 import '../static/css/CreateClientV3.css'
-import TopBarNav from "../components/TopBarNav";
 import Sidebar from "../components/Sidebar";
-import DataGridDemo from "../components/DataGridDemo";
-import Grid from "@mui/material/Grid";
+import Layout from "./Layout";
+import SidebarItem from "../components/SidebarItem";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 
 const font = createTheme({
     typography: {
@@ -31,15 +32,11 @@ export default function Dashboard() {
         document.title = "Home"
     })
     return (
-        <div>
-            <Grid container spacing={0}>
-                <Grid item xs={6} md={12}>
-                    <TopBarNav />
-                </Grid>
-                <Grid item xs={6} md={2}>
-                    <Sidebar />
-                </Grid>
-            </Grid>
-        </div>
+        <Layout page="dashboard" Sidebar={
+            <Sidebar>
+                <SidebarItem text="Home" to="/dashboard" Icon={DashboardIcon} hl={1}/>
+                <SidebarItem text="Card"  to="/cardmanage" Icon={CreditCardIcon} />
+            </Sidebar>}>
+        </Layout>
     );
 }

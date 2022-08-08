@@ -4,11 +4,10 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import SidebarItem from "./SidebarItem";
 import "../static/css/Sidebar.css"
 
-export default function Sidebar() {
+export default function Sidebar(props) {
     return(
         <div className="sidebar">
-            <SidebarItem text="Home" to="/dashboard" Icon={DashboardIcon}/>
-            <SidebarItem text="Card"  to="/cardmanage" Icon={CreditCardIcon} />
+            {props.children}
         </div>
     );
 }

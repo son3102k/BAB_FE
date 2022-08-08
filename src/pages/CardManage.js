@@ -6,6 +6,10 @@ import TopBarNav from "../components/TopBarNav";
 import Sidebar from "../components/Sidebar";
 import DataGridDemo from "../components/DataGridDemo";
 import Grid from "@mui/material/Grid";
+import Layout from "./Layout";
+import SidebarItem from "../components/SidebarItem";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 
 const font = createTheme({
     typography: {
@@ -28,25 +32,14 @@ const font = createTheme({
 
 export default function CardManage() {
     useEffect(()=>{
-        document.title = "Home"
+        document.title = "Card"
     })
     return (
-        <div>
-            <Grid container spacing={0}>
-                <Grid item xs={6} md={12}>
-                    <TopBarNav />
-                </Grid>
-                <Grid item xs={6} md={2}>
-                    <Sidebar />
-                </Grid>
-                <Grid item xs={6} md={10} sx={{
-                    display: "flex",
-                    alignItems: "center",
-                }}>
-                    <DataGridDemo />
-                </Grid>
-
-            </Grid>
-        </div>
+        <Layout page="manage_card" Sidebar={
+            <Sidebar>
+                <SidebarItem text="Home" to="/dashboard" Icon={DashboardIcon}/>
+                <SidebarItem text="Card"  to="/cardmanage" Icon={CreditCardIcon} hl={1}/>
+            </Sidebar>} mainContent={<DataGridDemo />}>
+        </Layout>
     );
 }

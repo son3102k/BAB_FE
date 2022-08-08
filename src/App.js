@@ -1,15 +1,15 @@
-import Login from "./page/Login";
+import Login from "./pages/Login";
 import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from "react-router-dom";
-import CreateClientV3 from "./page/CreateClientV3";
-import CreateCardV3 from "./page/CreateCardV3";
-import CreateContractV4 from "./page/CreateContractV4";
-import Dashboard from "./page/Dashboard";
-import CardManage from "./page/CardManage";
+import CreateClientV3 from "./pages/CreateClientV3";
+import CreateCardV3 from "./pages/CreateCardV3";
+import CreateContractV4 from "./pages/CreateContractV4";
+import Dashboard from "./pages/Dashboard";
+import CardManage from "./pages/CardManage";
 
 function App() {
 
