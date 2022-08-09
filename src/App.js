@@ -1,10 +1,6 @@
 import Login from "./pages/Login";
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes,} from "react-router-dom";
 import CreateClientV3 from "./pages/CreateClientV3";
 import CreateCardV3 from "./pages/CreateCardV3";
 import CreateContractV4 from "./pages/CreateContractV4";

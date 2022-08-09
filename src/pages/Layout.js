@@ -1,6 +1,5 @@
 import Grid from "@mui/material/Grid";
 import TopBarNav from "../components/TopBarNav";
-import Sidebar from "../components/Sidebar";
 
 export default function Layout(props) {
     return (
@@ -9,12 +8,13 @@ export default function Layout(props) {
                 <Grid item xs={6} md={12}>
                     <TopBarNav />
                 </Grid>
-                <Grid item xs={6} md={2}>
+                <Grid item xs={6} md={1}>
                     {props.Sidebar}
                 </Grid>
-                <Grid item xs={6} md={10} sx={{
+                <Grid item xs={6} md={11} sx={{
                     display: "flex",
                     alignItems: "center",
+                    justifyContent: "center",
                 }}>
                     {props.mainContent}
                 </Grid>

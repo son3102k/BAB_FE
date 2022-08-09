@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useEffect } from "react";
+import {useEffect} from 'react';
 import {createTheme} from "@mui/material";
 import '../static/css/CreateClientV3.css'
 import Sidebar from "../components/Sidebar";
@@ -7,6 +7,7 @@ import Layout from "./Layout";
 import SidebarItem from "../components/SidebarItem";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import Charts from "../components/Charts";
 
 const font = createTheme({
     typography: {
@@ -36,7 +37,8 @@ export default function Dashboard() {
             <Sidebar>
                 <SidebarItem text="Home" to="/dashboard" Icon={DashboardIcon} hl={1}/>
                 <SidebarItem text="Card"  to="/cardmanage" Icon={CreditCardIcon} />
-            </Sidebar>}>
+            </Sidebar>}
+        mainContent={<Charts />}>
         </Layout>
     );
 }

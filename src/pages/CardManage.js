@@ -1,11 +1,9 @@
 import * as React from 'react';
-import {useEffect } from "react";
+import {useEffect} from 'react';
 import {createTheme} from "@mui/material";
 import '../static/css/CreateClientV3.css'
-import TopBarNav from "../components/TopBarNav";
 import Sidebar from "../components/Sidebar";
-import DataGridDemo from "../components/DataGridDemo";
-import Grid from "@mui/material/Grid";
+import ManageCardDatagrid from "../components/ManageCardDatagrid";
 import Layout from "./Layout";
 import SidebarItem from "../components/SidebarItem";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -39,7 +37,7 @@ export default function CardManage() {
             <Sidebar>
                 <SidebarItem text="Home" to="/dashboard" Icon={DashboardIcon}/>
                 <SidebarItem text="Card"  to="/cardmanage" Icon={CreditCardIcon} hl={1}/>
-            </Sidebar>} mainContent={<DataGridDemo />}>
+            </Sidebar>} mainContent={<ManageCardDatagrid />}>
         </Layout>
     );
 }
