@@ -37,7 +37,7 @@ export default function CardManage() {
             <Sidebar>
                 <SidebarItem text="Home" to="/dashboard" Icon={DashboardIcon}/>
                 <SidebarItem text="Card"  to="/cardmanage" Icon={CreditCardIcon} hl={1}/>
-            </Sidebar>} mainContent={<ManageCardDatagrid />}>
+            </Sidebar>} mainContent={<ManageCardDatagrid font={font}/>}>
         </Layout>
     );
 }
