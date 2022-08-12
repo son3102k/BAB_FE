@@ -117,7 +117,6 @@ export default function Login() {
                         </Typography>
                     <Box noValidate sx={{ mt: 1, p: 1 }}
                          onKeyDown={(e) => {
-                             console.log(e.key);
                              if (e.key === 'Enter') {
                                  handleSubmit(e);
                              }

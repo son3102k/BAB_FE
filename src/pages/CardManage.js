@@ -27,16 +27,15 @@ const font = createTheme({
 });
 
 
-
 export default function CardManage() {
-    useEffect(()=>{
+    useEffect(() => {
         document.title = "Card"
     })
     return (
         <Layout page="manage_card" Sidebar={
             <Sidebar>
                 <SidebarItem text="Home" to="/dashboard" Icon={DashboardIcon}/>
-                <SidebarItem text="Card"  to="/cardmanage" Icon={CreditCardIcon} hl={1}/>
+                <SidebarItem text="Card" to="/cardmanage" Icon={CreditCardIcon} hl={1}/>
             </Sidebar>} mainContent={<ManageCardDatagrid font={font}/>}>
         </Layout>
     );

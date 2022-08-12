@@ -1,11 +1,12 @@
-.link{
+.link {
     display: flex;
     justify-content: center;
     cursor: pointer;
     border-radius: 4px;
     padding: 15px;
 }
-.link:hover{
+
+.link:hover {
     background-color: #e8f5fe;
     color: #50b7f5;
     transition: color 100ms ease-out;

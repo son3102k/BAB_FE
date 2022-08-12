@@ -161,6 +161,8 @@ export default function CreateClientV3() {
                 citizenship: Citizenship.current.value,
                 identityCardNumber: identityCardNumber.current.value,
                 clientNumber: clientNumber.current.value,
+                mobilePhone: MobilePhone.current.value,
+                eMail: EMail.current.value,
             }
         },{
             headers: {
