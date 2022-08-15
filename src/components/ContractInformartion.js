@@ -60,6 +60,10 @@ const theme = createTheme({
 const ContractInformartion = (props) => {
     const [selectedContractData, setSelectedContractData] = useState(props.selectContract);
 
+    useEffect(()=>{
+        setSelectedContractData(props.selectContract);
+    });
+
     return (
         <Box>
             <ThemeProvider theme={theme}>

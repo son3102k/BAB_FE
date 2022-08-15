@@ -34,12 +34,12 @@ export default function ListIssueContract(props) {
         setSelectedIndex(index);
     };
 
-    function handleClickOpenContract(event, contract_number, i) {
+    function handleClickOpenContract(event, contract, i) {
         setCardIsLoading(true);
-        setSelectedContractData(listContract[i]);
+        setSelectedContractData(contract);
         handleListItemClick(i);
         axios.post("http://localhost:8080/getCardsByClient", {
-            clientIdentifier: contract_number,
+            clientIdentifier: contract['contractNumber']['value'],
         }, {
             headers: {
                 'Content-Type': 'application/json',
@@ -87,9 +87,11 @@ export default function ListIssueContract(props) {
                         {listContract.length !== 0 && listContract.map((e, i) => (
                             <ListItem disablePadding>
                                 <ListItemButton
-                                    onClick={(event) => handleClickOpenContract(event, e['contractNumber']['value'], i)}
+                                    onClick={(event) => handleClickOpenContract(event, e, i)}
                                     selected={selectedIndex === i}>
-                                    <ListItemText primary="Contract" secondary={e['contractNumber']['value']}/>
+                                    <ListItemText primary="Contract" secondary={e['contractNumber']['value']} sx={{
+                                        direction: "ltr",
+                                    }}/>
                                 </ListItemButton>
                             </ListItem>
                         ))}

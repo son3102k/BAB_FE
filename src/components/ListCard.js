@@ -14,7 +14,8 @@ export default function ListCard(props) {
     useEffect(() => {
         setListCard(props.data);
         setIsLoading(props.cardIsLoading);
-    })
+    });
+
     return (
         <Box
             sx={{
