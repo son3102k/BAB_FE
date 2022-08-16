@@ -141,10 +141,26 @@ export default function CreateClientV3() {
         document.title = 'Create Client';
     });
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setShortName(lastName.current.value + firstName.current.value[0] + middleName.current.value[0]);
-        const response = await axios.post('http://localhost:8080/createClient',{
+    function stringToSlug(str) {
+        // remove accents
+        var from = "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ",
+            to   = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
+        for (var i=0, l=from.length ; i < l ; i++) {
+            str = str.replace(RegExp(from[i], "gi"), to[i]);
+        }
+
+        str = str.toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\-]/g, '-')
+            .replace(/-+/g, '-');
+
+        return str;
+    }
+
+    const handleSubmit =  (event) => {
+        setShortName(stringToSlug(firstName.current.value + lastName.current.value[0]+ middleName.current.value[0]));
+        console.log(shortName)
+        axios.post('http://localhost:8080/createClient',{
             reasonCode: reasonCode.current.value,
             reason: reason.current.value,
             institutionBranchCode,
@@ -163,21 +179,26 @@ export default function CreateClientV3() {
                 clientNumber: clientNumber.current.value,
                 mobilePhone: MobilePhone.current.value,
                 eMail: EMail.current.value,
+                individualTaxpayerNumber: IndividualTaxpayerNumber.current.value,
+                homePhone: HomePhone.current.value,
+                businessPhone: BusinessPhone.current.value,
             }
         },{
             headers: {
                 'Content-Type': 'application/json'
             }
+        }).then(res => {
+            if (res['data']['createClientV3Result']['value']['retCode'] === 0) {
+                const client_id = res['data']['createClientV3Result']['value']['newClient']['value'];
+                navigate('/createcontractv4', {state: {client_id , branch,
+                        institutionBranchCode, firstName: firstName.current.value,
+                        middleName: middleName.current.value, lastName: lastName.current.value}});
+            }
+            else {
+                setOpenDialog(true);
+                setMessage(res['data']['createClientV3Result']['value']['retMsg']['value']);
+            }
         });
-        setOpenDialog(true);
-        setMessage(response.data['createClientV3Result']['value']['retMsg']['value']);
-        const {newClient} = response.data['createClientV3Result']['value'];
-        if (newClient !== null) {
-            const client_id = response.data['createClientV3Result']['value']['newClient']['value'];
-            navigate('/createcontractv4', {state: {client_id , branch,
-                    institutionBranchCode, firstName: firstName.current.value,
-                middleName: middleName.current.value, lastName: lastName.current.value}});
-        }
     }
 
     const handleCloseDialog = () => {
@@ -210,7 +231,7 @@ export default function CreateClientV3() {
                     }}/>
                 </div>
             </Typography>
-            <Box sx={{flexGrow: 1}} component="form" onSubmit={handleSubmit}>
+            <Box sx={{flexGrow: 1}}>
                 <Grid container spacing={6} sx={{
                     display: "flex",
                     flexDirection: "row",
@@ -611,7 +632,7 @@ export default function CreateClientV3() {
                         justifyContent: "center",
                     }}>
                         <Button
-                            type="submit"
+                            onClick={handleSubmit}
                             variant="contained"
                             sx={{
                                 mt: 2, fontSize: 13, p: 1.3, fontWeight: 'bold',

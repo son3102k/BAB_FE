@@ -7,6 +7,11 @@ import img__profile from "../static/assets/default-avatar-user.png"
 import {useState} from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import ReactDOM from "react-dom/client";
+import BasicModal from "./BasicModal";
+import * as React from "react";
+import EditClientProfileModal from "./EditClientProfileModal";
+
 
 const theme = createTheme({
     palette: {
@@ -57,8 +62,16 @@ const theme = createTheme({
 
 const ClientProfileCard = (props) => {
     const [data, setData] = useState(props.data)
+
+    function handleEditButton() {
+        ReactDOM.createRoot(document.getElementById('modal')).render(
+            <EditClientProfileModal font={props.font} data={data}/>
+        );
+    }
+
     return (
         <Box>
+            <div id="edit-profile-modal" />
             <ThemeProvider theme={theme}>
                 <Box
                     sx={{
@@ -210,7 +223,7 @@ const ClientProfileCard = (props) => {
                                     "&:hover": {
                                         "background": "#66d189",
                                     }
-                                }}>Edit</Button>
+                                }} onClick={handleEditButton}>Edit</Button>
                             </Stack>
                         </CardContent>
                     </Card>

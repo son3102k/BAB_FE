@@ -12,7 +12,6 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: "80%",
     bgcolor: '#f2f2f2',
-    // border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
@@ -30,7 +29,7 @@ export default function BasicModal(props) {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-description" sx={{mt: 2}}>
-                        <IssueContract data={props.data} font={props.font}/>
+                        <IssueContract data={props.data} font={props.font} updateData={props.updateData}/>
                     </Typography>
                 </Box>
             </Modal>
