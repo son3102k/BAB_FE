@@ -9,6 +9,8 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from '@mui/icons-material/Edit';
+import ReactDOM from "react-dom/client";
+import EditContractModal from "./EditContractModal"
 
 const theme = createTheme({
     palette: {
@@ -64,6 +66,12 @@ const ContractInformartion = (props) => {
         setSelectedContractData(props.selectContract);
     });
 
+    function handleEdit(){
+        ReactDOM.createRoot(document.getElementById('modal')).render(
+            <EditContractModal font={props.font} data={selectedContractData} />
+        );
+    }
+
     return (
         <Box>
             <ThemeProvider theme={theme}>
@@ -84,7 +92,7 @@ const ContractInformartion = (props) => {
                         <Grid item xs={6} md={12} sx={{
                             textAlign: "right",
                         }}>
-                            <IconButton>
+                            <IconButton onClick={handleEdit}>
                                 <EditIcon color="primary"/>
                             </IconButton>
                         </Grid>

@@ -1,12 +1,21 @@
 import CircularProgress from "@mui/material/CircularProgress";
-import {List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import {List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField} from "@mui/material";
 import {useEffect, useState} from "react";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Box from "@mui/material/Box";
+import ReactDOM from "react-dom/client";
+import EditCardModal from "./EditCardModal"
 
 export default function ListCard(props) {
     const [listCard, setListCard] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    const handleEdit = (event, e, i) =>{
+        ReactDOM.createRoot(document.getElementById('cardModal')).render(
+            <EditCardModal font={props.font} data={props.data[i]} />
+
+        );
+    }
 
     useEffect(() => {
         setListCard(props.data);
@@ -37,6 +46,7 @@ export default function ListCard(props) {
                 },
             }}
         >
+            <div id='cardModal'/>
             <List sx={{
                 height: "100%",
             }}>
@@ -44,7 +54,8 @@ export default function ListCard(props) {
                 {(listCard.length > 0 && !isLoading) &&
                     listCard.map((e, i) => (
                         <ListItem disablePadding>
-                            <ListItemButton>
+                            <ListItemButton onClick={(event)=>handleEdit(event, e, i)}
+                            >
                                 <ListItemIcon>
                                     <OpenInNewIcon color="primary"/>
                                 </ListItemIcon>
