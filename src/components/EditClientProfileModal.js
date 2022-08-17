@@ -64,6 +64,7 @@ export default function EditClientProfileModal(props) {
     }, [props.data])
     const handleClose = () => setOpen(false);
     const handleCloseSnackbar = () => setOpenSnackbar(false);
+
     const handeClickSave = () => {
         axios.post("http://localhost:8080/editClient", {
             "clientIdentifier": CLIENT_ID,
@@ -88,7 +89,6 @@ export default function EditClientProfileModal(props) {
                 ContentType: "application/json"
             }
         }).then(res => {
-            console.log(res);
             if (res['data']['editClientV6Result']['value']['retCode']===0) {
                 setSeverity("success");
                 setMessage("Successfully!");
@@ -99,6 +99,12 @@ export default function EditClientProfileModal(props) {
                 setMessage("Error!!!");
                 setOpenSnackbar(true);
             }
+        }).then(()=> {
+            axios.get(`http://localhost:8080/getClientById?id=${CLIENT_ID}`)
+                .then(res => {
+                    props.setAPIData(res.data);
+                    props.updateRowAndAPIData(res.data,props.index);
+                });
         });
         handleClose();
     }

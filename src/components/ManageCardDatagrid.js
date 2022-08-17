@@ -62,8 +62,8 @@ export default function ManageCardDatagrid({font}) {
                     const api = params.api;
                     e.stopPropagation();
                     ReactDOM.createRoot(document.getElementById('modal')).render(
-                        <BasicModal data={data.apiData[params.id - data.pageSize * data.page - 1]} font={font}
-                                    updateData={updateData}/>
+                        <BasicModal data={data.apiData[params.id - data.pageSize * data.page - 1]} index={params.id - data.pageSize * data.page - 1}
+                                    font={font} updateRowAndAPIData={updateRowAndAPIData}/>
                     );
                 };
 
@@ -76,14 +76,51 @@ export default function ManageCardDatagrid({font}) {
         }
     ];
 
-
     const updateData = (k, v) => setData((prev) => ({...prev, [k]: v}));
+
+    const updateRowAndAPIData = (fetch_api_data, index) => {
+        const new_rows = data.rows.map((e,i) => {
+            if (i === index) {
+                return ({
+                    'id': e.id,
+                    shortName: fetch_api_data['short_NAME'],
+                    'firstName': fetch_api_data['first_NAM'],
+                    'lastname': fetch_api_data['last_NAM'],
+                    'middlename': fetch_api_data['father_S_NAM'],
+                    'clientnumber': fetch_api_data['client_NUMBER'],
+                    'reg_number': fetch_api_data['reg_NUMBER']
+                })
+            }
+            else {
+                return ({
+                    'id': e.id,
+                    shortName: e['short_NAME'],
+                    'firstName': e['first_NAM'],
+                    'lastname': e['last_NAM'],
+                    'middlename': e['father_S_NAM'],
+                    'clientnumber': e['client_NUMBER'],
+                    'reg_number': e['reg_NUMBER']
+                })
+            }
+        });
+        const new_APIData = data.apiData.map((e,i) => {
+            if (index===i) {
+                return fetch_api_data;
+            }
+            else {
+                return e;
+            }
+        });
+        updateData("apiData",new_APIData);
+        updateData("rows",new_rows);
+    }
+
+
 
     useEffect(() => {
         updateData("loading", true);
         axios.get(`http://localhost:8080/clientList?page=${data.page}`)
             .then((res) => {
-                console.log(res);
                 setData({
                     loading: false,
                     rows: res['data']['content'].map((e, i) => ({

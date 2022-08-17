@@ -65,7 +65,7 @@ const ClientProfileCard = (props) => {
 
     function handleEditButton() {
         ReactDOM.createRoot(document.getElementById('modal')).render(
-            <EditClientProfileModal font={props.font} data={data}/>
+            <EditClientProfileModal font={props.font} data={data} updateRowAndAPIData={props.updateRowAndAPIData} setAPIData={setData} index={props.index}/>
         );
     }
 

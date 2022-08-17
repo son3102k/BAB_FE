@@ -12,7 +12,7 @@ export default function ListIssueContract(props) {
     const [cardIsLoading, setCardIsLoading] = useState(false);
     const [listContract, setListContract] = useState([])
     const [isLoading, setIsLoading] = useState(true);
-    const [listCard, setListCard] = useState({});
+    const [listCard, setListCard] = useState([]);
     const [selectedContractData, setSelectedContractData] = useState();
     const [isDisplayCardAndContractInfo, setIsDisplayCardAndContractInfo] = useState(false);
 
@@ -25,7 +25,13 @@ export default function ListIssueContract(props) {
             }
         })
             .then(res => {
-                setListContract(res['data']['getContractByClientV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record']);
+                setListContract(res['data']['getContractByClientV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record'].filter(
+                    (e) => {
+                        if (e['status']['value'].split(";")[0]==="51") {
+                            return true;
+                        }
+                        return false;
+                    }));
                 setIsLoading(false);
             });
     }, []);
@@ -38,14 +44,14 @@ export default function ListIssueContract(props) {
         setCardIsLoading(true);
         setSelectedContractData(contract);
         handleListItemClick(i);
-        axios.post("http://localhost:8080/getCardsByClient", {
-            clientIdentifier: contract['contractNumber']['value'],
+        axios.post("http://localhost:8080/getCardsByContract", {
+            contractIdentifier: contract['contractNumber']['value'],
         }, {
             headers: {
                 'Content-Type': 'application/json',
             }
         }).then(res => {
-            setListCard(res['data']['getCardsByClientV2Result']['value']['outObject']['value']['cardDetailsAPIRecord']);
+            setListCard(res['data']['getSubcontractsV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record']);
             setCardIsLoading(false);
             setIsDisplayCardAndContractInfo(true);
         });
@@ -89,7 +95,7 @@ export default function ListIssueContract(props) {
                                 <ListItemButton
                                     onClick={(event) => handleClickOpenContract(event, e, i)}
                                     selected={selectedIndex === i}>
-                                    <ListItemText primary="Contract" secondary={e['contractNumber']['value']} sx={{
+                                    <ListItemText primary="Issue Contract" secondary={e['contractNumber']['value']} sx={{
                                         direction: "ltr",
                                     }}/>
                                 </ListItemButton>

@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import IssueContract from "./IssueContract";
+import {useState} from "react";
 
 const style = {
     position: 'absolute',
@@ -17,8 +18,11 @@ const style = {
 };
 
 export default function BasicModal(props) {
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = useState(true);
+    const CLIENT_ID = props.data.id;
+
     const handleClose = () => setOpen(false);
+
     return (
         <div>
             <Modal
@@ -29,7 +33,7 @@ export default function BasicModal(props) {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-description" sx={{mt: 2}}>
-                        <IssueContract data={props.data} font={props.font} updateData={props.updateData}/>
+                        <IssueContract data={props.data} font={props.font} updateRowAndAPIData={props.updateRowAndAPIData} index={props.index}/>
                     </Typography>
                 </Box>
             </Modal>

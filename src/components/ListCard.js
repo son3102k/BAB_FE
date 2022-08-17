@@ -3,11 +3,8 @@ import {List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/m
 import {useEffect, useState} from "react";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Box from "@mui/material/Box";
-import ContractInformartion from "./ContractInformartion";
-import Grid from "@mui/material/Grid";
 
 export default function ListCard(props) {
-
     const [listCard, setListCard] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -49,9 +46,9 @@ export default function ListCard(props) {
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
-                                    <OpenInNewIcon color="primary" />
+                                    <OpenInNewIcon color="primary"/>
                                 </ListItemIcon>
-                                <ListItemText primary="Card" secondary={e['cardNumber']['value']}/>
+                                <ListItemText primary="Card Number" secondary={e['safeContractNumber']['value'].split(";")[1]}/>
                             </ListItemButton>
                         </ListItem>
                     ))}
