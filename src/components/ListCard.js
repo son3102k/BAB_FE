@@ -48,7 +48,8 @@ export default function ListCard(props) {
                                 <ListItemIcon>
                                     <OpenInNewIcon color="primary"/>
                                 </ListItemIcon>
-                                <ListItemText primary="Card Number" secondary={e['safeContractNumber']['value'].split(";")[1]}/>
+                                <ListItemText primary="Card Number"
+                                              secondary={e['safeContractNumber']['value'].split(";")[1]}/>
                             </ListItemButton>
                         </ListItem>
                     ))}

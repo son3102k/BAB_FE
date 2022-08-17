@@ -92,15 +92,7 @@ export default function ManageCardDatagrid({font}) {
                 })
             }
             else {
-                return ({
-                    'id': e.id,
-                    shortName: e['short_NAME'],
-                    'firstName': e['first_NAM'],
-                    'lastname': e['last_NAM'],
-                    'middlename': e['father_S_NAM'],
-                    'clientnumber': e['client_NUMBER'],
-                    'reg_number': e['reg_NUMBER']
-                })
+                return e;
             }
         });
         const new_APIData = data.apiData.map((e,i) => {
