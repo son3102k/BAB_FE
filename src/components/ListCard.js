@@ -4,17 +4,39 @@ import {useEffect, useState} from "react";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Box from "@mui/material/Box";
 import ReactDOM from "react-dom/client";
-import EditCardModal from "./EditCardModal"
+import EditCardModal from "./EditCardModal";
+import axios from "axios";
 
 export default function ListCard(props) {
     const [listCard, setListCard] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [severity, setSeverity] = useState("");
+    const [message, setMessage] = useState("");
+    const [data, setData] = useState("");
 
-    const handleEdit = (event, e, i) =>{
-        ReactDOM.createRoot(document.getElementById('cardModal')).render(
-            <EditCardModal font={props.font} data={props.data[i]} />
-
-        );
+    const handleClickCard = (event, e) =>{
+        console.log(e['id']['value']);
+        axios.post("http://localhost:8080/getCardByContractID", {
+            "contractIdentifier": e['id']['value'],
+        }, {
+            headers: {
+                ContentType: "application/json"
+            }
+        }).then(res => {
+            console.log(res['data']);
+            if (res['data']['getCardResult']['value']['retCode'] === 0) {
+                ReactDOM.createRoot(document.getElementById('cardModal')).render(
+                    <EditCardModal font={props.font} data={res['data']['getCardResult']['value']['outObject']['value']['cardDetailsAPIRecord']} />
+                );
+                
+            }
+            else {
+                setSeverity("error");
+                setMessage("Error!!!");
+                setOpenSnackbar(true);
+            }
+        });
     }
 
     useEffect(() => {
@@ -54,7 +76,7 @@ export default function ListCard(props) {
                 {(listCard.length > 0 && !isLoading) &&
                     listCard.map((e, i) => (
                         <ListItem disablePadding>
-                            <ListItemButton onClick={(event)=>handleEdit(event, e, i)}
+                            <ListItemButton onClick={(event)=>handleClickCard(event, e)}
                             >
                                 <ListItemIcon>
                                     <OpenInNewIcon color="primary"/>

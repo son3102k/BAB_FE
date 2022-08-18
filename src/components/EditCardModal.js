@@ -35,32 +35,37 @@ export default function EditCardModal(props) {
     const [open, setOpen] = React.useState(true);
     const handleClose = () => setOpen(false);
 
-    const branch = useRef(props.data['branch']['value'].split(";")[1])
-    const contractName = useRef(props.data['contractName']['value'])
-    const clientFullName = useRef(props.data['clientFullName']['value']);
-    const contractNumber = useRef(props.data['contractNumber']['value']);
-    const status = useRef(props.data['status']['value'].split(';')[1]);
-    const balance = useRef(props.data['balance']['value']);
-
-    console.log(props.data);
+    const branch = useRef(props.data['value']['branch']['value'].split(';')[1]);
+    // console.log(props.data['value']['branch']['value'].split(';')[1]);
+    const cardName = useRef(props.data['value']['cardName']['value']);
+    const cardNumber = useRef(props.data['value']['cardNumber']['value']);
+    const status = useRef(props.data['value']['status']['value'].split(";")[1]);
+    const client = useRef(props.data['value']['client']['value'].split(";")[1]);
+    const creditLimit = useRef(props.data['value']['creditLimit']['value']);
+    const embossedFirstName = useRef(props.data['value']['embossedFirstName']['value']);
+    const embossedLastName = useRef(props.data['value']['embossedLastName']['value']);
+    const embossedCompanyName = useRef(props.data['value']['embossedCompanyName']['value'])
 
     useEffect(() => {
-        branch.current = props.data['branch']['value'];
-        clientFullName.current = props.data['clientFullName']['value'];
-        contractName.current = props.data['contractName']['value'];
-        contractNumber.current = props.data['contractNumber']['value'];
-        status.current = props.data['status']['value'].split(";")[1];
-        balance.current = props.data['balance']['value'];
-    }, [props.data])
+        branch.current = props.data['value']['branch']['value'].split(';')[1];
+        cardName.current = props.data['value']['cardName']['value'];
+        cardNumber.current = props.data['value']['cardNumber']['value']
+        status.current = props.data['value']['status']['value'].split(';')[1];
+        client.current = props.data['value']['client']['value'].split(';')[1];
+        creditLimit.current = props.data['value']['creditLimit']['value'];
+        embossedFirstName.current = props.data['value']['embossedFirstName']['value'];
+        embossedLastName.current = props.data['value']['embossedLastName']['value'];
+        embossedCompanyName.current = props.data['value']['embossedCompanyName']['value'];
+    })
     const handleCloseSnackbar = () => setOpenSnackbar(false);
     const handleSave = () => {
         axios.post("http://localhost:8080/editCard", {
-            "contractIdentifier": contractNumber.current.value,
+            "contractIdentifier": cardNumber.current.value,
             "reason": "Edit Card",
             "inObject": {
-                "branch": branch.current.value,
-                "cardName": contractName.current.value,
-
+                "embossedFirstName": embossedFirstName.current.value,
+                "embossedLastName": embossedLastName.current.value,
+                "embossedCompanyName": embossedCompanyName.current.value,
             },
         }, {
             headers: {
@@ -87,9 +92,6 @@ export default function EditCardModal(props) {
         <div>
             <Modal
                 open={open}
-
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
             >
                 <Grid item xs={6} md={12} sx={{
                     display: "flex", justifyContent: "center", position: 'absolute',
@@ -114,45 +116,47 @@ export default function EditCardModal(props) {
                             }}>
                             Card Information
                         </Typography>
+                        {/*<TextField*/}
+                        {/*    id="branch"*/}
+                        {/*    label="Branch"*/}
+                        {/*    size="small"*/}
+                        {/*    sx={{*/}
+                        {/*        width: "93%",*/}
+                        {/*        m: 1,*/}
+                        {/*        mb: 2,*/}
+                        {/*    }}*/}
+                        {/*    inputRef={branch}*/}
+                        {/*    defaultValue={branch.current}*/}
+                        {/*    InputProps={{*/}
+                        {/*        readOnly: true,*/}
+                        {/*    }}*/}
+                        {/*    autoComplete="off"*/}
+                        {/*/>*/}
                         <TextField
-                            id="branch"
-                            label="Branch"
-                            size="small"
-                            sx={{
-                                width: "93%",
-                                m: 1,
-                                mb: 2,
-                            }}
-                            inputRef={branch}
-                            defaultValue={branch.current}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            autoComplete="off"
-                        />
-                        <TextField
-                            id="contractName"
-                            label="Contract Name"
+                            id="cardName"
+                            label="Card Name"
                             size="small"
                             sx={{
                                 width: "45%",
                                 m: 1
                             }}
-                            inputRef={contractName}
-                            defaultValue={contractName.current}
+                            inputRef={cardName}
+                            defaultValue={cardName.current}
                             autoComplete="off"
-
+                            InputProps={{
+                                readOnly: true,
+                            }}
                         />
                         <TextField
-                            id="clientName"
-                            label="Client Name"
+                            id="client"
+                            label="Client"
                             size="small"
                             sx={{
                                 width: "45%",
                                 m: 1,
                             }}
-                            inputRef={clientFullName}
-                            defaultValue={clientFullName.current}
+                            inputRef={client}
+                            defaultValue={client.current}
                             InputProps={{
                                 readOnly: true,
                             }}
@@ -160,20 +164,61 @@ export default function EditCardModal(props) {
                         />
 
                         <TextField
-                            id="contractNumber"
-                            label="Contract Number"
+                            id="cardNumber"
+                            label="Card Number"
                             size="small"
                             sx={{
                                 width: "93%",
                                 m: 1,
                                 mb: 2,
                             }}
-                            inputRef={contractNumber}
-                            defaultValue={contractNumber.current}
+                            inputRef={cardNumber}
+                            defaultValue={cardNumber.current}
                             autoComplete="off"
                             InputProps={{
                                 readOnly: true,
                             }}
+                        />
+                        <TextField
+                            id="embossedFirstName"
+                            label="Embossed First Name"
+                            size="small"
+                            sx={{
+                                width: "45%",
+                                m: 1
+                            }}
+                            inputRef={embossedFirstName}
+                            defaultValue={embossedFirstName.current}
+                            autoComplete="off"
+                            
+                        />
+                        <TextField
+                            id="embossedLastName"
+                            label="Embossed Last Name"
+                            size="small"
+                            sx={{
+                                width: "45%",
+                                m: 1,
+                            }}
+                            inputRef={embossedLastName}
+                            defaultValue={embossedLastName.current}
+                            
+
+                        />
+
+                        <TextField
+                            id="embossedCompanyName"
+                            label="Embossed Company Name"
+                            size="small"
+                            sx={{
+                                width: "93%",
+                                m: 1,
+                                mb: 2,
+                            }}
+                            inputRef={embossedCompanyName}
+                            defaultValue={embossedCompanyName.current}
+                            autoComplete="off"
+                            
                         />
                         <TextField
                             id="status"
@@ -192,16 +237,16 @@ export default function EditCardModal(props) {
                             }}
                         />
                         <TextField
-                            id="balance"
-                            label="Balance"
+                            id="creditLimit"
+                            label="Credit Limit"
                             size="small"
                             sx={{
                                 width: "93%",
                                 m: 1,
                                 mb: 2,
                             }}
-                            inputRef={balance}
-                            defaultValue={balance.current}
+                            inputRef={creditLimit}
+                            defaultValue={creditLimit.current}
                             autoComplete="off"
                             InputProps={{
                                 readOnly: true,
