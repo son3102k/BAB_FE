@@ -44,13 +44,14 @@ export default function ListIssueContract(props) {
         setCardIsLoading(true);
         setSelectedContractData(contract);
         handleListItemClick(i);
-        axios.post("http://localhost:8080/getCardsByContract", {
+        axios.post("http://localhost:8080/getSubcontractsByPContract", {
             contractIdentifier: contract['contractNumber']['value'],
         }, {
             headers: {
                 'Content-Type': 'application/json',
             }
         }).then(res => {
+            console.log(res['data']);
             setListCard(res['data']['getSubcontractsV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record']);
             setCardIsLoading(false);
             setIsDisplayCardAndContractInfo(true);
