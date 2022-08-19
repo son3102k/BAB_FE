@@ -206,6 +206,7 @@ export default function CreateContractV4() {
                                 }}
                                 inputRef={ContractName}
                                 autoComplete="off"
+                                required
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DesktopDatePicker
