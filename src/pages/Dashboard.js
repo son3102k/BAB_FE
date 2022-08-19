@@ -27,18 +27,17 @@ const font = createTheme({
 });
 
 
-
 export default function Dashboard() {
-    useEffect(()=>{
+    useEffect(() => {
         document.title = "Home"
     })
     return (
         <Layout page="dashboard" Sidebar={
             <Sidebar>
                 <SidebarItem text="Home" to="/dashboard" Icon={DashboardIcon} hl={1}/>
-                <SidebarItem text="Card"  to="/cardmanage" Icon={CreditCardIcon} />
+                <SidebarItem text="Card" to="/cardmanage" Icon={CreditCardIcon}/>
             </Sidebar>}
-        mainContent={<Charts />}>
+                mainContent={<Charts/>}>
         </Layout>
     );
 }

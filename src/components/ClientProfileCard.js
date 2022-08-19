@@ -4,12 +4,11 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import img__bgPatternCard from "../static/assets/bg-pattern-card.svg"
 import img__profile from "../static/assets/default-avatar-user.png"
+import * as React from "react";
 import {useState} from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import ReactDOM from "react-dom/client";
-import BasicModal from "./BasicModal";
-import * as React from "react";
 import EditClientProfileModal from "./EditClientProfileModal";
 
 
@@ -64,14 +63,17 @@ const ClientProfileCard = (props) => {
     const [data, setData] = useState(props.data)
 
     function handleEditButton() {
-        ReactDOM.createRoot(document.getElementById('modal')).render(
-            <EditClientProfileModal font={props.font} data={data} updateRowAndAPIData={props.updateRowAndAPIData} setAPIData={setData} index={props.index}/>
+        ReactDOM.createRoot(document.getElementById('edit-profile-modal')).render(
+            <EditClientProfileModal setSnackbarData={props.setSnackbarData} setOpenSnackbar={props.setOpenSnackbar}
+                                    font={props.font} data={data}
+                                    updateRowAndAPIData={props.updateRowAndAPIData} setAPIData={setData}
+                                    index={props.index}/>
         );
     }
 
     return (
         <Box>
-            <div id="edit-profile-modal" />
+            <div id="edit-profile-modal"/>
             <ThemeProvider theme={theme}>
                 <Box
                     sx={{
@@ -113,7 +115,8 @@ const ClientProfileCard = (props) => {
                             />
                             <Grid container>
                                 <Grid item xs={6} md={12}>
-                                    <Typography sx={{textAlign: 'center', mb: 2, fontSize: 20}} variant="body1" color="text.primary">
+                                    <Typography sx={{textAlign: 'center', mb: 2, fontSize: 20}} variant="body1"
+                                                color="text.primary">
                                         {`${data['last_NAM'] !== null ? data['last_NAM'] : ""} ${data['father_S_NAM'] !== null ? data['father_S_NAM'] : ""} ${data['first_NAM'] !== null ? data['first_NAM'] : ""}`}
                                     </Typography>
                                 </Grid>

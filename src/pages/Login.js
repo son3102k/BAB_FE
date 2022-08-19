@@ -29,6 +29,7 @@ function Copyright(props) {
         </Typography>
     );
 }
+
 const font = createTheme({
     typography: {
         fontFamily: [
@@ -52,7 +53,7 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [notify, setNotify] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
-    useEffect(()=>{
+    useEffect(() => {
         document.title = 'Đăng nhập'
     });
 
@@ -69,39 +70,38 @@ export default function Login() {
             email,
             password,
         };
-        const response = await axios.post('http://localhost:8080/login',requestBody, {
+        const response = await axios.post('http://localhost:8080/login', requestBody, {
             headers: {
                 'Content-Type': 'application/json'
             }
         });
         if (response.data['success']) {
             navigate('dashboard');
-        }
-        else {
+        } else {
             setNotify(true);
             setPassword('');
         }
     };
 
     return (
-    <Container
-        maxWidth="xl"
-        sx={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: 'wrap',
-            alignItems: "flex-end",
-            justifyContent: "center",
-            backgroundImage: `url(${background})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            minHeight: "100vh",
-        }}>
+        <Container
+            maxWidth="xl"
+            sx={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: 'wrap',
+                alignItems: "flex-end",
+                justifyContent: "center",
+                backgroundImage: `url(${background})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                minHeight: "100vh",
+            }}>
             <Container component="main" maxWidth="xs" sx={{
                 borderRadius: "16px",
                 backgroundColor: "#ffffff"
             }}>
-                <CssBaseline />
+                <CssBaseline/>
                 <Box
                     sx={{
                         display: 'flex',
@@ -109,20 +109,20 @@ export default function Login() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 3, bgcolor: 'primary.main' }}>
-                        <LoginOutlinedIcon />
+                    <Avatar sx={{m: 3, bgcolor: 'primary.main'}}>
+                        <LoginOutlinedIcon/>
                     </Avatar>
-                        <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}>
-                            Chào mừng Quý khách
-                        </Typography>
-                    <Box noValidate sx={{ mt: 1, p: 1 }}
+                    <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}>
+                        Chào mừng Quý khách
+                    </Typography>
+                    <Box noValidate sx={{mt: 1, p: 1}}
                          onKeyDown={(e) => {
                              if (e.key === 'Enter') {
                                  handleSubmit(e);
                              }
                          }}>
                         <Box sx={{display: "flex", alignItems: "flex-end"}}>
-                            <PersonOutlineIcon sx={{ color: '#33ccff', mr: 1, my: 0.5 }}/>
+                            <PersonOutlineIcon sx={{color: '#33ccff', mr: 1, my: 0.5}}/>
                             <TextField
                                 margin="normal"
                                 required
@@ -138,7 +138,7 @@ export default function Login() {
                             />
                         </Box>
                         <Box sx={{display: "flex", alignItems: "flex-end"}}>
-                            <LockOutlinedIcon sx={{ color: '#33ccff', mr: 1, my: 0.5 }}/>
+                            <LockOutlinedIcon sx={{color: '#33ccff', mr: 1, my: 0.5}}/>
                             <TextField
                                 margin="normal"
                                 required
@@ -162,8 +162,10 @@ export default function Login() {
                             // type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 , fontSize: 13, p: 1.3 ,fontWeight: 'bold',
-                                backgroundImage: "linear-gradient(120deg,#00bfae 0,#0066ad 100%)"}}
+                            sx={{
+                                mt: 3, mb: 2, fontSize: 13, p: 1.3, fontWeight: 'bold',
+                                backgroundImage: "linear-gradient(120deg,#00bfae 0,#0066ad 100%)"
+                            }}
                             onClick={handleSubmit}
                         >
                             Đăng nhập
@@ -184,12 +186,12 @@ export default function Login() {
                 </Box>
 
             </Container>
-        <Copyright sx={{width: '100%', color: '#ffffff', textAlign: 'right', mb: 2}}></Copyright>
-        <Snackbar open={notify} autoHideDuration={3000} onClose={handleCloseNotify}>
-            <Alert onClose={handleCloseNotify} severity="error" sx={{ width: '100%' }}>
-                Tài khoản hoặc mật khẩu không chính xác
-            </Alert>
-        </Snackbar>
-    </Container>
+            <Copyright sx={{width: '100%', color: '#ffffff', textAlign: 'right', mb: 2}}></Copyright>
+            <Snackbar open={notify} autoHideDuration={3000} onClose={handleCloseNotify}>
+                <Alert onClose={handleCloseNotify} severity="error" sx={{width: '100%'}}>
+                    Tài khoản hoặc mật khẩu không chính xác
+                </Alert>
+            </Snackbar>
+        </Container>
     );
 }

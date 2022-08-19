@@ -1,12 +1,9 @@
 import {createTheme} from '@mui/material/styles'
-import {Card, CardContent, CardMedia, Stack, ThemeProvider} from "@mui/material";
+import {ThemeProvider} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import img__bgPatternCard from "../static/assets/bg-pattern-card.svg"
-import img__profile from "../static/assets/default-avatar-user.png"
 import {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from '@mui/icons-material/Edit';
 import ReactDOM from "react-dom/client";
@@ -61,19 +58,22 @@ const theme = createTheme({
 
 const ContractInformartion = (props) => {
     const [selectedContractData, setSelectedContractData] = useState(props.selectContract);
-
-    useEffect(()=>{
+    useEffect(() => {
         setSelectedContractData(props.selectContract);
     });
 
-    function handleEdit(){
-        ReactDOM.createRoot(document.getElementById('modal')).render(
-            <EditContractModal font={props.font} data={selectedContractData} />
+    function handleEdit() {
+        ReactDOM.createRoot(document.getElementById('edit-contract-modal')).render(
+            <EditContractModal font={props.font} data={selectedContractData} setSnackbarData={props.setSnackbarData}
+                               setOpenSnackbar={props.setOpenSnackbar}
+                               setSelectedContractDataReload={props.setSelectedContractDataReload}
+                               c_number={selectedContractData['contractNumber']['value']}/>
         );
     }
 
     return (
         <Box>
+            <div id="edit-contract-modal"/>
             <ThemeProvider theme={theme}>
                 <Box
                     sx={{

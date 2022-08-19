@@ -1,23 +1,18 @@
 import * as React from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import IssueContract from "./IssueContract";
-import { useEffect, useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
-import { styled } from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
-import { Alert, Snackbar } from "@mui/material";
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Paper)(({theme}) => ({
     backgroundColor: '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -28,14 +23,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function EditContractModal(props) {
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [severity, setSeverity] = useState("");
-    const [message, setMessage] = useState("");
-
     const [open, setOpen] = React.useState(true);
     const handleClose = () => setOpen(false);
-
-    console.log(props.data);
 
     const branch = useRef(props.data['branch']['value'].split(";")[1]);
     const contractNumber = useRef(props.data['contractNumber']['value']);
@@ -49,7 +38,6 @@ export default function EditContractModal(props) {
         contractName.current = props.data['contractName']['value'];
         cbsNumber.current = props.data[''];
     }, [props.data])
-    const handleCloseSnackbar = () => setOpenSnackbar(false);
     const handleSave = () => {
         axios.post("http://localhost:8080/editContract", {
             "contractIdentifier": contractNumber.current.value,
@@ -66,17 +54,29 @@ export default function EditContractModal(props) {
                 ContentType: "application/json"
             }
         }).then(res => {
-            console.log(res);
             if (res['data']['editContractV4Result']['value']['retCode'] === 0) {
-                setSeverity("success");
-                setMessage("Successfully!");
-                setOpenSnackbar(true);
+                props.setSnackbarData({
+                    severity: "success",
+                    message: "Successfully!",
+                });
+                props.setOpenSnackbar(true);
+            } else {
+                props.setSnackbarData({
+                    severity: "error",
+                    message: "Error !",
+                });
+                props.setOpenSnackbar(true);
             }
-            else {
-                setSeverity("error");
-                setMessage("Error!!!");
-                setOpenSnackbar(true);
-            }
+        }).then(() => {
+            axios.post("http://localhost:8080/getContractByNumber", {
+                contractNumber: props.c_number,
+            }, {
+                headers: {
+                    ContentType: "application/json",
+                }
+            }).then(res => {
+                props.setSelectedContractDataReload(res.data['getContractByNumberV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record'][0])
+            })
         });
         handleClose();
     }
@@ -85,9 +85,6 @@ export default function EditContractModal(props) {
         <div>
             <Modal
                 open={open}
-
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
             >
                 <Grid item xs={6} md={12} sx={{
                     display: "flex", justifyContent: "center", position: 'absolute',
@@ -101,15 +98,15 @@ export default function EditContractModal(props) {
                             textAlign: "right",
                         }}>
                             <IconButton onClick={handleClose}>
-                                <CloseIcon />
+                                <CloseIcon/>
                             </IconButton>
                         </Box>
                         <Typography component="h1" variant="h5" fontWeight="800"
-                            fontFamily={props.font.typography.fontFamily} color="#000000"
-                            sx={{
-                                m: 1,
-                                mb: 3,
-                            }}>
+                                    fontFamily={props.font.typography.fontFamily} color="#000000"
+                                    sx={{
+                                        m: 1,
+                                        mb: 3,
+                                    }}>
                             Contract Information
                         </Typography>
                         <TextField
@@ -185,11 +182,6 @@ export default function EditContractModal(props) {
                     </Item>
                 </Grid>
             </Modal>
-            <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
-                <Alert onClose={handleCloseSnackbar} severity={severity} sx={{ width: 300 }}>
-                    {message}
-                </Alert>
-            </Snackbar>
         </div>
     );
 }

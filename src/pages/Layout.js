@@ -1,6 +1,5 @@
 import Grid from "@mui/material/Grid";
 import TopBarNav from "../components/TopBarNav";
-import Typography from "@mui/material/Typography";
 import {createTheme} from "@mui/material";
 
 const font = createTheme({
@@ -23,9 +22,9 @@ const font = createTheme({
 export default function Layout(props) {
     return (
         <div className={'layout layout-' + props.page}>
-            <Grid container spacing={0} sx={{ display: "flex", justifyContent: "center"}}>
+            <Grid container spacing={0} sx={{display: "flex", justifyContent: "center"}}>
                 <Grid item xs={6} md={12}>
-                    <TopBarNav />
+                    <TopBarNav/>
                 </Grid>
                 <Grid item xs={6} md={1}>
                     {props.Sidebar}

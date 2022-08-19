@@ -16,22 +16,22 @@ import MenuDropdown from "./MenuDropdown.js";
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const pages = [
     {
-    name: 'create',
-    function: [
-        {
-            value:'createclientv3',
-            label: 'Create Client V3',
-        },
-        {
-            value: 'createcardv3',
-            label: 'Create Card V3',
-        }],
+        name: 'create',
+        function: [
+            {
+                value: 'createclientv3',
+                label: 'Create Client V3',
+            },
+            {
+                value: 'createcardv3',
+                label: 'Create Card V3',
+            }],
     },
     {
         name: 'compound',
         function: [
             {
-                value:'createcontractv4',
+                value: 'createcontractv4',
                 label: 'Create Contract V4',
             }],
     },
@@ -39,7 +39,7 @@ const pages = [
         name: 'action',
         function: [
             {
-                value:'isspaymenttocontract',
+                value: 'isspaymenttocontract',
                 label: 'Iss Payment To Contract',
             },
             {
@@ -71,7 +71,7 @@ const pages = [
         name: 'set_status',
         function: [
             {
-                value:'clearpinattempts',
+                value: 'clearpinattempts',
                 label: 'Clear PIN Attempts',
             },
             {
@@ -106,91 +106,91 @@ const TopBarNav = () => {
 
 
     return (
-            <AppBar position="static" color={"transparent"} sx={{
-                backgroundColor: "#ffffff",
-                boxShadow: 0,
-                width: "100%",
-                minWidth: 500,
-            }}>
-                <Container maxWidth="xl">
-                    <Toolbar disableGutters>
-                        <OWLogo />
-                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleOpenNavMenu}
-                                color="inherit"
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorElNav}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'left',
-                                }}
-                                open={Boolean(anchorElNav)}
-                                onClose={handleCloseNavMenu}
-                                sx={{
-                                    display: { xs: 'block', md: 'none' },
-                                }}
-                            >
-                                {pages.map((page)=>(
-                                    <MenuDropdown page={page} />
-                                ))}
-                            </Menu>
-                        </Box>
-                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            {pages.map((page)=>(
-                                <MenuDropdown page={page} />
+        <AppBar position="static" color={"transparent"} sx={{
+            backgroundColor: "#ffffff",
+            boxShadow: 0,
+            width: "100%",
+            minWidth: 500,
+        }}>
+            <Container maxWidth="xl">
+                <Toolbar disableGutters>
+                    <OWLogo/>
+                    <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu}
+                            sx={{
+                                display: {xs: 'block', md: 'none'},
+                            }}
+                        >
+                            {pages.map((page) => (
+                                <MenuDropdown page={page}/>
                             ))}
-                        </Box>
-                        <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Son Nguyen" src="/static/assets/avatar.jpg" />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
-                    </Toolbar>
-                </Container>
-                <Container maxWidth="xl" sx={{
-                    width: 1,
-                    mt: 1,
-                    borderBottom: "1px solid #f2f2f2",
-                 }}/>
-            </AppBar>
+                        </Menu>
+                    </Box>
+                    <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
+                        {pages.map((page) => (
+                            <MenuDropdown page={page}/>
+                        ))}
+                    </Box>
+                    <Box sx={{flexGrow: 0}}>
+                        <Tooltip title="Open settings">
+                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                <Avatar alt="Son Nguyen" src="/static/assets/avatar.jpg"/>
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{mt: '45px'}}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {settings.map((setting) => (
+                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">{setting}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
+                </Toolbar>
+            </Container>
+            <Container maxWidth="xl" sx={{
+                width: 1,
+                mt: 1,
+                borderBottom: "1px solid #f2f2f2",
+            }}/>
+        </AppBar>
 
     );
 };

@@ -126,7 +126,7 @@ export default function CreateClientV3() {
     const HomePhone = useRef('');
     const [institutionBranchCode, setInstitutionBranchCode] = useState('0001');
     const [branch, setBranch] = useState('0101');
-    const [clientTypeCode,setClientTypeCode] = useState('PR');
+    const [clientTypeCode, setClientTypeCode] = useState('PR');
     const clientNumber = useRef('');
     const reason = useRef('');
     const reasonCode = useRef('');
@@ -135,7 +135,7 @@ export default function CreateClientV3() {
     const [ClientCategory, setClientCategory] = useState(client_category[0].value);
     const [ProductCategory, setProductCategory] = useState(prodcut_category[0].value);
     const [openDialog, setOpenDialog] = useState(false);
-    const [message,setMessage] = useState('');
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         document.title = 'Create Client';
@@ -144,8 +144,8 @@ export default function CreateClientV3() {
     function stringToSlug(str) {
         // remove accents
         var from = "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ",
-            to   = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
-        for (var i=0, l=from.length ; i < l ; i++) {
+            to = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
+        for (var i = 0, l = from.length; i < l; i++) {
             str = str.replace(RegExp(from[i], "gi"), to[i]);
         }
 
@@ -157,10 +157,10 @@ export default function CreateClientV3() {
         return str;
     }
 
-    const handleSubmit =  (event) => {
-        setShortName(stringToSlug(firstName.current.value + lastName.current.value[0]+ middleName.current.value[0]));
+    const handleSubmit = (event) => {
+        setShortName(stringToSlug(firstName.current.value + lastName.current.value[0] + middleName.current.value[0]));
         console.log(shortName)
-        axios.post('http://localhost:8080/createClient',{
+        axios.post('http://localhost:8080/createClient', {
             reasonCode: reasonCode.current.value,
             reason: reason.current.value,
             institutionBranchCode,
@@ -172,7 +172,7 @@ export default function CreateClientV3() {
                 firstName: firstName.current.value,
                 middleName: middleName.current.value,
                 lastName: lastName.current.value,
-                birthDate: BirthDate.toISOString().slice(0,10),
+                birthDate: BirthDate.toISOString().slice(0, 10),
                 identityCardType: IdentityCardType.current.value,
                 citizenship: Citizenship.current.value,
                 identityCardNumber: identityCardNumber.current.value,
@@ -183,18 +183,21 @@ export default function CreateClientV3() {
                 homePhone: HomePhone.current.value,
                 businessPhone: BusinessPhone.current.value,
             }
-        },{
+        }, {
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
             if (res['data']['createClientV3Result']['value']['retCode'] === 0) {
                 const client_id = res['data']['createClientV3Result']['value']['newClient']['value'];
-                navigate('/createcontractv4', {state: {client_id , branch,
+                navigate('/createcontractv4', {
+                    state: {
+                        client_id, branch,
                         institutionBranchCode, firstName: firstName.current.value,
-                        middleName: middleName.current.value, lastName: lastName.current.value}});
-            }
-            else {
+                        middleName: middleName.current.value, lastName: lastName.current.value
+                    }
+                });
+            } else {
                 setOpenDialog(true);
                 setMessage(res['data']['createClientV3Result']['value']['retMsg']['value']);
             }
@@ -206,9 +209,9 @@ export default function CreateClientV3() {
     }
 
     return (
-        
+
         <div>
-            <TopBarNav />
+            <TopBarNav/>
             <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}
                         color="#000000"
                         sx={{
@@ -426,7 +429,7 @@ export default function CreateClientV3() {
                                 />
                             </LocalizationProvider>
                             <TextField
-                                
+
                                 id="reason"
                                 label="Reason"
                                 size="small"
@@ -439,7 +442,7 @@ export default function CreateClientV3() {
                                 required
                             />
                             <TextField
-                                
+
                                 id="reasonCode"
                                 label="Reason Code"
                                 size="small"
@@ -645,27 +648,27 @@ export default function CreateClientV3() {
                 </Grid>
             </Box>
             <div>
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Result"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {message}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} autoFocus>
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+                <Dialog
+                    open={openDialog}
+                    onClose={handleCloseDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Result"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {message}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDialog} autoFocus>
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
         </div>
     );
 }

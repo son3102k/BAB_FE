@@ -1,5 +1,5 @@
 import CircularProgress from "@mui/material/CircularProgress";
-import {List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField} from "@mui/material";
+import {List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import {useEffect, useState} from "react";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Box from "@mui/material/Box";
@@ -10,13 +10,8 @@ import axios from "axios";
 export default function ListCard(props) {
     const [listCard, setListCard] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [severity, setSeverity] = useState("");
-    const [message, setMessage] = useState("");
-    const [data, setData] = useState("");
 
-    const handleClickCard = (event, e) =>{
-        console.log(e['id']['value']);
+    const handleClickCard = (event, e) => {
         axios.post("http://localhost:8080/getCardByContractID", {
             "contractIdentifier": e['id']['value'],
         }, {
@@ -24,17 +19,13 @@ export default function ListCard(props) {
                 ContentType: "application/json"
             }
         }).then(res => {
-            console.log(res['data']);
             if (res['data']['getCardResult']['value']['retCode'] === 0) {
-                ReactDOM.createRoot(document.getElementById('cardModal')).render(
-                    <EditCardModal font={props.font} data={res['data']['getCardResult']['value']['outObject']['value']['cardDetailsAPIRecord']} />
+                ReactDOM.createRoot(document.getElementById('edit-card-modal')).render(
+                    <EditCardModal font={props.font}
+                                   data={res['data']['getCardResult']['value']['outObject']['value']['cardDetailsAPIRecord']}
+                                   setSnackbarData={props.setSnackbarData}
+                                   setOpenSnackbar={props.setOpenSnackbar}/>
                 );
-                
-            }
-            else {
-                setSeverity("error");
-                setMessage("Error!!!");
-                setOpenSnackbar(true);
             }
         });
     }
@@ -50,7 +41,7 @@ export default function ListCard(props) {
                 borderBottomRightRadius: 20,
                 width: '100%',
                 height: 280,
-                bgcolor: 'background.paper',
+                backgroundColor: 'background.paper',
                 overflow: "auto",
                 direction: "rtl",
                 "::-webkit-scrollbar": {
@@ -68,7 +59,7 @@ export default function ListCard(props) {
                 },
             }}
         >
-            <div id='cardModal'/>
+            <div id='edit-card-modal'/>
             <List sx={{
                 height: "100%",
             }}>
@@ -76,7 +67,7 @@ export default function ListCard(props) {
                 {(listCard.length > 0 && !isLoading) &&
                     listCard.map((e, i) => (
                         <ListItem disablePadding>
-                            <ListItemButton onClick={(event)=>handleClickCard(event, e)}
+                            <ListItemButton onClick={(event) => handleClickCard(event, e)}
                             >
                                 <ListItemIcon>
                                     <OpenInNewIcon color="primary"/>

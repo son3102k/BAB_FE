@@ -57,7 +57,7 @@ export default function CreateCardV3() {
 
     const matches = useMediaQuery('(min-width:1024px)');
 
-    const [ContractSearchMethod,setContractSearchMethod] = useState('CONTRACT_ID');
+    const [ContractSearchMethod, setContractSearchMethod] = useState('CONTRACT_ID');
     const [ContractIdentifier, setContractIdentifier] = useState(location.state.contract_id);
     const [ContractSubtypeCode, setContractSubtypeCode] = useState(location.state.ContractSubtypeCode);
     const [EmbossedFirstName, setEmbossedFirstName] = useState(location.state.firstName);
@@ -69,11 +69,12 @@ export default function CreateCardV3() {
     const [CBSNumber, setCBSNumber] = useState(location.state.CBSNumber);
     const [Branch, setBranch] = useState(location.state.branch);
     const ProductIdentifier = useRef('');
-    const ProductionReason = useRef('');;
+    const ProductionReason = useRef('');
+    ;
     const [ProductCode, setProductCode] = useState('CARDMAIN');
     const EmbossedTitleCode = useRef('');
     const [openDialog, setOpenDialog] = useState(false);
-    const [message,setMessage] = useState('');
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         document.title = 'Create Card';
@@ -81,7 +82,7 @@ export default function CreateCardV3() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await axios.post('http://localhost:8080/createCard',{
+        const response = await axios.post('http://localhost:8080/createCard', {
             "contractSearchMethod": ContractSearchMethod,
             "contractIdentifier": location.state.contract_id,
             "productIdentifier": ProductIdentifier.current.value,
@@ -99,18 +100,17 @@ export default function CreateCardV3() {
                 "embossedLastName": EmbossedLastName,
                 "embossedCompanyName": EmbossedCompanyName.current.value,
             },
-        },{
+        }, {
             headers: {
                 'Content-Type': 'application/json'
             }
         });
         setOpenDialog(true);
         const {createdCard} = response.data['createCardV3Result']['value'];
-        if (createdCard !== null && createdCard!=="undefined") {
+        if (createdCard !== null && createdCard !== "undefined") {
             setMessage(response.data['createCardV3Result']['value']['retMsg']['value'] + "\n" +
                 response.data['createCardV3Result']['value']['createdCard']['value'])
-        }
-        else {
+        } else {
             setMessage(response.data['createCardV3Result']['value']['retMsg']['value']);
         }
     }
@@ -344,27 +344,27 @@ export default function CreateCardV3() {
                 </Grid>
             </Box>
             <div>
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Result"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {message}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} autoFocus>
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+                <Dialog
+                    open={openDialog}
+                    onClose={handleCloseDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Result"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {message}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDialog} autoFocus>
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
         </div>
     );
 }

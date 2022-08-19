@@ -1,11 +1,11 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import {DataGrid} from '@mui/x-data-grid';
 import Button from "@mui/material/Button";
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ReactDOM from "react-dom/client";
-import BasicModal from "./BasicModal";
-import {useEffect, useState} from "react";
+import MainModal from "./MainModal";
 import axios from "axios";
 import Typography from "@mui/material/Typography";
 
@@ -59,11 +59,12 @@ export default function ManageCardDatagrid({font}) {
             sortable: false,
             renderCell: (params) => {
                 const onClick = (e) => {
-                    const api = params.api;
+                    // const api = params.api;
                     e.stopPropagation();
                     ReactDOM.createRoot(document.getElementById('modal')).render(
-                        <BasicModal data={data.apiData[params.id - data.pageSize * data.page - 1]} index={params.id - data.pageSize * data.page - 1}
-                                    font={font} updateRowAndAPIData={updateRowAndAPIData}/>
+                        <MainModal data={data.apiData[params.id - data.pageSize * data.page - 1]}
+                                   index={params.id - data.pageSize * data.page - 1}
+                                   font={font} updateRowAndAPIData={updateRowAndAPIData}/>
                     );
                 };
 
@@ -79,7 +80,7 @@ export default function ManageCardDatagrid({font}) {
     const updateData = (k, v) => setData((prev) => ({...prev, [k]: v}));
 
     const updateRowAndAPIData = (fetch_api_data, index) => {
-        const new_rows = data.rows.map((e,i) => {
+        const new_rows = data.rows.map((e, i) => {
             if (i === index) {
                 return ({
                     'id': e.id,
@@ -90,23 +91,20 @@ export default function ManageCardDatagrid({font}) {
                     'clientnumber': fetch_api_data['client_NUMBER'],
                     'reg_number': fetch_api_data['reg_NUMBER']
                 })
-            }
-            else {
+            } else {
                 return e;
             }
         });
-        const new_APIData = data.apiData.map((e,i) => {
-            if (index===i) {
+        const new_APIData = data.apiData.map((e, i) => {
+            if (index === i) {
                 return fetch_api_data;
-            }
-            else {
+            } else {
                 return e;
             }
         });
-        updateData("apiData",new_APIData);
-        updateData("rows",new_rows);
+        updateData("apiData", new_APIData);
+        updateData("rows", new_rows);
     }
-
 
 
     useEffect(() => {

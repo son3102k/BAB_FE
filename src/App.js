@@ -9,20 +9,20 @@ import CardManage from "./pages/CardManage";
 
 function App() {
 
-  return (
-      <Router>
-        <Routes>
-            {/*<Route path="/login" element={<Login />} />*/}
-            <Route path="/" element={<Login />} />
-            <Route path="/createclientv3" element={<CreateClientV3 />}/>
-            <Route path="/createcardv3" element={<CreateCardV3 />}/>
-            <Route path="/createcontractv4" element={<CreateContractV4 />}/>
-            <Route path="/dashboard" element={<Dashboard />}/>
-            <Route path="/cardmanage" element={<CardManage />}/>
-        </Routes>
+    return (
+        <Router>
+            <Routes>
+                {/*<Route path="/login" element={<Login />} />*/}
+                <Route path="/" element={<Login/>}/>
+                <Route path="/createclientv3" element={<CreateClientV3/>}/>
+                <Route path="/createcardv3" element={<CreateCardV3/>}/>
+                <Route path="/createcontractv4" element={<CreateContractV4/>}/>
+                <Route path="/dashboard" element={<Dashboard/>}/>
+                <Route path="/cardmanage" element={<CardManage/>}/>
+            </Routes>
 
-      </Router>
-  );
+        </Router>
+    );
 }
 
 export default App;

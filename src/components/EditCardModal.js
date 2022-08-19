@@ -1,23 +1,18 @@
 import * as React from 'react';
+import {useEffect, useRef} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import IssueContract from "./IssueContract";
-import { useEffect, useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
-import { styled } from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
-import { Alert, Snackbar } from "@mui/material";
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Paper)(({theme}) => ({
     backgroundColor: '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -28,15 +23,10 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function EditCardModal(props) {
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [severity, setSeverity] = useState("");
-    const [message, setMessage] = useState("");
-
     const [open, setOpen] = React.useState(true);
     const handleClose = () => setOpen(false);
 
     const branch = useRef(props.data['value']['branch']['value'].split(';')[1]);
-    // console.log(props.data['value']['branch']['value'].split(';')[1]);
     const cardName = useRef(props.data['value']['cardName']['value']);
     const cardNumber = useRef(props.data['value']['cardNumber']['value']);
     const status = useRef(props.data['value']['status']['value'].split(";")[1]);
@@ -57,7 +47,6 @@ export default function EditCardModal(props) {
         embossedLastName.current = props.data['value']['embossedLastName']['value'];
         embossedCompanyName.current = props.data['value']['embossedCompanyName']['value'];
     })
-    const handleCloseSnackbar = () => setOpenSnackbar(false);
     const handleSave = () => {
         axios.post("http://localhost:8080/editCard", {
             "contractIdentifier": cardNumber.current.value,
@@ -72,16 +61,18 @@ export default function EditCardModal(props) {
                 ContentType: "application/json"
             }
         }).then(res => {
-            console.log(res);
             if (res['data']['editCardV2Result']['value']['retCode'] === 0) {
-                setSeverity("success");
-                setMessage("Successfully!");
-                setOpenSnackbar(true);
-            }
-            else {
-                setSeverity("error");
-                setMessage("Error!!!");
-                setOpenSnackbar(true);
+                props.setSnackbarData({
+                    severity: "success",
+                    message: "Successfully!",
+                });
+                props.setOpenSnackbar(true);
+            } else {
+                props.setSnackbarData({
+                    severity: "error",
+                    message: "Error !",
+                });
+                props.setOpenSnackbar(true);
             }
         });
         handleClose();
@@ -105,15 +96,15 @@ export default function EditCardModal(props) {
                             textAlign: "right",
                         }}>
                             <IconButton onClick={handleClose}>
-                                <CloseIcon />
+                                <CloseIcon/>
                             </IconButton>
                         </Box>
                         <Typography component="h1" variant="h5" fontWeight="800"
-                            color="#000000"
-                            sx={{
-                                m: 1,
-                                mb: 3,
-                            }}>
+                                    color="#000000"
+                                    sx={{
+                                        m: 1,
+                                        mb: 3,
+                                    }}>
                             Card Information
                         </Typography>
                         {/*<TextField*/}
@@ -190,7 +181,7 @@ export default function EditCardModal(props) {
                             inputRef={embossedFirstName}
                             defaultValue={embossedFirstName.current}
                             autoComplete="off"
-                            
+
                         />
                         <TextField
                             id="embossedLastName"
@@ -202,7 +193,7 @@ export default function EditCardModal(props) {
                             }}
                             inputRef={embossedLastName}
                             defaultValue={embossedLastName.current}
-                            
+
 
                         />
 
@@ -218,7 +209,7 @@ export default function EditCardModal(props) {
                             inputRef={embossedCompanyName}
                             defaultValue={embossedCompanyName.current}
                             autoComplete="off"
-                            
+
                         />
                         <TextField
                             id="status"
@@ -267,11 +258,6 @@ export default function EditCardModal(props) {
                     </Item>
                 </Grid>
             </Modal>
-            <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
-                <Alert onClose={handleCloseSnackbar} severity={severity} sx={{ width: 300 }}>
-                    {message}
-                </Alert>
-            </Snackbar>
         </div>
     );
 }

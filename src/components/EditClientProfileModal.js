@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from "@mui/material/TextField";
@@ -7,14 +8,12 @@ import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import {useEffect, useRef, useState} from "react";
 import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import {Alert, Snackbar} from "@mui/material";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: '#fff',
@@ -27,10 +26,6 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 export default function EditClientProfileModal(props) {
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [severity, setSeverity] = useState("");
-    const [message, setMessage] = useState("");
-
     const CLIENT_ID = props.data['id'];
     const firstName = useRef(props.data['first_NAM']);
     const middleName = useRef(props.data['father_S_NAM']);
@@ -63,7 +58,6 @@ export default function EditClientProfileModal(props) {
         IndividualTaxpayerNumber.current = props.data['itn'];
     }, [props.data])
     const handleClose = () => setOpen(false);
-    const handleCloseSnackbar = () => setOpenSnackbar(false);
 
     const handeClickSave = () => {
         axios.post("http://localhost:8080/editClient", {
@@ -89,21 +83,24 @@ export default function EditClientProfileModal(props) {
                 ContentType: "application/json"
             }
         }).then(res => {
-            if (res['data']['editClientV6Result']['value']['retCode']===0) {
-                setSeverity("success");
-                setMessage("Successfully!");
-                setOpenSnackbar(true);
+            if (res['data']['editClientV6Result']['value']['retCode'] === 0) {
+                props.setSnackbarData({
+                    severity: "success",
+                    message: "Successfully!",
+                });
+                props.setOpenSnackbar(true);
+            } else {
+                props.setSnackbarData({
+                    severity: "error",
+                    message: "Error !!!",
+                });
+                props.setOpenSnackbar(true);
             }
-            else {
-                setSeverity("error");
-                setMessage("Error!!!");
-                setOpenSnackbar(true);
-            }
-        }).then(()=> {
+        }).then(() => {
             axios.get(`http://localhost:8080/getClientById?id=${CLIENT_ID}`)
                 .then(res => {
                     props.setAPIData(res.data);
-                    props.updateRowAndAPIData(res.data,props.index);
+                    props.updateRowAndAPIData(res.data, props.index);
                 });
         });
         handleClose();
@@ -334,11 +331,6 @@ export default function EditClientProfileModal(props) {
                     </Item>
                 </Grid>
             </Modal>
-            <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
-                <Alert onClose={handleCloseSnackbar} severity={severity} sx={{ width: 300 }}>
-                    {message}
-                </Alert>
-            </Snackbar>
         </div>
     );
 }

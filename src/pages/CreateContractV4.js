@@ -68,7 +68,7 @@ export default function CreateContractV4() {
     const [ProductCode, setProductCode] = useState('ISSDEB');
     const ContractRelation = useRef('');
     const InstitutionCode = useRef('');
-    const [CloseDate,setCloseDate] = useState(new Date());
+    const [CloseDate, setCloseDate] = useState(new Date());
     const [institutionBranchCode, setInstitutionBranchCode] = useState(location.state.institutionBranchCode);
     const [branch, setBranch] = useState(location.state.branch);
     const reason = useRef('')
@@ -77,7 +77,7 @@ export default function CreateContractV4() {
     const FieldsToClear = useRef('');
 
     const [openDialog, setOpenDialog] = useState(false);
-    const [message,setMessage] = useState('');
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         document.title = 'Create Contract';
@@ -123,10 +123,14 @@ export default function CreateContractV4() {
         const {contractNumber} = response.data['createContractV4Result']['value'];
         if (contractNumber !== null && contractNumber !== "undefined") {
             const contract_id = response.data['createContractV4Result']['value']['createdContract']['value'];
-            navigate('/createcardv3', {state: {contract_id, firstName: location.state.firstName,
-                middleName: location.state.middleName, lastName: location.state.lastName,
-                CBSNumber: CBSNumber.current.value, CBSID: CBSID.current.value,branch: location.state.branch,
-                ContractSubtypeCode: ContractSubtypeCode.current.value}})
+            navigate('/createcardv3', {
+                state: {
+                    contract_id, firstName: location.state.firstName,
+                    middleName: location.state.middleName, lastName: location.state.lastName,
+                    CBSNumber: CBSNumber.current.value, CBSID: CBSID.current.value, branch: location.state.branch,
+                    ContractSubtypeCode: ContractSubtypeCode.current.value
+                }
+            })
         }
 
     }
@@ -225,7 +229,7 @@ export default function CreateContractV4() {
                                 }}
                                 inputRef={CBSID}
                                 autoComplete="off"
-                                
+
                             />
                             <TextField
                                 id="CBSNumber"
@@ -238,7 +242,7 @@ export default function CreateContractV4() {
                                 }}
                                 inputRef={CBSNumber}
                                 autoComplete="off"
-                                
+
                             />
                             <TextField
                                 id="ContractSubtypeCode"

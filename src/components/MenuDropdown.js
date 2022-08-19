@@ -26,26 +26,26 @@ export default function MenuDropdown(props) {
             <Button
                 key={page.name}
                 onClick={handleClickToggle}
-                sx={{ my: 2, color: 'black', display: 'block', mr: 3}}
+                sx={{my: 2, color: 'black', display: 'block', mr: 3}}
                 onMouseOver={handleClickToggle}
             >
                 {page.name}
             </Button>
             <Menu
-                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                transformOrigin={{ vertical: "top", horizontal: "left" }}
-                id={'menu-'+page.name}
+                anchorOrigin={{vertical: "bottom", horizontal: "left"}}
+                transformOrigin={{vertical: "top", horizontal: "left"}}
+                id={'menu-' + page.name}
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleCloseToggle}
-                MenuListProps={{ onMouseLeave: handleCloseToggle }}
+                MenuListProps={{onMouseLeave: handleCloseToggle}}
                 getContentAnchorEl={null}
             >
-                {page.function.map((func)=>(
+                {page.function.map((func) => (
 
-                        <MenuItem component={Link} to={`/${func.value}`}>
-                            {func.label}
-                        </MenuItem>
+                    <MenuItem component={Link} to={`/${func.value}`}>
+                        {func.label}
+                    </MenuItem>
                 ))}
             </Menu>
         </div>

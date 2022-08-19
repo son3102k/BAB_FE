@@ -1,11 +1,11 @@
 import Chart from 'react-apexcharts'
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
-const Item = styled(Paper)(({ theme , width}) => ({
+const Item = styled(Paper)(({theme, width}) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -14,7 +14,7 @@ const Item = styled(Paper)(({ theme , width}) => ({
     width: width,
 }));
 export default function Charts() {
-    const colorPalette = ['#00D8B6','#008FFB',  '#FEB019', '#FF4560', '#775DD0'];
+    const colorPalette = ['#00D8B6', '#008FFB', '#FEB019', '#FF4560', '#775DD0'];
     const sparklineData = [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19, 46];
     const randomizeArray = function (arg) {
         const array = arg.slice();
@@ -28,7 +28,8 @@ export default function Charts() {
             temporaryValue = array[currentIndex];
             array[currentIndex] = array[randomIndex];
             array[randomIndex] = temporaryValue;
-        };
+        }
+        ;
 
         return array;
     }
@@ -53,7 +54,7 @@ export default function Charts() {
             name: 'Sales',
             data: randomizeArray(sparklineData)
         }],
-        labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
+        labels: [...Array(24).keys()].map(n => `2018-09-0${n + 1}`),
         yaxis: {
             min: 0
         },
@@ -99,7 +100,7 @@ export default function Charts() {
             name: 'Expenses',
             data: randomizeArray(sparklineData)
         }],
-        labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
+        labels: [...Array(24).keys()].map(n => `2018-09-0${n + 1}`),
         yaxis: {
             min: 0
         },
@@ -145,7 +146,7 @@ export default function Charts() {
             name: 'Profits',
             data: randomizeArray(sparklineData)
         }],
-        labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
+        labels: [...Array(24).keys()].map(n => `2018-09-0${n + 1}`),
         xaxis: {
             type: 'datetime',
         },
@@ -192,7 +193,7 @@ export default function Charts() {
             name: "Food Products",
             data: [6, 12, 4, 7, 5, 3, 6, 4, 3, 3, 5, 6, 7, 4],
         }],
-        labels: [10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+        labels: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
         xaxis: {
             labels: {
                 show: false
@@ -370,7 +371,7 @@ export default function Charts() {
 
     return (
         <div>
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{flexGrow: 1}}>
                 <Grid container spacing={5}>
                     <Grid item xs={6} md={4}>
                         <Item width={400}>
@@ -389,12 +390,14 @@ export default function Charts() {
                     </Grid>
                     <Grid item xs={6} md={6}>
                         <Item>
-                            <Chart options={optionsBar} type={optionsBar.chart.type} series={optionsBar.series} height={optionsBar.chart.height}/>
+                            <Chart options={optionsBar} type={optionsBar.chart.type} series={optionsBar.series}
+                                   height={optionsBar.chart.height}/>
                         </Item>
                     </Grid>
                     <Grid item xs={6} md={6}>
                         <Item width={645}>
-                            <Chart options={optionsArea} type={optionsArea.chart.type} series={optionsArea.series} height={optionsArea.chart.height}/>
+                            <Chart options={optionsArea} type={optionsArea.chart.type} series={optionsArea.series}
+                                   height={optionsArea.chart.height}/>
                         </Item>
                     </Grid>
                 </Grid>

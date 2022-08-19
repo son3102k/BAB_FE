@@ -27,7 +27,7 @@ export default function ListIssueContract(props) {
             .then(res => {
                 setListContract(res['data']['getContractByClientV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record'].filter(
                     (e) => {
-                        if (e['status']['value'].split(";")[0]==="51") {
+                        if (e['status']['value'].split(";")[0] === "51") {
                             return true;
                         }
                         return false;
@@ -51,7 +51,6 @@ export default function ListIssueContract(props) {
                 'Content-Type': 'application/json',
             }
         }).then(res => {
-            console.log(res['data']);
             setListCard(res['data']['getSubcontractsV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record']);
             setCardIsLoading(false);
             setIsDisplayCardAndContractInfo(true);
@@ -67,7 +66,7 @@ export default function ListIssueContract(props) {
                         borderBottomLeftRadius: 20,
                         width: '100%',
                         height: 540,
-                        bgcolor: 'background.paper',
+                        backgroundColor: 'background.paper',
                         overflow: "auto",
                         direction: "rtl"
                         ,
@@ -96,9 +95,10 @@ export default function ListIssueContract(props) {
                                 <ListItemButton
                                     onClick={(event) => handleClickOpenContract(event, e, i)}
                                     selected={selectedIndex === i}>
-                                    <ListItemText primary="Issue Contract" secondary={e['contractNumber']['value']} sx={{
-                                        direction: "ltr",
-                                    }}/>
+                                    <ListItemText primary="Issue Contract" secondary={e['contractNumber']['value']}
+                                                  sx={{
+                                                      direction: "ltr",
+                                                  }}/>
                                 </ListItemButton>
                             </ListItem>
                         ))}
@@ -107,10 +107,16 @@ export default function ListIssueContract(props) {
             </Grid>
             <Grid item xs={6} md={6}>
                 <Grid item xs={6} md={12}>
-                    {isDisplayCardAndContractInfo && <ContractInformartion data={listContract} font={props.font} selectContract={selectedContractData}/>}
+                    {isDisplayCardAndContractInfo && <ContractInformartion data={listContract} font={props.font}
+                                                                           selectContract={selectedContractData}
+                                                                           setSnackbarData={props.setSnackbarData}
+                                                                           setOpenSnackbar={props.setOpenSnackbar}
+                                                                           setSelectedContractDataReload={setSelectedContractData}/>}
                 </Grid>
                 <Grid item xs={6} md={12}>
-                    {isDisplayCardAndContractInfo && <ListCard data={listCard} cardIsLoading={cardIsLoading}/>}
+                    {isDisplayCardAndContractInfo &&
+                        <ListCard data={listCard} cardIsLoading={cardIsLoading} setSnackbarData={props.setSnackbarData}
+                                  setOpenSnackbar={props.setOpenSnackbar}/>}
                 </Grid>
             </Grid>
         </Grid>
