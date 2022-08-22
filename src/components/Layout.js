@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import TopBarNav from "../components/TopBarNav";
+import TopBarNav from "./TopBarNav";
 import {createTheme} from "@mui/material";
 
 const font = createTheme({

@@ -6,22 +6,17 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import {createTheme, useMediaQuery} from "@mui/material";
+import {createTheme} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DesktopDatePicker} from '@mui/x-date-pickers/DesktopDatePicker';
-import '../static/css/CreateClientV3.css'
-import TopBarNav from "../components/TopBarNav";
 import axios from 'axios';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Container from "@mui/material/Container";
-import {useLocation} from 'react-router-dom';
-import {useNavigate} from "react-router";
 
 const font = createTheme({
     typography: {
@@ -52,12 +47,7 @@ const Item = styled(Paper)(({theme}) => ({
     width: "95%",
 }));
 
-export default function CreateContractV4() {
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const matches = useMediaQuery('(min-width:1024px)');
-    const [ClientSearchMethod, setClientSearchMethod] = useState('CLIENT_ID');
+export default function CreateContractV4(props) {
     const ContractName = useRef('');
     const ServiceGroup = useRef('');
     const CBSID = useRef('');
@@ -69,9 +59,9 @@ export default function CreateContractV4() {
     const ContractRelation = useRef('');
     const InstitutionCode = useRef('');
     const [CloseDate, setCloseDate] = useState(new Date());
-    const [institutionBranchCode, setInstitutionBranchCode] = useState(location.state.institutionBranchCode);
-    const [branch, setBranch] = useState(location.state.branch);
-    const reason = useRef('')
+    const [institutionBranchCode, setInstitutionBranchCode] = useState(props.globalData.institutionBranchCode);
+    const [branch, setBranch] = useState(props.globalData.branch);
+    const reason = useRef('');
     const reasonCode = useRef('');
     const ClientScope = useRef('');
     const FieldsToClear = useRef('');
@@ -83,11 +73,10 @@ export default function CreateContractV4() {
         document.title = 'Create Contract';
     });
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const response = await axios.post('http://localhost:8080/createContract', {
+    const handleSubmit = () => {
+        axios.post('http://localhost:8080/createContract', {
             "clientScope": ClientScope.current.value,
-            "clientIdentifier": location.state.client_id,
+            "clientIdentifier": props.globalData.client_id,
             "contractRelation": ContractRelation.current.value,
             "reasonCode": reasonCode.current.value,
             "reason": reason.current.value,
@@ -115,24 +104,23 @@ export default function CreateContractV4() {
             headers: {
                 'Content-Type': 'application/json'
             }
+        }).then((res) => {
+            console.log(res);
+            if (res['data']['createContractV4Result']['value']['retCode'] === 0) {
+                const contract_id = res.data['createContractV4Result']['value']['createdContract']['value'];
+                props.setGlobalData((prev)=>({
+                    ...prev,
+                    contract_id,
+                    CBSNumber: CBSNumber.current.value,
+                    CBSID: CBSID.current.value,
+                    ContractSubtypeCode: ContractSubtypeCode.current.value,
+                }));
+                props.setActiveStep(props.activeStep + 1);
+            } else {
+                setOpenDialog(true);
+                setMessage(res['data']['createContractV4Result']['value']['retMsg']['value']);
+            }
         });
-        setOpenDialog(true);
-        setMessage(response.data['createContractV4Result']['value']['retMsg']['value']);
-
-
-        const {contractNumber} = response.data['createContractV4Result']['value'];
-        if (contractNumber !== null && contractNumber !== "undefined") {
-            const contract_id = response.data['createContractV4Result']['value']['createdContract']['value'];
-            navigate('/createcardv3', {
-                state: {
-                    contract_id, firstName: location.state.firstName,
-                    middleName: location.state.middleName, lastName: location.state.lastName,
-                    CBSNumber: CBSNumber.current.value, CBSID: CBSID.current.value, branch: location.state.branch,
-                    ContractSubtypeCode: ContractSubtypeCode.current.value
-                }
-            })
-        }
-
     }
 
     const handleCloseDialog = () => {
@@ -141,30 +129,7 @@ export default function CreateContractV4() {
 
     return (
         <div>
-            <TopBarNav/>
-            <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}
-                        color="#000000"
-                        sx={{
-                            textAlign: "left",
-                            fontSize: 42,
-                            backgroundColor: "#88cc00",
-                            p: 2,
-                            color: '#fff',
-                            m: 3.5,
-                            mt: 2,
-                            minHeight: 70,
-                        }}>
-                CREATE CONTRACT V4
-                <div>
-                    <Container maxWidth="sm" fullWidth sx={{
-                        width: 0.05,
-                        mt: 1,
-                        borderBottom: "5px solid #fff",
-                        float: "left",
-                    }}/>
-                </div>
-            </Typography>
-            <Box sx={{flexGrow: 1}} component="form" onSubmit={handleSubmit}>
+            <Box sx={{flexGrow: 1}}>
                 <Grid container spacing={6} sx={{
                     display: "flex",
                     flexDirection: "row",
@@ -174,7 +139,7 @@ export default function CreateContractV4() {
                     mt: 1,
                     p: 1,
                 }}>
-                    <Grid item xs={matches ? 5 : 12}>
+                    <Grid item xs={6}>
                         <Item>
                             <Typography component="h1" variant="h5" fontWeight="800"
                                         fontFamily={font.typography.fontFamily} color="#000000"
@@ -294,7 +259,7 @@ export default function CreateContractV4() {
                             />
                         </Item>
                     </Grid>
-                    <Grid item xs={matches ? 5 : 12}>
+                    <Grid item xs={6}>
                         <Item>
                             <Typography component="h1" variant="h5" fontWeight="800"
                                         fontFamily={font.typography.fontFamily} color="#000000"
@@ -342,7 +307,7 @@ export default function CreateContractV4() {
                                 }}
                                 inputRef={reason}
                                 autoComplete="off"
-                                required
+                                defaultValue="Tao the"
                             />
                             <TextField
                                 id="reasonCode"
@@ -410,14 +375,14 @@ export default function CreateContractV4() {
                         justifyContent: "center",
                     }}>
                         <Button
-                            type="submit"
                             variant="contained"
+                            onClick={handleSubmit}
                             sx={{
                                 mt: 2, fontSize: 13, p: 1.3, fontWeight: 'bold',
                                 backgroundImage: "linear-gradient(120deg,#00bfae 0,#0066ad 100%)"
                             }}
                         >
-                            Submit
+                            Next
                         </Button>
                     </Grid>
                 </Grid>

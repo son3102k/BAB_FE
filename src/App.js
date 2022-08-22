@@ -1,11 +1,12 @@
 import Login from "./pages/Login";
 import React from "react";
 import {BrowserRouter as Router, Route, Routes,} from "react-router-dom";
-import CreateClientV3 from "./pages/CreateClientV3";
-import CreateCardV3 from "./pages/CreateCardV3";
-import CreateContractV4 from "./pages/CreateContractV4";
+import CreateClientV3 from "./components/CreateClientV3";
+import CreateCardV3 from "./components/CreateCardV3";
+import CreateContractV4 from "./components/CreateContractV4";
 import Dashboard from "./pages/Dashboard";
 import CardManage from "./pages/CardManage";
+import CreateCard from "./pages/CreateCard";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/createcontractv4" element={<CreateContractV4/>}/>
                 <Route path="/dashboard" element={<Dashboard/>}/>
                 <Route path="/cardmanage" element={<CardManage/>}/>
+                <Route path="/createcard" element={<CreateCard/>}/>
             </Routes>
 
         </Router>

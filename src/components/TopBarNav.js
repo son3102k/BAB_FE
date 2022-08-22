@@ -19,8 +19,8 @@ const pages = [
         name: 'create',
         function: [
             {
-                value: 'createclientv3',
-                label: 'Create Client V3',
+                value: 'createcard',
+                label: 'Create Card',
             },
             {
                 value: 'createcardv3',

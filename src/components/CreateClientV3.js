@@ -6,38 +6,17 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import {createTheme, MenuItem, useMediaQuery} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DesktopDatePicker} from '@mui/x-date-pickers/DesktopDatePicker';
-import '../static/css/CreateClientV3.css'
-import TopBarNav from "../components/TopBarNav";
 import axios from 'axios';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Container from "@mui/material/Container";
-import {useNavigate} from 'react-router-dom';
-
-const font = createTheme({
-    typography: {
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-    },
-});
+import MenuItem from "@mui/material/MenuItem";
 
 const gender = [
     {
@@ -98,12 +77,10 @@ const Item = styled(Paper)(({theme}) => ({
     minWidth: 500,
     borderRadius: 16,
     width: "95%",
+
 }));
 
-export default function CreateClientV3() {
-    const navigate = useNavigate();
-
-    const matches = useMediaQuery('(min-width:1024px)');
+export default function CreateClientV3(props) {
 
     const [shortName, setShortName] = useState('');
     const firstName = useRef('');
@@ -141,25 +118,7 @@ export default function CreateClientV3() {
         document.title = 'Create Client';
     });
 
-    function stringToSlug(str) {
-        // remove accents
-        var from = "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ",
-            to = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
-        for (var i = 0, l = from.length; i < l; i++) {
-            str = str.replace(RegExp(from[i], "gi"), to[i]);
-        }
-
-        str = str.toLowerCase()
-            .trim()
-            .replace(/[^a-z0-9\-]/g, '-')
-            .replace(/-+/g, '-');
-
-        return str;
-    }
-
     const handleSubmit = (event) => {
-        setShortName(stringToSlug(firstName.current.value + lastName.current.value[0] + middleName.current.value[0]));
-        console.log(shortName)
         axios.post('http://localhost:8080/createClient', {
             reasonCode: reasonCode.current.value,
             reason: reason.current.value,
@@ -190,13 +149,19 @@ export default function CreateClientV3() {
         }).then(res => {
             if (res['data']['createClientV3Result']['value']['retCode'] === 0) {
                 const client_id = res['data']['createClientV3Result']['value']['newClient']['value'];
-                navigate('/createcontractv4', {
-                    state: {
-                        client_id, branch,
-                        institutionBranchCode, firstName: firstName.current.value,
-                        middleName: middleName.current.value, lastName: lastName.current.value
-                    }
+                props.setGlobalData({
+                    client_id,
+                    branch,
+                    institutionBranchCode,
+                    firstName: firstName.current.value,
+                    middleName: middleName.current.value,
+                    lastName: lastName.current.value,
+                    contract_id: '',
+                    CBSNumber: '',
+                    CBSID: '',
+                    ContractSubtypeCode: '',
                 });
+                props.setActiveStep(props.activeStep + 1);
             } else {
                 setOpenDialog(true);
                 setMessage(res['data']['createClientV3Result']['value']['retMsg']['value']);
@@ -211,29 +176,6 @@ export default function CreateClientV3() {
     return (
 
         <div>
-            <TopBarNav/>
-            <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}
-                        color="#000000"
-                        sx={{
-                            textAlign: "left",
-                            fontSize: 42,
-                            backgroundColor: "#0394fc",
-                            p: 2,
-                            color: '#fff',
-                            m: 3.5,
-                            mt: 2,
-                            minHeight: 70,
-                        }}>
-                CREATE CLIENT V3
-                <div>
-                    <Container maxWidth="sm" fullWidth sx={{
-                        width: 0.05,
-                        mt: 1,
-                        borderBottom: "5px solid #fff",
-                        float: "left",
-                    }}/>
-                </div>
-            </Typography>
             <Box sx={{flexGrow: 1}}>
                 <Grid container spacing={6} sx={{
                     display: "flex",
@@ -244,10 +186,10 @@ export default function CreateClientV3() {
                     mt: 1,
                     p: 1,
                 }}>
-                    <Grid item xs={matches ? 5 : 12}>
+                    <Grid item xs={6}>
                         <Item>
                             <Typography component="h1" variant="h5" fontWeight="800"
-                                        fontFamily={font.typography.fontFamily} color="#000000"
+                                        fontFamily={props.font.typography.fontFamily} color="#000000"
                                         sx={{
                                             m: 1,
                                             mb: 3,
@@ -299,7 +241,7 @@ export default function CreateClientV3() {
                                     inputFormat="yyyy/MM/dd"
                                     onChange={(e) => setBirthDate(e)}
                                     value={BirthDate}
-                                    renderInput={(params) => <TextField {...params} size="small" required
+                                    renderInput={(params) => <TextField {...params} size="small"
                                                                         sx={{width: "30%", m: 1}}/>}
 
                                 />
@@ -312,7 +254,6 @@ export default function CreateClientV3() {
                                 onChange={(e) => setGender(e.target.value)}
                                 sx={{m: 1, width: "30%"}}
                                 size="small"
-                                required
                             >
                                 {gender.map((option) => (
                                     <MenuItem key={option.value} value={option.value}>
@@ -331,7 +272,6 @@ export default function CreateClientV3() {
                                 }}
                                 inputRef={clientNumber}
                                 autoComplete="off"
-                                required
                             />
                             <TextField
                                 id="IdentityCardNumber"
@@ -355,29 +295,6 @@ export default function CreateClientV3() {
                                     mb: 2,
                                 }}
                                 inputRef={IdentityCardType}
-                                autoComplete="off"
-                            />
-                            <TextField
-                                id="IndividualTaxpayerNumber"
-                                label="Individual Taxpayer Number"
-                                size="small"
-                                sx={{
-                                    width: "47%",
-                                    m: 1,
-                                }}
-                                inputRef={IndividualTaxpayerNumber}
-                                autoComplete="off"
-                            />
-                            <TextField
-                                id="CompanyName"
-                                label="Company Name"
-                                size="small"
-                                sx={{
-                                    width: "46%",
-                                    m: 1,
-                                    mb: 2,
-                                }}
-                                inputRef={CompanyName}
                                 autoComplete="off"
                             />
                             <TextField
@@ -405,6 +322,29 @@ export default function CreateClientV3() {
                                 inputRef={MobilePhone}
                                 autoComplete="off"
                                 required
+                            />
+                            <TextField
+                                id="IndividualTaxpayerNumber"
+                                label="Individual Taxpayer Number"
+                                size="small"
+                                sx={{
+                                    width: "47%",
+                                    m: 1,
+                                }}
+                                inputRef={IndividualTaxpayerNumber}
+                                autoComplete="off"
+                            />
+                            <TextField
+                                id="CompanyName"
+                                label="Company Name"
+                                size="small"
+                                sx={{
+                                    width: "46%",
+                                    m: 1,
+                                    mb: 2,
+                                }}
+                                inputRef={CompanyName}
+                                autoComplete="off"
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DesktopDatePicker
@@ -438,6 +378,7 @@ export default function CreateClientV3() {
                                     m: 1,
                                 }}
                                 inputRef={reason}
+                                defaultValue="Tao the"
                                 autoComplete="off"
                                 required
                             />
@@ -479,10 +420,10 @@ export default function CreateClientV3() {
                             />
                         </Item>
                     </Grid>
-                    <Grid item xs={matches ? 5 : 12}>
+                    <Grid item xs={6}>
                         <Item>
                             <Typography component="h1" variant="h5" fontWeight="800"
-                                        fontFamily={font.typography.fontFamily} color="#000000"
+                                        fontFamily={props.font.typography.fontFamily} color="#000000"
                                         sx={{
                                             m: 1,
                                             mb: 3,
@@ -626,8 +567,6 @@ export default function CreateClientV3() {
                                     </MenuItem>
                                 ))}
                             </TextField>
-
-
                         </Item>
                     </Grid>
                     <Grid item xs={12} sx={{
@@ -642,7 +581,7 @@ export default function CreateClientV3() {
                                 backgroundImage: "linear-gradient(120deg,#00bfae 0,#0066ad 100%)"
                             }}
                         >
-                            Submit
+                            Next
                         </Button>
                     </Grid>
                 </Grid>

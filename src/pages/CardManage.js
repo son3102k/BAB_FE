@@ -1,10 +1,9 @@
 import * as React from 'react';
 import {useEffect} from 'react';
 import {createTheme} from "@mui/material";
-import '../static/css/CreateClientV3.css'
 import Sidebar from "../components/Sidebar";
 import ManageCardDatagrid from "../components/ManageCardDatagrid";
-import Layout from "./Layout";
+import Layout from "../components/Layout";
 import SidebarItem from "../components/SidebarItem";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
