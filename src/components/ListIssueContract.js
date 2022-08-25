@@ -21,7 +21,8 @@ export default function ListIssueContract(props) {
             client: props.cid,
         }, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
             }
         })
             .then(res => {
@@ -49,6 +50,7 @@ export default function ListIssueContract(props) {
         }, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
             }
         }).then(res => {
             setListCard(res['data']['getSubcontractsV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record']);

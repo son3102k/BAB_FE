@@ -16,7 +16,8 @@ export default function ListCard(props) {
             "contractIdentifier": e['id']['value'],
         }, {
             headers: {
-                ContentType: "application/json"
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
             }
         }).then(res => {
             if (res['data']['getCardResult']['value']['retCode'] === 0) {

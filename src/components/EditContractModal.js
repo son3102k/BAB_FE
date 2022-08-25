@@ -51,7 +51,8 @@ export default function EditContractModal(props) {
             "setCustomDataInObject": {},
         }, {
             headers: {
-                ContentType: "application/json"
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
             }
         }).then(res => {
             if (res['data']['editContractV4Result']['value']['retCode'] === 0) {
@@ -73,6 +74,8 @@ export default function EditContractModal(props) {
             }, {
                 headers: {
                     ContentType: "application/json",
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+
                 }
             }).then(res => {
                 props.setSelectedContractDataReload(res.data['getContractByNumberV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record'][0])

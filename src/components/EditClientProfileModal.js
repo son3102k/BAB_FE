@@ -1,21 +1,21 @@
 import * as React from 'react';
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from "@mui/material/TextField";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
-import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import {styled} from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import axios from "axios";
 
-const Item = styled(Paper)(({theme}) => ({
+const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -80,7 +80,8 @@ export default function EditClientProfileModal(props) {
             "setCustomDataInObject": {},
         }, {
             headers: {
-                ContentType: "application/json"
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
             }
         }).then(res => {
             if (res['data']['editClientV6Result']['value']['retCode'] === 0) {
@@ -97,7 +98,12 @@ export default function EditClientProfileModal(props) {
                 props.setOpenSnackbar(true);
             }
         }).then(() => {
-            axios.get(`http://localhost:8080/getClientById?id=${CLIENT_ID}`)
+            axios.get(`http://localhost:8080/admin/getClientById?id=${CLIENT_ID}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                }
+            })
                 .then(res => {
                     props.setAPIData(res.data);
                     props.updateRowAndAPIData(res.data, props.index);
@@ -123,15 +129,15 @@ export default function EditClientProfileModal(props) {
                             textAlign: "right",
                         }}>
                             <IconButton onClick={handleClose}>
-                                <CloseIcon/>
+                                <CloseIcon />
                             </IconButton>
                         </Box>
                         <Typography component="h1" variant="h5" fontWeight="800"
-                                    fontFamily={props.font.typography.fontFamily} color="#000000"
-                                    sx={{
-                                        m: 1,
-                                        mb: 3,
-                                    }}>
+                            fontFamily={props.font.typography.fontFamily} color="#000000"
+                            sx={{
+                                m: 1,
+                                mb: 3,
+                            }}>
                             Detailed Information
                         </Typography>
                         <TextField
@@ -183,14 +189,14 @@ export default function EditClientProfileModal(props) {
                                 value={BirthDate}
                                 readOnly
                                 renderInput={(params) => <TextField {...params} size="small"
-                                                                    sx={{width: "30%", m: 1}}/>}
+                                    sx={{ width: "30%", m: 1 }} />}
                             />
                         </LocalizationProvider>
                         <TextField
                             id="Gender"
                             label="Gender"
                             value={Gender === 'M' ? "Male" : Gender === "F" ? "Female" : "Other"}
-                            sx={{m: 1, width: "30%"}}
+                            sx={{ m: 1, width: "30%" }}
                             size="small"
                             inputProps={{
                                 readOnly: true,

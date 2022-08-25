@@ -108,8 +108,14 @@ export default function ManageCardDatagrid({font}) {
 
 
     useEffect(() => {
+
         updateData("loading", true);
-        axios.get(`http://localhost:8080/clientList?page=${data.page}`)
+        axios.get(`http://localhost:8080/admin/clientList?page=${data.page}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                
+            }})
             .then((res) => {
                 setData({
                     loading: false,
@@ -134,7 +140,12 @@ export default function ManageCardDatagrid({font}) {
         if (e > data.page) {
             updateData("loading", true);
 
-            await axios.get(`http://localhost:8080/clientList?page=${data.page + 1}`)
+            await axios.get(`http://localhost:8080/admin/clientList?page=${data.page + 1}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                    
+                }})
                 .then((res) => {
                     setData((prev) => ({
                         loading: false,
@@ -156,7 +167,12 @@ export default function ManageCardDatagrid({font}) {
         } else {
             updateData("loading", true);
 
-            await axios.get(`http://localhost:8080/clientList?page=${data.page - 1}`)
+            await axios.get(`http://localhost:8080/admin/clientList?page=${data.page - 1}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                    
+                }})
                 .then((res) => {
                     setData((prev) => ({
                         loading: false,
