@@ -25,18 +25,17 @@ const Item = styled(Paper)(({theme}) => ({
 export default function EditContractModal(props) {
     const [open, setOpen] = React.useState(true);
     const handleClose = () => setOpen(false);
-
     const branch = useRef(props.data['branch']['value'].split(";")[1]);
     const contractNumber = useRef(props.data['contractNumber']['value']);
-    const contractName = useRef(props.data['contractName']['value']);
-    const cbsNumber = useRef(props.data['']);
+    const contractName = useRef(props.data['contractName'] !== null ? props.data['contractName']['value'] : '');
+    const cbsNumber = useRef(props.data['cbsnumber'] !== null ? props.data['cbsnumber']['value'] : '');
     const [closeDate, setCloseDate] = useState(props.data['']);
 
     useEffect(() => {
         branch.current = props.data['branch']['value'].split(";")[1];
         contractNumber.current = props.data['contractNumber']['value'];
-        contractName.current = props.data['contractName']['value'];
-        cbsNumber.current = props.data[''];
+        contractName.current = props.data['contractName'] !== null ? props.data['contractName']['value'] : '';
+        cbsNumber.current = props.data['cbsnumber'] !== null ? props.data['cbsnumber']['value'] : '';
     }, [props.data])
     const handleSave = () => {
         axios.post("http://localhost:8080/editContract", {
@@ -80,7 +79,26 @@ export default function EditContractModal(props) {
             }).then(res => {
                 props.setSelectedContractDataReload(res.data['getContractByNumberV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record'][0])
             })
-        });
+        })
+            .then(() => {
+                axios.post("http://localhost:8080/getContractByClientID", {
+                    client: props.clientID,
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                    }
+                })
+                    .then(res => {
+                        props.setListContract(res['data']['getContractByClientV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record'].filter(
+                            (e) => {
+                                if (e['status']['value'].split(";")[0] === "51") {
+                                    return true;
+                                }
+                                return false;
+                            }));
+                    });
+            });
         handleClose();
     }
 

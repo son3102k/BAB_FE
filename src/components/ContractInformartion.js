@@ -67,7 +67,9 @@ const ContractInformartion = (props) => {
             <EditContractModal font={props.font} data={selectedContractData} setSnackbarData={props.setSnackbarData}
                                setOpenSnackbar={props.setOpenSnackbar}
                                setSelectedContractDataReload={props.setSelectedContractDataReload}
-                               c_number={selectedContractData['contractNumber']['value']}/>
+                               c_number={selectedContractData['contractNumber']['value']}
+                               setListContract={props.setListContract}
+                               clientID={props.clientID}/>
         );
     }
 

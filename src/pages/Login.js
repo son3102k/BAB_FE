@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,9 +13,9 @@ import background from '../static/assets/login-background.png';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
-import { Alert, createTheme, Snackbar } from "@mui/material";
+import {Alert, createTheme, Snackbar} from "@mui/material";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import {useNavigate} from "react-router";
 
 function Copyright(props) {
     return (
@@ -52,11 +52,12 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [notify, setNotify] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [accessToken, setAccessToken] = useState('');
 
     useEffect(() => {
         document.title = 'Đăng nhập'
+        if (localStorage.getItem('LoggedIn')==='true') {
+            navigate('dashboard');
+        }
     });
 
     const handleCloseNotify = (event, reason) => {
@@ -80,6 +81,7 @@ export default function Login() {
         }).then(response => {
             console.log(response);
             localStorage.setItem('accessToken', response.data['accessToken']);
+            localStorage.setItem('LoggedIn', 'true');
             navigate('dashboard');
             
         }).catch(()=>{

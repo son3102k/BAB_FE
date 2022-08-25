@@ -7,6 +7,7 @@ import CreateContractV4 from "./components/CreateContractV4";
 import Dashboard from "./pages/Dashboard";
 import CardManage from "./pages/CardManage";
 import CreateCard from "./pages/CreateCard";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
 
@@ -15,12 +16,12 @@ function App() {
             <Routes>
                 {/*<Route path="/login" element={<Login />} />*/}
                 <Route path="/" element={<Login/>}/>
-                <Route path="/createclientv3" element={<CreateClientV3/>}/>
-                <Route path="/createcardv3" element={<CreateCardV3/>}/>
-                <Route path="/createcontractv4" element={<CreateContractV4/>}/>
-                <Route path="/dashboard" element={<Dashboard/>}/>
-                <Route path="/cardmanage" element={<CardManage/>}/>
-                <Route path="/createcard" element={<CreateCard/>}/>
+                <Route path="/createclientv3" element={<PrivateRoute><CreateClientV3/></PrivateRoute>}/>
+                <Route path="/createcardv3" element={<PrivateRoute><CreateCardV3/></PrivateRoute>}/>
+                <Route path="/createcontractv4" element={<PrivateRoute><CreateContractV4/></PrivateRoute>}/>
+                <Route path="/dashboard" element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
+                <Route path="/cardmanage" element={<PrivateRoute><CardManage/></PrivateRoute>}/>
+                <Route path="/createcard" element={<PrivateRoute><CreateCard/></PrivateRoute>}/>
             </Routes>
 
         </Router>

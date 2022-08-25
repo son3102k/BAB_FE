@@ -12,7 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import OWLogo from "./OWLogo";
 import MenuDropdown from "./MenuDropdown.js";
-import { useNavigate } from 'react-router';
+import {useNavigate} from 'react-router';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const pages = [
@@ -108,6 +108,7 @@ const TopBarNav = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('LoggedIn');
         navigate('/');
     }
 

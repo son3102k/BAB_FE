@@ -109,11 +109,15 @@ export default function ListIssueContract(props) {
             </Grid>
             <Grid item xs={6} md={6}>
                 <Grid item xs={6} md={12}>
-                    {isDisplayCardAndContractInfo && <ContractInformartion data={listContract} font={props.font}
-                                                                           selectContract={selectedContractData}
-                                                                           setSnackbarData={props.setSnackbarData}
-                                                                           setOpenSnackbar={props.setOpenSnackbar}
-                                                                           setSelectedContractDataReload={setSelectedContractData}/>}
+                    {isDisplayCardAndContractInfo &&
+                        <ContractInformartion data={listContract} font={props.font}
+                                              selectContract={selectedContractData}
+                                              setSnackbarData={props.setSnackbarData}
+                                              setOpenSnackbar={props.setOpenSnackbar}
+                                              setSelectedContractDataReload={setSelectedContractData}
+                                              setListContract={setListContract}
+                                              clientID={props.cid}/>
+                    }
                 </Grid>
                 <Grid item xs={6} md={12}>
                     {isDisplayCardAndContractInfo &&
