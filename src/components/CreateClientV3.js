@@ -144,7 +144,9 @@ export default function CreateClientV3(props) {
             }
         }, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                
             }
         }).then(res => {
             if (res['data']['createClientV3Result']['value']['retCode'] === 0) {
@@ -166,6 +168,8 @@ export default function CreateClientV3(props) {
                 setOpenDialog(true);
                 setMessage(res['data']['createClientV3Result']['value']['retMsg']['value']);
             }
+        }).catch((err)=>{
+            console.log(err);
         });
     }
 

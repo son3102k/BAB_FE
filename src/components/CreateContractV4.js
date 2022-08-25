@@ -102,7 +102,9 @@ export default function CreateContractV4(props) {
             "userInfo": ""
         }, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            
             }
         }).then((res) => {
             console.log(res);

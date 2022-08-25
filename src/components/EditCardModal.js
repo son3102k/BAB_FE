@@ -58,7 +58,8 @@ export default function EditCardModal(props) {
             },
         }, {
             headers: {
-                ContentType: "application/json"
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
             }
         }).then(res => {
             if (res['data']['editCardV2Result']['value']['retCode'] === 0) {
