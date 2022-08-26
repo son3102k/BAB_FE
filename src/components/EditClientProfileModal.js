@@ -27,34 +27,34 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function EditClientProfileModal(props) {
     const CLIENT_ID = props.data['id'];
-    const firstName = useRef(props.data['first_NAM']);
-    const middleName = useRef(props.data['father_S_NAM']);
-    const lastName = useRef(props.data['last_NAM']);
-    const [BirthDate, setBirthDate] = useState(new Date(props.data['birth_DATE']));
+    const firstName = useRef(props.data['firstNam']);
+    const middleName = useRef(props.data['fatherNam']);
+    const lastName = useRef(props.data['lastNam']);
+    const [BirthDate, setBirthDate] = useState(new Date(props.data['birthDate']));
     const [Gender, setGender] = useState(props.data['gender']);
-    const identityCardNumber = useRef(props.data['reg_NUMBER']);
-    const BirthPlace = useRef(props.data['birth_PLACE']);
+    const identityCardNumber = useRef(props.data['regNumber']);
+    const BirthPlace = useRef(props.data['birthPlace']);
     const IndividualTaxpayerNumber = useRef(props.data['itn']);
-    const CompanyName = useRef(props.data['company_NAM']);
-    const EMail = useRef(props.data['e_MAIL']);
-    const MobilePhone = useRef(props.data['phone_M']);
+    const CompanyName = useRef(props.data['companyNam']);
+    const EMail = useRef(props.data['email']);
+    const MobilePhone = useRef(props.data['phoneM']);
     const BusinessPhone = useRef(props.data['phone']);
-    const HomePhone = useRef(props.data['phone_H']);
-    const clientNumber = useRef(props.data['client_NUMBER']);
+    const HomePhone = useRef(props.data['phoneH']);
+    const clientNumber = useRef(props.data['clientNumber']);
 
     const [open, setOpen] = React.useState(true);
 
     useEffect(() => {
-        firstName.current = props.data['first_NAM'];
-        clientNumber.current = props.data['client_NUMBER'];
-        middleName.current = props.data['father_S_NAM'];
-        lastName.current = props.data['last_NAM'];
-        identityCardNumber.current = props.data['reg_NUMBER'];
-        BirthPlace.current = props.data['birth_PLACE'];
-        MobilePhone.current = props.data['phone_M'];
-        CompanyName.current = props.data['company_NAM'];
+        firstName.current = props.data['firstNam'];
+        clientNumber.current = props.data['clientNumber'];
+        middleName.current = props.data['fatherNam'];
+        lastName.current = props.data['lastNam'];
+        identityCardNumber.current = props.data['regNumber'];
+        BirthPlace.current = props.data['birthPlace'];
+        MobilePhone.current = props.data['phoneM'];
+        CompanyName.current = props.data['companyNam'];
         BusinessPhone.current = props.data['phone'];
-        HomePhone.current = props.data['phone_H'];
+        HomePhone.current = props.data['phoneH'];
         IndividualTaxpayerNumber.current = props.data['itn'];
     }, [props.data])
     const handleClose = () => setOpen(false);

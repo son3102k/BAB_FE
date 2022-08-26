@@ -121,12 +121,12 @@ export default function ManageCardDatagrid({font}) {
                     loading: false,
                     rows: res['data']['content'].map((e, i) => ({
                         'id': i + 1,
-                        shortName: e['short_NAME'],
-                        'firstName': e['first_NAM'],
-                        'lastname': e['last_NAM'],
-                        'middlename': e['father_S_NAM'],
-                        'clientnumber': e['client_NUMBER'],
-                        'reg_number': e['reg_NUMBER']
+                        shortName: e['shortName'],
+                        'firstName': e['firstNam'],
+                        'lastname': e['lastNam'],
+                        'middlename': e['fatherNam'],
+                        'clientnumber': e['clientNumber'],
+                        'reg_number': e['regNumber']
                     })),
                     totalRows: res['data']['totalElements'],
                     pageSize: res['data']['pageable']['pageSize'],
@@ -151,12 +151,12 @@ export default function ManageCardDatagrid({font}) {
                         loading: false,
                         rows: res['data']['content'].map((e, i) => ({
                             'id': ((prev.page + 1) * prev.pageSize + 1 + i),
-                            shortName: e['short_NAME'],
-                            'firstName': e['first_NAM'],
-                            'lastname': e['last_NAM'],
-                            'middlename': e['father_S_NAM'],
-                            'clientnumber': e['client_NUMBER'],
-                            'reg_number': e['reg_NUMBER']
+                            shortName: e['shortName'],
+                        'firstName': e['firstNam'],
+                        'lastname': e['lastNam'],
+                        'middlename': e['fatherNam'],
+                        'clientnumber': e['clientNumber'],
+                        'reg_number': e['regNumber']
                         })),
                         totalRows: res['data']['totalElements'],
                         pageSize: res['data']['pageable']['pageSize'],
@@ -178,12 +178,12 @@ export default function ManageCardDatagrid({font}) {
                         loading: false,
                         rows: res['data']['content'].map((e, i) => ({
                             'id': (prev.page - 1) * prev.pageSize + 1 + i,
-                            'firstName': e['first_NAM'],
-                            'lastname': e['last_NAM'],
-                            'middlename': e['father_S_NAM'],
-                            'clientnumber': e['client_NUMBER'],
-                            'reg_number': e['reg_NUMBER'],
-                            shortName: e['short_NAME'],
+                            shortName: e['shortName'],
+                        'firstName': e['firstNam'],
+                        'lastname': e['lastNam'],
+                        'middlename': e['fatherNam'],
+                        'clientnumber': e['clientNumber'],
+                        'reg_number': e['regNumber']
                         })),
                         totalRows: res['data']['totalElements'],
                         pageSize: res['data']['pageable']['pageSize'],

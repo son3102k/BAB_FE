@@ -309,7 +309,7 @@ export default function CreateContractV4(props) {
                                 }}
                                 inputRef={reason}
                                 autoComplete="off"
-                                defaultValue="Tao the"
+                                defaultValue="Create contract"
                             />
                             <TextField
                                 id="reasonCode"
