@@ -117,7 +117,7 @@ const ClientProfileCard = (props) => {
                                 <Grid item xs={6} md={12}>
                                     <Typography sx={{textAlign: 'center', mb: 2, fontSize: 20}} variant="body1"
                                                 color="text.primary">
-                                        {`${data['last_NAM'] !== null ? data['last_NAM'] : ""} ${data['father_S_NAM'] !== null ? data['father_S_NAM'] : ""} ${data['first_NAM'] !== null ? data['first_NAM'] : ""}`}
+                                        {`${data['lastNam'] !== null ? data['lastNam'] : ""} ${data['fatherNam'] !== null ? data['fatherNam'] : ""} ${data['firstNam'] !== null ? data['firstNam'] : ""}`}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={6} md={5}>
@@ -131,7 +131,7 @@ const ClientProfileCard = (props) => {
                                     <Typography
                                         sx={{ml: 2, fontWeight: 400, fontFamily: props.font.typography.fontFamily}}
                                         variant="subtitle1" color="text.secondary">
-                                        {`${data['birth_DATE'] !== null ? data['birth_DATE'] : ""}`}
+                                        {`${data['birthDate'] !== null ? data['birthDate'] : ""}`}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={6} md={5}>
@@ -145,7 +145,7 @@ const ClientProfileCard = (props) => {
                                     <Typography
                                         sx={{ml: 2, fontWeight: 400, fontFamily: props.font.typography.fontFamily}}
                                         variant="subtitle1" color="text.secondary">
-                                        {`${data['birth_PLACE'] !== null ? data['birth_PLACE'] : ""}`}
+                                        {`${data['birthPlace'] !== null ? data['birthPlace'] : ""}`}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={6} md={5}>
@@ -159,7 +159,7 @@ const ClientProfileCard = (props) => {
                                     <Typography
                                         sx={{ml: 2, fontWeight: 400, fontFamily: props.font.typography.fontFamily}}
                                         variant="subtitle1" color="text.secondary">
-                                        {` ${data['phone_M'] !== null ? data['phone_M'] : ""}`}
+                                        {` ${data['phoneM'] !== null ? data['phoneM'] : ""}`}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={6} md={5}>
@@ -173,7 +173,7 @@ const ClientProfileCard = (props) => {
                                     <Typography
                                         sx={{ml: 2, fontWeight: 400, fontFamily: props.font.typography.fontFamily}}
                                         variant="subtitle1" color="text.secondary">
-                                        {`${data['reg_NUMBER'] !== null ? data['reg_NUMBER'] : ""}`}
+                                        {`${data['regNumber'] !== null ? data['regNumber'] : ""}`}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={6} md={5}>
@@ -187,7 +187,7 @@ const ClientProfileCard = (props) => {
                                     <Typography
                                         sx={{ml: 2, fontWeight: 400, fontFamily: props.font.typography.fontFamily}}
                                         variant="subtitle1" color="text.secondary">
-                                        {`${data['client_NUMBER'] !== null ? data['client_NUMBER'] : ""}`}
+                                        {`${data['clientNumber'] !== null ? data['clientNumber'] : ""}`}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={6} md={5}>
@@ -201,7 +201,7 @@ const ClientProfileCard = (props) => {
                                     <Typography
                                         sx={{ml: 2, fontWeight: 400, fontFamily: props.font.typography.fontFamily}}
                                         variant="subtitle1" color="text.secondary">
-                                        {`${data['date_OPEN'] !== null ? data['date_OPEN'] : ""}`}
+                                        {`${data['dateOpen'] !== null ? data['dateOpen'] : ""}`}
                                     </Typography>
                                 </Grid>
                             </Grid>

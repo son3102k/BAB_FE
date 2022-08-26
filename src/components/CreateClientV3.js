@@ -17,6 +17,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import MenuItem from "@mui/material/MenuItem";
+import { now } from 'moment';
 
 const gender = [
     {
@@ -95,7 +96,7 @@ export default function CreateClientV3(props) {
     const CompanyName = useRef('');
     const EMail = useRef('');
     const MobilePhone = useRef('');
-    const [RegistrationDate, setRegistrationDate] = useState(new Date());
+    const [RegistrationDate, setRegistrationDate] = useState(new Date()+10);
     const [DateExpire, setDateExpire] = useState(new Date());
     const SocialSecurityNumber = useRef('');
     const PositionCode = useRef('');
@@ -382,7 +383,7 @@ export default function CreateClientV3(props) {
                                     m: 1,
                                 }}
                                 inputRef={reason}
-                                defaultValue="Tao the"
+                                defaultValue="Create client"
                                 autoComplete="off"
                                 required
                             />
