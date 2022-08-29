@@ -55,7 +55,7 @@ export default function Login() {
 
     useEffect(() => {
         document.title = 'Đăng nhập'
-        if (localStorage.getItem('LoggedIn')==='true') {
+        if (localStorage.getItem('LoggedIn') === 'true') {
             navigate('dashboard');
         }
     });
@@ -76,17 +76,17 @@ export default function Login() {
         axios.post('http://localhost:8080/auth/login', requestBody, {
             headers: {
                 'Content-Type': 'application/json',
-                
+
             }
         }).then(response => {
             console.log(response);
             localStorage.setItem('accessToken', response.data['accessToken']);
             localStorage.setItem('LoggedIn', 'true');
             navigate('dashboard');
-            
-        }).catch(()=>{
+
+        }).catch(() => {
             setNotify(true)
-                setPassword('');
+            setPassword('');
         });
 
     };
@@ -109,7 +109,7 @@ export default function Login() {
                 borderRadius: "16px",
                 backgroundColor: "#ffffff"
             }}>
-                <CssBaseline />
+                <CssBaseline/>
                 <Box
                     sx={{
                         display: 'flex',
@@ -117,20 +117,20 @@ export default function Login() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 3, bgcolor: 'primary.main' }}>
-                        <LoginOutlinedIcon />
+                    <Avatar sx={{m: 3, bgcolor: 'primary.main'}}>
+                        <LoginOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5" fontWeight="800" fontFamily={font.typography.fontFamily}>
                         Chào mừng Quý khách
                     </Typography>
-                    <Box noValidate sx={{ mt: 1, p: 1 }}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                handleSubmit(e);
-                            }
-                        }}>
-                        <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                            <PersonOutlineIcon sx={{ color: '#33ccff', mr: 1, my: 0.5 }} />
+                    <Box noValidate sx={{mt: 1, p: 1}}
+                         onKeyDown={(e) => {
+                             if (e.key === 'Enter') {
+                                 handleSubmit(e);
+                             }
+                         }}>
+                        <Box sx={{display: "flex", alignItems: "flex-end"}}>
+                            <PersonOutlineIcon sx={{color: '#33ccff', mr: 1, my: 0.5}}/>
                             <TextField
                                 margin="normal"
                                 required
@@ -141,12 +141,12 @@ export default function Login() {
                                 autoComplete="email"
                                 autoFocus
                                 variant="standard"
-                                sx={{ minWidth: 350 }}
+                                sx={{minWidth: 350}}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </Box>
-                        <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                            <LockOutlinedIcon sx={{ color: '#33ccff', mr: 1, my: 0.5 }} />
+                        <Box sx={{display: "flex", alignItems: "flex-end"}}>
+                            <LockOutlinedIcon sx={{color: '#33ccff', mr: 1, my: 0.5}}/>
                             <TextField
                                 margin="normal"
                                 required
@@ -157,7 +157,7 @@ export default function Login() {
                                 id="password"
                                 autoComplete="current-password"
                                 variant="standard"
-                                sx={{ minWidth: 350 }}
+                                sx={{minWidth: 350}}
                                 onChange={(e) => setPassword(e.target.value)}
                                 value={password}
                             />
@@ -178,7 +178,7 @@ export default function Login() {
                         >
                             Đăng nhập
                         </Button>
-                        <Grid container sx={{ mb: 3, mt: 1 }}>
+                        <Grid container sx={{mb: 3, mt: 1}}>
                             <Grid item xs>
                                 <Link href="#" variant="body2" underline="none" fontWeight="700">
                                     Quên mật khẩu?
@@ -194,9 +194,9 @@ export default function Login() {
                 </Box>
 
             </Container>
-            <Copyright sx={{ width: '100%', color: '#ffffff', textAlign: 'right', mb: 2 }}></Copyright>
+            <Copyright sx={{width: '100%', color: '#ffffff', textAlign: 'right', mb: 2}}></Copyright>
             <Snackbar open={notify} autoHideDuration={3000} onClose={handleCloseNotify}>
-                <Alert onClose={handleCloseNotify} severity="error" sx={{ width: '100%' }}>
+                <Alert onClose={handleCloseNotify} severity="error" sx={{width: '100%'}}>
                     Tài khoản hoặc mật khẩu không chính xác
                 </Alert>
             </Snackbar>

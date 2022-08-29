@@ -104,13 +104,13 @@ export default function CreateContractV4(props) {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-            
+
             }
         }).then((res) => {
             console.log(res);
             if (res['data']['createContractV4Result']['value']['retCode'] === 0) {
                 const contract_id = res.data['createContractV4Result']['value']['createdContract']['value'];
-                props.setGlobalData((prev)=>({
+                props.setGlobalData((prev) => ({
                     ...prev,
                     contract_id,
                     CBSNumber: CBSNumber.current.value,

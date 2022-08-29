@@ -17,7 +17,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import MenuItem from "@mui/material/MenuItem";
-import { now } from 'moment';
 
 const gender = [
     {

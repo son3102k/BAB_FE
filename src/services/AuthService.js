@@ -1,6 +1,6 @@
 class AuthService {
-    isLoggedIn () {
-        return localStorage.getItem('accessToken')!==null;
+    isLoggedIn() {
+        return localStorage.getItem('accessToken') !== null;
     }
 }
 

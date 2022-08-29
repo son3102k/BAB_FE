@@ -34,7 +34,7 @@ export default function EditCardModal(props) {
     const creditLimit = useRef(props.data['value']['creditLimit']['value']);
     const embossedFirstName = useRef(props.data['value']['embossedFirstName']['value']);
     const embossedLastName = useRef(props.data['value']['embossedLastName']['value']);
-    const embossedCompanyName = useRef(props.data['value']['embossedCompanyName']['value'])
+    const embossedCompanyName = useRef(props.data['value']['embossedCompanyName']!==null?props.data['value']['embossedCompanyName']['value']:'');
 
     useEffect(() => {
         branch.current = props.data['value']['branch']['value'].split(';')[1];
@@ -45,7 +45,7 @@ export default function EditCardModal(props) {
         creditLimit.current = props.data['value']['creditLimit']['value'];
         embossedFirstName.current = props.data['value']['embossedFirstName']['value'];
         embossedLastName.current = props.data['value']['embossedLastName']['value'];
-        embossedCompanyName.current = props.data['value']['embossedCompanyName']['value'];
+        embossedCompanyName.current = props.data['value']['embossedCompanyName']!==null?props.data['value']['embossedCompanyName']['value']:'';
     })
     const handleSave = () => {
         axios.post("http://localhost:8080/editCard", {

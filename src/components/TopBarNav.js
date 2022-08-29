@@ -121,8 +121,8 @@ const TopBarNav = () => {
         }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <OWLogo />
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                    <OWLogo/>
+                    <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -131,7 +131,7 @@ const TopBarNav = () => {
                             onClick={handleOpenNavMenu}
                             color="inherit"
                         >
-                            <MenuIcon />
+                            <MenuIcon/>
                         </IconButton>
                         <Menu
                             id="menu-appbar"
@@ -148,27 +148,27 @@ const TopBarNav = () => {
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                             sx={{
-                                display: { xs: 'block', md: 'none' },
+                                display: {xs: 'block', md: 'none'},
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuDropdown page={page} />
+                                <MenuDropdown page={page}/>
                             ))}
                         </Menu>
                     </Box>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                         {pages.map((page) => (
-                            <MenuDropdown page={page} />
+                            <MenuDropdown page={page}/>
                         ))}
                     </Box>
-                    <Box sx={{ flexGrow: 0 }}>
+                    <Box sx={{flexGrow: 0}}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Son Nguyen" src="/static/assets/avatar.jpg" />
+                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                <Avatar alt="Son Nguyen" src="/static/assets/avatar.jpg"/>
                             </IconButton>
                         </Tooltip>
                         <Menu
-                            sx={{ mt: '45px' }}
+                            sx={{mt: '45px'}}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
                             anchorOrigin={{
@@ -197,7 +197,7 @@ const TopBarNav = () => {
                 width: 1,
                 mt: 1,
                 borderBottom: "1px solid #f2f2f2",
-            }} />
+            }}/>
         </AppBar>
 
     );

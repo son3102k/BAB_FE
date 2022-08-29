@@ -78,7 +78,7 @@ export default function CreateCardV3(props) {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                
+
             }
         }).then((res) => {
             if (res['data']['createCardV3Result']['value']['retCode'] === 0) {

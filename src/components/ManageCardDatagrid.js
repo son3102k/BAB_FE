@@ -11,6 +11,14 @@ import Typography from "@mui/material/Typography";
 
 
 export default function ManageCardDatagrid({font}) {
+    const [firstData, setFirstData] = useState({
+        loading: false,
+        rows: [],
+        totalRows: 0,
+        pageSize: 6,
+        page: 0,
+        apiData: [],
+    });
     const [data, setData] = useState({
         loading: true,
         rows: [],
@@ -21,7 +29,14 @@ export default function ManageCardDatagrid({font}) {
     });
 
     const columns = [
-        {field: 'id', headerName: 'Index', width: 90,},
+        {
+            field: 'id',
+            headerName: 'Index',
+            width: 90,
+            sortable: false,
+            filterable: false,
+            disableColumnMenu: true,
+        },
         {
             field: 'firstName',
             headerName: 'First name',
@@ -31,11 +46,17 @@ export default function ManageCardDatagrid({font}) {
             field: 'middlename',
             headerName: 'Middle name',
             width: 170,
+            sortable: false,
+            filterable: false,
+            disableColumnMenu: true,
         },
         {
             field: 'lastname',
             headerName: 'Last name',
             width: 165,
+            sortable: false,
+            filterable: false,
+            disableColumnMenu: true,
         },
         {
             field: 'shortName',
@@ -46,6 +67,9 @@ export default function ManageCardDatagrid({font}) {
             field: 'clientnumber',
             headerName: 'Client number',
             width: 170,
+            sortable: false,
+            filterable: false,
+            disableColumnMenu: true,
         },
         {
             field: 'reg_number',
@@ -57,6 +81,8 @@ export default function ManageCardDatagrid({font}) {
             headerName: 'Contracts',
             width: 110,
             sortable: false,
+            filterable: false,
+            disableColumnMenu: true,
             renderCell: (params) => {
                 const onClick = (e) => {
                     // const api = params.api;
@@ -79,17 +105,64 @@ export default function ManageCardDatagrid({font}) {
 
     const updateData = (k, v) => setData((prev) => ({...prev, [k]: v}));
 
+    const filterBy = (BY, value) => {
+        let URL = "";
+        if (BY === "reg_number") {
+            URL = "http://localhost:8080/admin/getClientByRegNumber?regNum=";
+        } else if (BY === "firstName") {
+            URL = "http://localhost:8080/admin/getClientByFirstName?firstName="
+        } else if (BY === "shortName") {
+            URL = "http://localhost:8080/admin/getClientByShortName?shortName="
+        } else {
+            setData(firstData);
+        }
+        updateData("loading", true);
+        axios.get(URL + value, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            }
+        }).then((res) => {
+            setData((prev) => ({
+                ...prev,
+                pageSize: res.data.length,
+                loading: false,
+                rows: res['data'].map((e, i) => ({
+                    'id': i + 1,
+                    shortName: e['shortName'],
+                    'firstName': e['firstNam'],
+                    'lastname': e['lastNam'],
+                    'middlename': e['fatherNam'],
+                    'clientnumber': e['clientNumber'],
+                    'reg_number': e['regNumber'],
+                })),
+                totalRows: res['data'].length,
+                page: 0,
+                apiData: res['data'],
+            }));
+        });
+    }
+    const handleFilterChange = (filter) => {
+        if (filter.items.length === 0) return;
+        const {value} = undefined || filter.items[0];
+        if (value !== undefined && value !== "") {
+            filterBy(filter.items[0].columnField, filter.items[0].value)
+        } else {
+            setData(firstData);
+        }
+    }
+
     const updateRowAndAPIData = (fetch_api_data, index) => {
         const new_rows = data.rows.map((e, i) => {
             if (i === index) {
                 return ({
                     'id': e.id,
-                    shortName: fetch_api_data['short_NAME'],
-                    'firstName': fetch_api_data['first_NAM'],
-                    'lastname': fetch_api_data['last_NAM'],
-                    'middlename': fetch_api_data['father_S_NAM'],
-                    'clientnumber': fetch_api_data['client_NUMBER'],
-                    'reg_number': fetch_api_data['reg_NUMBER']
+                    shortName: fetch_api_data['shortName'],
+                    'firstName': fetch_api_data['firstNam'],
+                    'lastname': fetch_api_data['lastNam'],
+                    'middlename': fetch_api_data['fatherNam'],
+                    'clientnumber': fetch_api_data['clientNumber'],
+                    'reg_number': fetch_api_data['regNumber']
                 })
             } else {
                 return e;
@@ -108,14 +181,13 @@ export default function ManageCardDatagrid({font}) {
 
 
     useEffect(() => {
-
         updateData("loading", true);
         axios.get(`http://localhost:8080/admin/clientList?page=${data.page}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                
-            }})
+            }
+        })
             .then((res) => {
                 setData({
                     loading: false,
@@ -132,7 +204,23 @@ export default function ManageCardDatagrid({font}) {
                     pageSize: res['data']['pageable']['pageSize'],
                     page: 0,
                     apiData: res['data']['content'],
-                })
+                });
+                setFirstData({
+                    loading: false,
+                    rows: res['data']['content'].map((e, i) => ({
+                        'id': i + 1,
+                        shortName: e['shortName'],
+                        'firstName': e['firstNam'],
+                        'lastname': e['lastNam'],
+                        'middlename': e['fatherNam'],
+                        'clientnumber': e['clientNumber'],
+                        'reg_number': e['regNumber']
+                    })),
+                    totalRows: res['data']['totalElements'],
+                    pageSize: res['data']['pageable']['pageSize'],
+                    page: 0,
+                    apiData: res['data']['content'],
+                });
             });
     }, []);
 
@@ -144,19 +232,19 @@ export default function ManageCardDatagrid({font}) {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                    
-                }})
+                }
+            })
                 .then((res) => {
                     setData((prev) => ({
                         loading: false,
                         rows: res['data']['content'].map((e, i) => ({
                             'id': ((prev.page + 1) * prev.pageSize + 1 + i),
                             shortName: e['shortName'],
-                        'firstName': e['firstNam'],
-                        'lastname': e['lastNam'],
-                        'middlename': e['fatherNam'],
-                        'clientnumber': e['clientNumber'],
-                        'reg_number': e['regNumber']
+                            'firstName': e['firstNam'],
+                            'lastname': e['lastNam'],
+                            'middlename': e['fatherNam'],
+                            'clientnumber': e['clientNumber'],
+                            'reg_number': e['regNumber']
                         })),
                         totalRows: res['data']['totalElements'],
                         pageSize: res['data']['pageable']['pageSize'],
@@ -171,19 +259,19 @@ export default function ManageCardDatagrid({font}) {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                    
-                }})
+                }
+            })
                 .then((res) => {
                     setData((prev) => ({
                         loading: false,
                         rows: res['data']['content'].map((e, i) => ({
                             'id': (prev.page - 1) * prev.pageSize + 1 + i,
                             shortName: e['shortName'],
-                        'firstName': e['firstNam'],
-                        'lastname': e['lastNam'],
-                        'middlename': e['fatherNam'],
-                        'clientnumber': e['clientNumber'],
-                        'reg_number': e['regNumber']
+                            'firstName': e['firstNam'],
+                            'lastname': e['lastNam'],
+                            'middlename': e['fatherNam'],
+                            'clientnumber': e['clientNumber'],
+                            'reg_number': e['regNumber']
                         })),
                         totalRows: res['data']['totalElements'],
                         pageSize: res['data']['pageable']['pageSize'],
@@ -225,6 +313,9 @@ export default function ManageCardDatagrid({font}) {
                       pageSize={data.pageSize}
                       onPageChange={handlePageChange}
                       paginationMode="server"
+                      disableColumnSelector
+                      filterMode="server"
+                      onFilterModelChange={handleFilterChange}
             />
         </Box>
     );

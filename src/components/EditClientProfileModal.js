@@ -15,7 +15,7 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import axios from "axios";
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Paper)(({theme}) => ({
     backgroundColor: '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -129,15 +129,15 @@ export default function EditClientProfileModal(props) {
                             textAlign: "right",
                         }}>
                             <IconButton onClick={handleClose}>
-                                <CloseIcon />
+                                <CloseIcon/>
                             </IconButton>
                         </Box>
                         <Typography component="h1" variant="h5" fontWeight="800"
-                            fontFamily={props.font.typography.fontFamily} color="#000000"
-                            sx={{
-                                m: 1,
-                                mb: 3,
-                            }}>
+                                    fontFamily={props.font.typography.fontFamily} color="#000000"
+                                    sx={{
+                                        m: 1,
+                                        mb: 3,
+                                    }}>
                             Detailed Information
                         </Typography>
                         <TextField
@@ -189,14 +189,14 @@ export default function EditClientProfileModal(props) {
                                 value={BirthDate}
                                 readOnly
                                 renderInput={(params) => <TextField {...params} size="small"
-                                    sx={{ width: "30%", m: 1 }} />}
+                                                                    sx={{width: "30%", m: 1}}/>}
                             />
                         </LocalizationProvider>
                         <TextField
                             id="Gender"
                             label="Gender"
                             value={Gender === 'M' ? "Male" : Gender === "F" ? "Female" : "Other"}
-                            sx={{ m: 1, width: "30%" }}
+                            sx={{m: 1, width: "30%"}}
                             size="small"
                             inputProps={{
                                 readOnly: true,
