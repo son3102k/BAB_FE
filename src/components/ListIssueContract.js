@@ -10,6 +10,8 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import IconButton from "@mui/material/IconButton";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CircleIcon from '@mui/icons-material/Circle';
+import ReactDOM from "react-dom/client";
+import SetContractStatusModal from "./SetContractStatusModal";
 
 export default function ListIssueContract(props) {
     const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -46,6 +48,18 @@ export default function ListIssueContract(props) {
         setSelectedIndex(index);
     };
 
+    function handleSetContractStatus(event, contract) {
+        console.log(props.cid);
+        ReactDOM.createRoot(document.getElementById('setContractStatus')).render(
+            <SetContractStatusModal font={props.font} data={contract} setSnackbarData={props.setSnackbarData}
+                               setOpenSnackbar={props.setOpenSnackbar}
+                               setSelectedContractDataReload={setSelectedContractData}
+                            //    c_number={selectedContractData['contractNumber']['value']}
+                               setListContract={setListContract}
+                               clientID={props.cid}/>
+        );
+    }
+
     function handleClickOpenContract(event, contract, i) {
         setCardIsLoading(true);
         setSelectedContractData(contract);
@@ -67,6 +81,7 @@ export default function ListIssueContract(props) {
     return (
         <Grid container>
             <Grid item xs={6} md={6}>
+            <div id="setContractStatus"/>
                 <Box
                     sx={{
                         borderTopLeftRadius: 20,
@@ -101,7 +116,7 @@ export default function ListIssueContract(props) {
                             <ListItem disablePadding secondaryAction={
                                 <div>
                                     {console.log(e)}
-                                    <IconButton edge="end" aria-label="status">
+                                    <IconButton edge="end" aria-label="status" onClick={(event)=>handleSetContractStatus(event, e)}>
                                         <CircleIcon fontSize="small" sx={{
                                         maxWidth: 14}} color={e['statusCode']['value'].split(";")[0]==="00"?"success":""}/>
                                     </IconButton>
