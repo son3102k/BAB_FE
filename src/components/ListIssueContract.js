@@ -6,6 +6,10 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Grid from "@mui/material/Grid";
 import ListCard from "./ListCard";
 import ContractInformartion from "./ContractInformartion";
+import AddCardIcon from '@mui/icons-material/AddCard';
+import IconButton from "@mui/material/IconButton";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CircleIcon from '@mui/icons-material/Circle';
 
 export default function ListIssueContract(props) {
     const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -26,9 +30,10 @@ export default function ListIssueContract(props) {
             }
         })
             .then(res => {
+                console.log(res);
                 setListContract(res['data']['getContractByClientV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record'].filter(
                     (e) => {
-                        if (e['status']['value'].split(";")[0] === "51") {
+                        if (e['contractCategory']['value'].split(";")[0] === "A") {
                             return true;
                         }
                         return false;
@@ -93,7 +98,25 @@ export default function ListIssueContract(props) {
                         {isLoading &&
                             <CircularProgress sx={{position: "absolute", top: "45%", left: "45%"}} color="primary"/>}
                         {listContract.length !== 0 && listContract.map((e, i) => (
-                            <ListItem disablePadding>
+                            <ListItem disablePadding secondaryAction={
+                                <div>
+                                    {console.log(e)}
+                                    <IconButton edge="end" aria-label="status">
+                                        <CircleIcon fontSize="small" sx={{
+                                        maxWidth: 14}} color={e['statusCode']['value'].split(";")[0]==="00"?"success":""}/>
+                                    </IconButton>
+                                    <IconButton edge="end" aria-label="credit-limit" sx={{
+                                        mr: 1,
+                                    }}>
+                                        <AttachMoneyIcon color="primary"/>
+                                    </IconButton>
+                                    <IconButton edge="end" aria-label="add-card" sx={{
+                                        mr: 0.5,
+                                    }}>
+                                        <AddCardIcon  color="primary" />
+                                    </IconButton>
+                                </div>
+                            }>
                                 <ListItemButton
                                     onClick={(event) => handleClickOpenContract(event, e, i)}
                                     selected={selectedIndex === i}>
