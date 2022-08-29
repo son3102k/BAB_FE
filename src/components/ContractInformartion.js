@@ -207,7 +207,7 @@ const ContractInformartion = (props) => {
                             <Typography
                                 sx={{ml: 2, fontWeight: 400, fontFamily: props.font.typography.fontFamily}}
                                 variant="subtitle1" color="text.secondary">
-                                {selectedContractData['status'] !== null ? selectedContractData['status']['value'].slice(3) : ""}
+                                {selectedContractData['status'] !== null ? selectedContractData['status']['value'].split(";")[1] : ""}
                             </Typography>
                         </Grid>
                     </Grid>
