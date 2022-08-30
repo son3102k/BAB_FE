@@ -73,7 +73,9 @@ export default function ListCard(props) {
                                 <ListItemIcon>
                                     <OpenInNewIcon color="primary"/>
                                 </ListItemIcon>
-                                <ListItemText primary="Card Number"
+                                <ListItemText primary="Card Number" sx={{
+                                    direction: "ltr",
+                                }}
                                               secondary={e['safeContractNumber']['value'].split(";")[1]}/>
                             </ListItemButton>
                         </ListItem>

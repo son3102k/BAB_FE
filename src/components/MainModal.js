@@ -26,6 +26,13 @@ export default function MainModal(props) {
         severity: "success",
         message: "",
     });
+    const [clientData, setClientData] = useState({
+        client_id: props.data['id'],
+        branch: props.data['branch'],
+        firstName: props.data['firstNam'],
+        middleName: props.data['fatherNam'],
+        lastName: props.data['lastNam'],
+    });
 
     const handleClose = () => setOpen(false);
     const handleCloseSnackbar = () => setOpenSnackbar(false);
@@ -48,7 +55,8 @@ export default function MainModal(props) {
                         <Grid item xs={6} md={8}>
                             <ListIssueContract cid={props.data['id']} font={props.font}
                                                setSnackbarData={setSnackbarData}
-                                               setOpenSnackbar={setOpenSnackbar}/>
+                                               setOpenSnackbar={setOpenSnackbar}
+                                               clientData={clientData}/>
                         </Grid>
                     </Grid>
                 </Box>
