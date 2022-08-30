@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
-import {List, ListItem, ListItemButton, ListItemText} from "@mui/material";
+import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from "@mui/material/Grid";
 import ListCard from "./ListCard";
@@ -13,6 +13,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import ReactDOM from "react-dom/client";
 import SetContractStatusModal from "./SetContractStatusModal";
 import SetCreditLimitModal from "./SetCreditLimitModal";
+import NewCardFromIssueContractModal from "./NewCardFromIssueContractModal";
 
 export default function ListIssueContract(props) {
     const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -53,24 +54,41 @@ export default function ListIssueContract(props) {
         // console.log(props.cid);
         ReactDOM.createRoot(document.getElementById('setContractStatus')).render(
             <SetContractStatusModal font={props.font} data={contract} setSnackbarData={props.setSnackbarData}
-                               setOpenSnackbar={props.setOpenSnackbar}
-                               setSelectedContractDataReload={setSelectedContractData}
-                            //    c_number={selectedContractData['contractNumber']['value']}
-                               setListContract={setListContract}
-                               clientID={props.cid}/>
+                setOpenSnackbar={props.setOpenSnackbar}
+                setSelectedContractDataReload={setSelectedContractData}
+                //    c_number={selectedContractData['contractNumber']['value']}
+                setListContract={setListContract}
+                clientID={props.cid} />
         );
     }
 
-    function handleSetCreditLimit(event, contract){
+    function handleSetCreditLimit(event, contract) {
         ReactDOM.createRoot(document.getElementById('setCreditLimit')).render(
             <SetCreditLimitModal font={props.font} data={contract} setSnackbarData={props.setSnackbarData}
-                               setOpenSnackbar={props.setOpenSnackbar}
-                               setSelectedContractDataReload={setSelectedContractData}
-                            //    c_number={selectedContractData['contractNumber']['value']}
-                               setListContract={setListContract}
-                               clientID={props.cid}/>
+                setOpenSnackbar={props.setOpenSnackbar}
+                setSelectedContractDataReload={setSelectedContractData}
+                //    c_number={selectedContractData['contractNumber']['value']}
+                setListContract={setListContract}
+                clientID={props.cid} />
         );
     }
+
+    function handleClickNewCard(event, e) {
+        ReactDOM.createRoot(document.getElementById('newCardFromIssueContract')).render(
+            <NewCardFromIssueContractModal font={props.font} data={{
+                ...props.clientData,
+                contract_id: e['id']['value'],
+                CBSNumber: e['cbsnumber'] !== null ? e['cbsnumber']['value'] : "",
+                CBSID: e['cbsid'] !== null ? e['cbsid']['value'] : "",
+            }}
+                setSnackbarData={props.setSnackbarData}
+                setOpenSnackbar={props.setOpenSnackbar}
+                setListCard={setListCard}
+                setCardIsLoading={setCardIsLoading}
+                c_number={e['contractNumber']['value']} />
+        );
+    }
+
 
     function handleClickOpenContract(event, contract, i) {
         setCardIsLoading(true);
@@ -93,8 +111,9 @@ export default function ListIssueContract(props) {
     return (
         <Grid container>
             <Grid item xs={6} md={6}>
-            <div id="setContractStatus"/>
-            <div id="setCreditLimit"/>
+                <div id="setContractStatus" />
+                <div id="setCreditLimit" />
+                <div id="newCardFromIssueContract" />
                 <Box
                     sx={{
                         borderTopLeftRadius: 20,
@@ -124,24 +143,26 @@ export default function ListIssueContract(props) {
                         height: "100%",
                     }}>
                         {isLoading &&
-                            <CircularProgress sx={{position: "absolute", top: "45%", left: "45%"}} color="primary"/>}
+                            <CircularProgress sx={{ position: "absolute", top: "45%", left: "45%" }} color="primary" />}
                         {listContract.length !== 0 && listContract.map((e, i) => (
                             <ListItem disablePadding secondaryAction={
                                 <div>
                                     {/* {console.log(e)} */}
-                                    <IconButton edge="end" aria-label="status" onClick={(event)=>handleSetContractStatus(event, e)}>
+                                    <IconButton edge="end" aria-label="status" onClick={(event) => handleSetContractStatus(event, e)}>
                                         <CircleIcon fontSize="small" sx={{
-                                        maxWidth: 14}} color={e['statusCode']['value'].split(";")[0]==="00"?"success":""}/>
+                                            maxWidth: 14
+                                        }} color={e['statusCode']['value'].split(";")[0] === "00" ? "success" : ""} />
                                     </IconButton>
                                     <IconButton edge="end" aria-label="credit-limit" sx={{
                                         mr: 1,
-                                    }} onClick={(event)=>handleSetCreditLimit(event, e)}>
-                                        <AttachMoneyIcon color="primary"/>
+                                    }} onClick={(event) => handleSetCreditLimit(event, e)}>
+                                        <AttachMoneyIcon color="primary" />
                                     </IconButton>
                                     <IconButton edge="end" aria-label="add-card" sx={{
                                         mr: 0.5,
-                                    }}>
-                                        <AddCardIcon  color="primary" />
+                                    }}
+                                        onClick={(event) => handleClickNewCard(event, e)}>
+                                        <AddCardIcon color="primary" />
                                     </IconButton>
                                 </div>
                             }>
@@ -149,9 +170,9 @@ export default function ListIssueContract(props) {
                                     onClick={(event) => handleClickOpenContract(event, e, i)}
                                     selected={selectedIndex === i}>
                                     <ListItemText primary="Issue Contract" secondary={e['contractNumber']['value']}
-                                                  sx={{
-                                                      direction: "ltr",
-                                                  }}/>
+                                        sx={{
+                                            direction: "ltr",
+                                        }} />
                                 </ListItemButton>
                             </ListItem>
                         ))}
@@ -162,18 +183,18 @@ export default function ListIssueContract(props) {
                 <Grid item xs={6} md={12}>
                     {isDisplayCardAndContractInfo &&
                         <ContractInformartion data={listContract} font={props.font}
-                                              selectContract={selectedContractData}
-                                              setSnackbarData={props.setSnackbarData}
-                                              setOpenSnackbar={props.setOpenSnackbar}
-                                              setSelectedContractDataReload={setSelectedContractData}
-                                              setListContract={setListContract}
-                                              clientID={props.cid}/>
+                            selectContract={selectedContractData}
+                            setSnackbarData={props.setSnackbarData}
+                            setOpenSnackbar={props.setOpenSnackbar}
+                            setSelectedContractDataReload={setSelectedContractData}
+                            setListContract={setListContract}
+                            clientID={props.cid} />
                     }
                 </Grid>
                 <Grid item xs={6} md={12}>
                     {isDisplayCardAndContractInfo &&
                         <ListCard data={listCard} cardIsLoading={cardIsLoading} setSnackbarData={props.setSnackbarData}
-                                  setOpenSnackbar={props.setOpenSnackbar}/>}
+                            setOpenSnackbar={props.setOpenSnackbar} />}
                 </Grid>
             </Grid>
         </Grid>
