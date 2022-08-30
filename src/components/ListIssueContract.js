@@ -12,6 +12,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CircleIcon from '@mui/icons-material/Circle';
 import ReactDOM from "react-dom/client";
 import SetContractStatusModal from "./SetContractStatusModal";
+import SetCreditLimitModal from "./SetCreditLimitModal";
 
 export default function ListIssueContract(props) {
     const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -32,7 +33,7 @@ export default function ListIssueContract(props) {
             }
         })
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 setListContract(res['data']['getContractByClientV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record'].filter(
                     (e) => {
                         if (e['contractCategory']['value'].split(";")[0] === "A") {
@@ -49,9 +50,20 @@ export default function ListIssueContract(props) {
     };
 
     function handleSetContractStatus(event, contract) {
-        console.log(props.cid);
+        // console.log(props.cid);
         ReactDOM.createRoot(document.getElementById('setContractStatus')).render(
             <SetContractStatusModal font={props.font} data={contract} setSnackbarData={props.setSnackbarData}
+                               setOpenSnackbar={props.setOpenSnackbar}
+                               setSelectedContractDataReload={setSelectedContractData}
+                            //    c_number={selectedContractData['contractNumber']['value']}
+                               setListContract={setListContract}
+                               clientID={props.cid}/>
+        );
+    }
+
+    function handleSetCreditLimit(event, contract){
+        ReactDOM.createRoot(document.getElementById('setCreditLimit')).render(
+            <SetCreditLimitModal font={props.font} data={contract} setSnackbarData={props.setSnackbarData}
                                setOpenSnackbar={props.setOpenSnackbar}
                                setSelectedContractDataReload={setSelectedContractData}
                             //    c_number={selectedContractData['contractNumber']['value']}
@@ -82,6 +94,7 @@ export default function ListIssueContract(props) {
         <Grid container>
             <Grid item xs={6} md={6}>
             <div id="setContractStatus"/>
+            <div id="setCreditLimit"/>
                 <Box
                     sx={{
                         borderTopLeftRadius: 20,
@@ -115,14 +128,14 @@ export default function ListIssueContract(props) {
                         {listContract.length !== 0 && listContract.map((e, i) => (
                             <ListItem disablePadding secondaryAction={
                                 <div>
-                                    {console.log(e)}
+                                    {/* {console.log(e)} */}
                                     <IconButton edge="end" aria-label="status" onClick={(event)=>handleSetContractStatus(event, e)}>
                                         <CircleIcon fontSize="small" sx={{
                                         maxWidth: 14}} color={e['statusCode']['value'].split(";")[0]==="00"?"success":""}/>
                                     </IconButton>
                                     <IconButton edge="end" aria-label="credit-limit" sx={{
                                         mr: 1,
-                                    }}>
+                                    }} onClick={(event)=>handleSetCreditLimit(event, e)}>
                                         <AttachMoneyIcon color="primary"/>
                                     </IconButton>
                                     <IconButton edge="end" aria-label="add-card" sx={{
