@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
-import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import {List, ListItem, ListItemButton, ListItemText} from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from "@mui/material/Grid";
 import ListCard from "./ListCard";

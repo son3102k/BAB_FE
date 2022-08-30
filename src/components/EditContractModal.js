@@ -92,7 +92,7 @@ export default function EditContractModal(props) {
                     .then(res => {
                         props.setListContract(res['data']['getContractByClientV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record'].filter(
                             (e) => {
-                                if (e['status']['value'].split(";")[0] === "51") {
+                                if (e['contractCategory']['value'].split(";")[0] === "A") {
                                     return true;
                                 }
                                 return false;
