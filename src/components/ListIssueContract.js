@@ -12,6 +12,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CircleIcon from '@mui/icons-material/Circle';
 import ReactDOM from "react-dom/client";
 import SetContractStatusModal from "./SetContractStatusModal";
+import NewCardFromIssueContractModal from "./NewCardFromIssueContractModal";
 
 export default function ListIssueContract(props) {
     const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -32,7 +33,6 @@ export default function ListIssueContract(props) {
             }
         })
             .then(res => {
-                console.log(res);
                 setListContract(res['data']['getContractByClientV2Result']['value']['outObject']['value']['issContractDetailsAPIOutputV2Record'].filter(
                     (e) => {
                         if (e['contractCategory']['value'].split(";")[0] === "A") {
@@ -49,14 +49,12 @@ export default function ListIssueContract(props) {
     };
 
     function handleSetContractStatus(event, contract) {
-        console.log(props.cid);
         ReactDOM.createRoot(document.getElementById('setContractStatus')).render(
             <SetContractStatusModal font={props.font} data={contract} setSnackbarData={props.setSnackbarData}
-                               setOpenSnackbar={props.setOpenSnackbar}
-                               setSelectedContractDataReload={setSelectedContractData}
-                            //    c_number={selectedContractData['contractNumber']['value']}
-                               setListContract={setListContract}
-                               clientID={props.cid}/>
+                                    setOpenSnackbar={props.setOpenSnackbar}
+                                    setSelectedContractDataReload={setSelectedContractData}
+                                    setListContract={setListContract}
+                                    clientID={props.cid}/>
         );
     }
 
@@ -78,10 +76,27 @@ export default function ListIssueContract(props) {
         });
     }
 
+    function handleClickNewCard(event, e) {
+        ReactDOM.createRoot(document.getElementById('newCardFromIssueContract')).render(
+            <NewCardFromIssueContractModal font={props.font} data={{
+                ...props.clientData,
+                contract_id: e['id']['value'],
+                CBSNumber: e['cbsnumber'] !== null ? e['cbsnumber']['value'] : "",
+                CBSID: e['cbsid'] !== null ? e['cbsid']['value'] : "",
+            }}
+                                           setSnackbarData={props.setSnackbarData}
+                                           setOpenSnackbar={props.setOpenSnackbar}
+                                           setListCard={setListCard}
+                                           setCardIsLoading={setCardIsLoading}
+                                           c_number={e['contractNumber']['value']}/>
+        );
+    }
+
     return (
         <Grid container>
             <Grid item xs={6} md={6}>
-            <div id="setContractStatus"/>
+                <div id="setContractStatus"/>
+                <div id="newCardFromIssueContract"/>
                 <Box
                     sx={{
                         borderTopLeftRadius: 20,
@@ -115,10 +130,11 @@ export default function ListIssueContract(props) {
                         {listContract.length !== 0 && listContract.map((e, i) => (
                             <ListItem disablePadding secondaryAction={
                                 <div>
-                                    {console.log(e)}
-                                    <IconButton edge="end" aria-label="status" onClick={(event)=>handleSetContractStatus(event, e)}>
+                                    <IconButton edge="end" aria-label="status"
+                                                onClick={(event) => handleSetContractStatus(event, e)}>
                                         <CircleIcon fontSize="small" sx={{
-                                        maxWidth: 14}} color={e['statusCode']['value'].split(";")[0]==="00"?"success":""}/>
+                                            maxWidth: 14
+                                        }} color={e['statusCode']['value'].split(";")[0] === "00" ? "success" : ""}/>
                                     </IconButton>
                                     <IconButton edge="end" aria-label="credit-limit" sx={{
                                         mr: 1,
@@ -127,8 +143,9 @@ export default function ListIssueContract(props) {
                                     </IconButton>
                                     <IconButton edge="end" aria-label="add-card" sx={{
                                         mr: 0.5,
-                                    }}>
-                                        <AddCardIcon  color="primary" />
+                                    }}
+                                                onClick={(event) => handleClickNewCard(event, e)}>
+                                        <AddCardIcon color="primary"/>
                                     </IconButton>
                                 </div>
                             }>

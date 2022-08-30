@@ -107,7 +107,6 @@ export default function CreateContractV4(props) {
 
             }
         }).then((res) => {
-            console.log(res);
             if (res['data']['createContractV4Result']['value']['retCode'] === 0) {
                 const contract_id = res.data['createContractV4Result']['value']['createdContract']['value'];
                 props.setGlobalData((prev) => ({

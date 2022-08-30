@@ -79,7 +79,6 @@ export default function Login() {
 
             }
         }).then(response => {
-            console.log(response);
             localStorage.setItem('accessToken', response.data['accessToken']);
             localStorage.setItem('LoggedIn', 'true');
             navigate('dashboard');

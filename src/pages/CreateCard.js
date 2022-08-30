@@ -137,8 +137,6 @@ export default function CreateCard() {
                     )}
                 </Box></Grid>
             </Grid>
-
-
         </Box>
 
     );

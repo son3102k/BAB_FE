@@ -16,6 +16,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import RemoveAccents from "../services/RemoveAccents";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: '#fff',
@@ -30,23 +31,17 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 export default function CreateCardV3(props) {
-    const removeAccents = (str) => {
-        return str.normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/đ/g, 'd').replace(/Đ/g, 'D');
-    }
     const [ContractSubtypeCode, setContractSubtypeCode] = useState(props.globalData.ContractSubtypeCode);
-    const [EmbossedFirstName, setEmbossedFirstName] = useState(removeAccents(props.globalData.firstName));
-    const [EmbossedLastName, setEmbossedLastName] = useState(removeAccents(`${props.globalData.middleName} ${props.globalData.lastName}`));
+    const [EmbossedFirstName, setEmbossedFirstName] = useState(RemoveAccents.remove(props.globalData.firstName));
+    const [EmbossedLastName, setEmbossedLastName] = useState(RemoveAccents.remove(`${props.globalData.middleName} ${props.globalData.lastName}`));
     const EmbossedCompanyName = useRef('');
-    const [CardName, setCardName] = useState(removeAccents(`${props.globalData.lastName} ${props.globalData.middleName} ${props.globalData.firstName}`));
+    const [CardName, setCardName] = useState(RemoveAccents.remove(`${props.globalData.lastName} ${props.globalData.middleName} ${props.globalData.firstName}`));
     const [ExpirationDate, setExpirationDate] = useState(new Date());
     const [CBSID, setCBSID] = useState(props.globalData.CBSID);
     const [CBSNumber, setCBSNumber] = useState(props.globalData.CBSNumber);
     const [Branch, setBranch] = useState(props.globalData.branch);
     const ProductIdentifier = useRef('');
     const ProductionReason = useRef('');
-    ;
     const [ProductCode, setProductCode] = useState('CARDMAIN');
     const EmbossedTitleCode = useRef('');
     const [openDialog, setOpenDialog] = useState(false);

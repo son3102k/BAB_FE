@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
-import { styled } from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
@@ -57,7 +57,6 @@ export default function SetContractStatus(props) {
 
 
     useEffect(() => {
-        // console.log(status);
     }, [])
     function defaultStatus(stt) {
         for (let i = 0; i < statusCode.length; i++) {
