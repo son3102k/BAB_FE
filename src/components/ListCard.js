@@ -8,6 +8,7 @@ import axios from "axios";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import IconButton from "@mui/material/IconButton";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import IssPaymentToContractModal from "./IssPaymentToContractModal";
 
 export default function ListCard(props) {
     const [listCard, setListCard] = useState([]);
@@ -40,6 +41,14 @@ export default function ListCard(props) {
         setIsLoading(props.cardIsLoading);
     });
 
+    const handleOpenDepositModal = (event , e , i) => {
+        setSelectedIndex(i);
+        console.log(e);
+        ReactDOM.createRoot(document.getElementById('deposit-card-modal')).render(
+            <IssPaymentToContractModal data={e}/>
+        );
+    }
+
     return (
         <Box
             sx={{
@@ -64,6 +73,7 @@ export default function ListCard(props) {
                 },
             }}
         >
+            <div id="deposit-card-modal"/>
             <div id='edit-card-modal'/>
             <List sx={{
                 height: "100%",
@@ -82,7 +92,7 @@ export default function ListCard(props) {
                                     <IconButton edge="end" aria-label="PaymentTo" sx={{
                                         mr: 1,
                                     }}>
-                                        <AddCircleOutlineIcon color="success"/>
+                                        <AddCircleOutlineIcon color="success" onClick={(event) => handleOpenDepositModal(event, e, i)}/>
                                     </IconButton>
                                 </div>
                                 <ListItemText primary="Card Number" onClick={(event) => handleClickCard(event, e, i)} sx={{
