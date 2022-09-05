@@ -120,7 +120,7 @@ export default function IssPaymentFromContractModal(props) {
                                     sx={{
                                         mb: 3,
                                     }}>
-                                    Deposit
+                                    Withdrawal
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} md={6}>
