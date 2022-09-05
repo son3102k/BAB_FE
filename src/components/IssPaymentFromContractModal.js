@@ -141,7 +141,7 @@ export default function IssPaymentFromContractModal(props) {
                                         type="number"
                                         sx={{
                                             "input::-webkit-outer-spin-button,input::-webkit-inner-spin-button": {
-                                                "-webkit - appearance": 'none',
+                                                "-webkit-appearance": 'none',
                                                 "margin": 0,
                                             }
                                         }}
