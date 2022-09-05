@@ -18,7 +18,8 @@ const theme = createTheme({
         },
         text: {
             primary: 'hsl(0, 0%, 16%)',
-            secondary: ' hsl(0, 0%, 59%)'
+            secondary: 'hsl(0, 0%, 59%)',
+            success: 'hsl(105, 100%, 40%)',
         },
         background: {
             paper: 'hsl(0, 0%, 95%)',
@@ -60,6 +61,7 @@ const ContractInformartion = (props) => {
     const [selectedContractData, setSelectedContractData] = useState(props.selectContract);
     useEffect(() => {
         setSelectedContractData(props.selectContract);
+        // console.log(props.selectContract);
     });
 
     function handleEdit() {
@@ -158,14 +160,14 @@ const ContractInformartion = (props) => {
                             <Typography
                                 sx={{ml: 2, fontWeight: 500, fontFamily: props.font.typography.fontFamily}}
                                 variant="subtitle1" color="text.secondary">
-                                Balance:
+                                Available Balance:
                             </Typography>
                         </Grid>
                         <Grid item xs={6} md={6}>
                             <Typography
-                                sx={{ml: 2, fontWeight: 400, fontFamily: props.font.typography.fontFamily}}
-                                variant="subtitle1" color="text.secondary">
-                                {selectedContractData['balance'] !== null ? selectedContractData['balance']['value'] : ""}
+                                sx={{ml: 2, fontWeight: 700, fontFamily: props.font.typography.fontFamily}}
+                                variant="subtitle1" color="text.success">
+                                {selectedContractData['balance'] !== null ? selectedContractData['available']['value'] : ""}
                             </Typography>
                         </Grid>
                         <Grid item xs={6} md={6}>

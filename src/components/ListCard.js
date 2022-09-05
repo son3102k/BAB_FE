@@ -1,17 +1,21 @@
 import CircularProgress from "@mui/material/CircularProgress";
-import {List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import {List, ListItem, ListItemButton, ListItemText} from "@mui/material";
 import {useEffect, useState} from "react";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Box from "@mui/material/Box";
 import ReactDOM from "react-dom/client";
 import EditCardModal from "./EditCardModal";
 import axios from "axios";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import IconButton from "@mui/material/IconButton";
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 export default function ListCard(props) {
     const [listCard, setListCard] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(-1);
 
-    const handleClickCard = (event, e) => {
+    const handleClickCard = (event, e, i) => {
+        setSelectedIndex(i);
         axios.post("http://localhost:8080/getCardByContractID", {
             "contractIdentifier": e['id']['value'],
         }, {
@@ -68,12 +72,20 @@ export default function ListCard(props) {
                 {(listCard.length > 0 && !isLoading) &&
                     listCard.map((e, i) => (
                         <ListItem disablePadding>
-                            <ListItemButton onClick={(event) => handleClickCard(event, e)}
+                            <ListItemButton
+                                selected={selectedIndex === i}
                             >
-                                <ListItemIcon>
-                                    <OpenInNewIcon color="primary"/>
-                                </ListItemIcon>
-                                <ListItemText primary="Card Number" sx={{
+                                <div>
+                                    <IconButton edge="end" aria-label="PaymentFrom">
+                                        <RemoveCircleOutlineIcon color="error"/>
+                                    </IconButton>
+                                    <IconButton edge="end" aria-label="PaymentTo" sx={{
+                                        mr: 1,
+                                    }}>
+                                        <AddCircleOutlineIcon color="success"/>
+                                    </IconButton>
+                                </div>
+                                <ListItemText primary="Card Number" onClick={(event) => handleClickCard(event, e, i)} sx={{
                                     direction: "ltr",
                                 }}
                                               secondary={e['safeContractNumber']['value'].split(";")[1]}/>

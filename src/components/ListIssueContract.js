@@ -147,7 +147,6 @@ export default function ListIssueContract(props) {
                         {listContract.length !== 0 && listContract.map((e, i) => (
                             <ListItem disablePadding secondaryAction={
                                 <div>
-                                    {/* {console.log(e)} */}
                                     <IconButton edge="end" aria-label="status" onClick={(event) => handleSetContractStatus(event, e)}>
                                         <CircleIcon fontSize="small" sx={{
                                             maxWidth: 14
