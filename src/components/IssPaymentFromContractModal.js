@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { FormControl, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
 import RemoveAccents from "../services/RemoveAccents";
+import { Container } from '@mui/material';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -22,17 +23,17 @@ const Item = styled(Paper)(({ theme }) => ({
     width: 1000,
 }));
 
-export default function IssPaymentToContractModal(props) {
+export default function IssPaymentFromContractModal(props) {
     const [open, setOpen] = useState(true);
     const handleClose = () => setOpen(false);
     const [amount, setAmount] = useState(0);
     const remark = useRef('');
 
     useEffect(() => {
-        
+
     })
     const handleSave = () => {
-        axios.post("http://localhost:8080/admin/paymentToContract", {
+        axios.post("http://localhost:8080/admin/paymentFromContract", {
             "contractIdentifier": props.data['contractNumber']['value'],
             "amount": amount,
             "transactionDetails": remark.current.value,
@@ -42,7 +43,7 @@ export default function IssPaymentToContractModal(props) {
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
             }
         }).then(res => {
-            if (res['data']['issPaymentToContractResult']['value']['retCode'] === 0) {
+            if (res['data']['issPaymentFromContractResult']['value']['retCode'] === 0) {
                 props.setSnackbarData({
                     severity: "success",
                     message: "Successfully!",
@@ -51,7 +52,7 @@ export default function IssPaymentToContractModal(props) {
             } else {
                 props.setSnackbarData({
                     severity: "error",
-                    message: "Error !",
+                    message: "Error!!!",
                 });
                 props.setOpenSnackbar(true);
             }
@@ -60,7 +61,6 @@ export default function IssPaymentToContractModal(props) {
     }
 
     return (
-
         <div>
             <Modal
                 open={open}
@@ -141,13 +141,13 @@ export default function IssPaymentToContractModal(props) {
                                         type="number"
                                         sx={{
                                             "input::-webkit-outer-spin-button,input::-webkit-inner-spin-button": {
-                                        "-webkit - appearance": 'none',
-                                   "margin": 0,
-}
+                                                "-webkit - appearance": 'none',
+                                                "margin": 0,
+                                            }
                                         }}
-                                    onChange={e => { setAmount(e.target.value) }}
-                                    startAdornment={<InputAdornment position="start">₽</InputAdornment>}
-                                    label="Amount"
+                                        onChange={e => { setAmount(e.target.value) }}
+                                        startAdornment={<InputAdornment position="start">₽</InputAdornment>}
+                                        label="Amount"
                                     />
                                 </FormControl>
                             </Grid>
@@ -161,14 +161,17 @@ export default function IssPaymentToContractModal(props) {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} md={6}>
-                                <TextField 
+                                <TextField
                                     inputRef={remark}
-                                    defaultValue={`Nap tien vao tai khoan ${RemoveAccents.remove(props.data['clientFullName']['value'])}`} sx={{
-                                    width: "110%",
-                                }} />
+                                    defaultValue={`Tru tien tu tai khoan ${RemoveAccents.remove(props.data['clientFullName']['value'])}`} sx={{
+                                        width: "110%",
+                                    }} />
                             </Grid>
+
                         </Grid>
+
                         <hr width="95%"></hr>
+
                         <Button
                             type="submit"
                             variant="contained"
