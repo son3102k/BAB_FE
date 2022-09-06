@@ -1,18 +1,17 @@
-import { useEffect, useState, useRef } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Modal from '@mui/material/Modal';
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
-import { styled } from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { FormControl, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
+import {FormControl, InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
 import RemoveAccents from "../services/RemoveAccents";
-import { Container } from '@mui/material';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#fff',

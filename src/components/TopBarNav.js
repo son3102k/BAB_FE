@@ -13,36 +13,20 @@ import MenuItem from '@mui/material/MenuItem';
 import OWLogo from "./OWLogo";
 import MenuDropdown from "./MenuDropdown.js";
 import {useNavigate} from 'react-router';
+import {useEffect, useState} from "react";
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-const pages = [
+const adminPages = [
     {
         name: 'create',
         function: [
             {
                 value: 'createcard',
                 label: 'Create Card',
-            },
-            {
-                value: 'createcardv3',
-                label: 'Create Card V3',
-            }],
-    },
-    {
-        name: 'compound',
-        function: [
-            {
-                value: 'createcontractv4',
-                label: 'Create Contract V4',
-            }],
+            }]
     },
     {
         name: 'action',
         function: [
-            {
-                value: 'isspaymenttocontract',
-                label: 'Iss Payment To Contract',
-            },
             {
                 value: 'acqpurchase',
                 label: 'Acq Purchase',
@@ -52,44 +36,51 @@ const pages = [
                 label: 'Acq Balance Inquiry'
             },
             {
-                value: 'acqchangepin',
-                label: 'Acq Change Pin'
-            },
-            {
-                value: 'clearpin',
-                label: 'Clear PIN'
-            },
-            {
-                value: 'acqsetpin',
-                label: 'Acq Set Pin',
+                value: 'clearpinattempt',
+                label: 'Clear PIN Attempt'
             },
             {
                 value: 'reissuecard',
                 label: 'Reissue Card'
             }],
     },
+];
+
+const userPages = [
     {
-        name: 'set_status',
+        name: 'Purchase',
         function: [
             {
-                value: 'clearpinattempts',
-                label: 'Clear PIN Attempts',
+                value: 'buy',
+                label: 'Product',
             },
             {
-                value: 'activatecard',
-                label: 'Activate Card',
-            },
-            {
-                value: 'setcontractstatus',
-                label: 'Set Contract Status'
-            }],
+                value: 'cart',
+                label: 'Cart',
+            }]
     },
+    {
+        name: 'action',
+        function: [
+            {
+                value: 'balanceinquiry',
+                label: 'Balance Inquiry',
+            }],
+    }
 ];
-const TopBarNav = () => {
+const TopBarNav = (props) => {
+    const [pages, setPages] = useState([]);
     const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+    useEffect(() => {
+        if (props.user) {
+            setPages(userPages);
+        } else {
+            setPages(adminPages);
+        }
+    });
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -121,7 +112,7 @@ const TopBarNav = () => {
         }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <OWLogo/>
+                    <OWLogo user={props.user}/>
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                         <IconButton
                             size="large"
@@ -157,9 +148,10 @@ const TopBarNav = () => {
                         </Menu>
                     </Box>
                     <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-                        {pages.map((page) => (
-                            <MenuDropdown page={page}/>
-                        ))}
+                        {
+                            pages.map((page) => (
+                                <MenuDropdown page={page}/>
+                            ))}
                     </Box>
                     <Box sx={{flexGrow: 0}}>
                         <Tooltip title="Open settings">

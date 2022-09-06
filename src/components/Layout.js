@@ -24,7 +24,7 @@ export default function Layout(props) {
         <div className={'layout layout-' + props.page}>
             <Grid container spacing={0} sx={{display: "flex", justifyContent: "center"}}>
                 <Grid item xs={6} md={12}>
-                    <TopBarNav/>
+                    <TopBarNav user={props.user}/>
                 </Grid>
                 <Grid item xs={6} md={1}>
                     {props.Sidebar}

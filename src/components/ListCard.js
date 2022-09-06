@@ -1,6 +1,6 @@
 import CircularProgress from "@mui/material/CircularProgress";
-import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
-import { useEffect, useState } from "react";
+import {List, ListItem, ListItemButton, ListItemText} from "@mui/material";
+import {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import ReactDOM from "react-dom/client";
 import EditCardModal from "./EditCardModal";
@@ -54,7 +54,6 @@ export default function ListCard(props) {
 
     const handleOpenTransferModal = (event, e, i) => {
         setSelectedIndex(i);
-        console.log(e);
         ReactDOM.createRoot(document.getElementById('deposit-card-modal')).render(
             <IssPaymentFromContractModal data={e}
                 setSnackbarData={props.setSnackbarData}

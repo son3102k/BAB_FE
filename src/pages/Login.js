@@ -79,9 +79,17 @@ export default function Login() {
 
             }
         }).then(response => {
+            console.log(response)
             localStorage.setItem('accessToken', response.data['accessToken']);
             localStorage.setItem('LoggedIn', 'true');
-            navigate('dashboard');
+            const authority =  response.data['role'][0]['authority'];
+            localStorage.setItem('authority', authority);
+            if (authority === 'ROLE_ADMIN') {
+                navigate('dashboard');
+            }
+            else {
+                navigate('buy');
+            }
 
         }).catch(() => {
             setNotify(true)

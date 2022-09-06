@@ -4,7 +4,7 @@ import {Link} from "react-router-dom"
 
 export default function OWLogo(props) {
     return (
-        <IconButton component={Link} to="/dashboard" disableRipple>
+        <IconButton component={Link} to={ (props.user)?"/buy":"/dashboard"} disableRipple>
             <img src={logo} width={180}/>
         </IconButton>
     );
