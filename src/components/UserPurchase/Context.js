@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { storeProducts, detailProduct } from "./Data";
+import React, {useEffect, useState} from "react";
+import {detailProduct, storeProducts} from "./Data";
+
 const ProductContext = React.createContext({});
 
 const ProductProvider = props => {

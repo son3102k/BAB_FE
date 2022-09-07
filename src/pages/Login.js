@@ -16,6 +16,7 @@ import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import {Alert, createTheme, Snackbar} from "@mui/material";
 import axios from "axios";
 import {useNavigate} from "react-router";
+import AuthService from "../services/AuthService";
 
 function Copyright(props) {
     return (
@@ -56,7 +57,12 @@ export default function Login() {
     useEffect(() => {
         document.title = 'Đăng nhập'
         if (localStorage.getItem('LoggedIn') === 'true') {
-            navigate('dashboard');
+            if (AuthService.getAuthority()==='ROLE_ADMIN') {
+                navigate('dashboard');
+            }
+            else {
+                navigate('buy');
+            }
         }
     });
 

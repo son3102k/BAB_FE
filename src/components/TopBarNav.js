@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import OWLogo from "./OWLogo";
 import MenuDropdown from "./MenuDropdown.js";
 import {useNavigate} from 'react-router';
-import {useEffect, useState} from "react";
+import AuthService from "../services/AuthService";
 
 const adminPages = [
     {
@@ -69,16 +70,18 @@ const userPages = [
     }
 ];
 const TopBarNav = (props) => {
+    const [isAdmin, setIsAdmin] = useState(0);
     const [pages, setPages] = useState([]);
     const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     useEffect(() => {
-        if (props.user) {
-            setPages(userPages);
-        } else {
+        if (AuthService.getAuthority()==='ROLE_ADMIN') {
+            setIsAdmin(1);
             setPages(adminPages);
+        } else {
+            setPages(userPages);
         }
     });
 
@@ -112,7 +115,7 @@ const TopBarNav = (props) => {
         }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <OWLogo user={props.user}/>
+                    <OWLogo isAdmin={isAdmin}/>
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                         <IconButton
                             size="large"

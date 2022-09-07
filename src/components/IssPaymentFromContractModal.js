@@ -132,7 +132,7 @@ export default function IssPaymentFromContractModal(props) {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} md={6} mb={1}>
-                                <FormControl fullWidth sx={{ width: "110%" }}>
+                                <FormControl fullWidth sx={{ width: "100%" }}>
                                     <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-amount"
@@ -163,8 +163,9 @@ export default function IssPaymentFromContractModal(props) {
                                 <TextField
                                     inputRef={remark}
                                     defaultValue={`Tru tien tu tai khoan ${RemoveAccents.remove(props.data['clientFullName']['value'])}`} sx={{
-                                        width: "110%",
-                                    }} />
+                                        width: "100%",
+                                    }}
+                                    label="Remark"/>
                             </Grid>
 
                         </Grid>

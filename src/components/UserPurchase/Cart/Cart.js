@@ -4,10 +4,12 @@ import {EmptyCart} from "./EmptyCart";
 import {ProductConsumer} from "../Context";
 import {CartList} from "./CartList";
 import {CartTotals} from "./CartTotals";
+import TopBarNav from "../../TopBarNav";
 
 export const Cart = props => {
     return (
         <section>
+            <TopBarNav/>
             <ProductConsumer>
                 {value => {
                     const { cart } = value;
