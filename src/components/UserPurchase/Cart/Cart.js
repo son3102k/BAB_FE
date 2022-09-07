@@ -5,6 +5,8 @@ import {ProductConsumer} from "../Context";
 import {CartList} from "./CartList";
 import {CartTotals} from "./CartTotals";
 import TopBarNav from "../../TopBarNav";
+import Grid from "@mui/material/Grid";
+import {Divider} from "@mui/material";
 
 export const Cart = props => {
     return (
@@ -17,8 +19,17 @@ export const Cart = props => {
                         return (
                             <>
                                 <Title name="your" title="cart" />
-                                <CartList value={value} />
-                                <CartTotals value={value} history={props.history} />
+                                <Divider/>
+                                <Grid container>
+                                    <Grid item xs={6} md={9}>
+                                        <CartList value={value} />
+                                    </Grid>
+                                    <Grid item xs={6} md={3}>
+                                        <CartTotals value={value} history={props.history} />
+                                    </Grid>
+                                </Grid>
+
+
                             </>
                         );
                     } else return <EmptyCart />;

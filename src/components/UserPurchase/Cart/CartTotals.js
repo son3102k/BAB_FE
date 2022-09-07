@@ -1,12 +1,12 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import PayPalButton from "./CheckoutButton";
+import CheckoutButton from "./CheckoutButton";
 
 export const CartTotals = ({ value, history }) => {
-    const { cartSubTotal, cartTax, cartTotal, clearCart } = value;
+    const {cartSubTotal, cartTax, cartTotal, clearCart } = value;
     return (
         <>
-            <div className="container">
+            <div className="container mt-xl-5">
                 <div className="row">
                     <div
                         className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8
@@ -22,20 +22,18 @@ export const CartTotals = ({ value, history }) => {
                         </Link>
                         <h5>
                             <span className="text-title">subtotal :</span>
-                            <strong>$ {cartSubTotal}</strong>
+                            <strong>₽ {cartSubTotal}</strong>
                         </h5>
                         <h5>
                             <span className="text-title">tax :</span>
-                            <strong>$ {cartTax}</strong>
+                            <strong>₽ {cartTax}</strong>
                         </h5>
                         <h5>
                             <span className="text-title">total :</span>
-                            <strong>$ {cartTotal}</strong>
+                            <strong>₽ {cartTotal}</strong>
                         </h5>
-                        <PayPalButton
-                            total={cartTotal}
-                            clearCart={clearCart}
-                            history={history}
+                        <CheckoutButton
+                            value={value}
                         />
                     </div>
                 </div>

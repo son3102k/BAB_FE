@@ -35,7 +35,7 @@ export const CartItem = ({ item, value }) => {
                 <div className="cart-icon" onClick={() => removeItem(id)}>
                     <FontAwesomeIcon icon={faTrash} />
                 </div>
-                <strong>item total : $ {total}</strong>
+                <strong>item total : ₽ {total}</strong>
             </div>
         </div>
     );
