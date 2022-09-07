@@ -1,21 +1,35 @@
 import Chart from 'react-apexcharts'
 import * as React from 'react';
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import {useEffect, useRef, useState} from 'react';
+import axios from "axios";
 
-const Item = styled(Paper)(({theme, width}) => ({
+const Item = styled(Paper)(({ theme, width }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
     width: width,
+    borderRadius: '10px',
 }));
 export default function Charts() {
     const colorPalette = ['#00D8B6', '#008FFB', '#FEB019', '#FF4560', '#775DD0'];
     const sparklineData = [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19, 46];
+    const [listAmount, setListAmount] = useState([]);
+    const [clients, setClients] = useState();
+    const [branches, setBranches] = useState();
+    const [highestBalance, setHighestBalance] = useState();
+
+    var formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'RUR',
+      });
+
     const randomizeArray = function (arg) {
         const array = arg.slice();
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -32,60 +46,58 @@ export default function Charts() {
         ;
 
         return array;
-    }
-
-    const spark1 = {
-        chart: {
-            id: 'sparkline1',
-            group: 'sparklines',
-            type: 'area',
-            height: 160,
-            sparkline: {
-                enabled: true
-            },
-        },
-        stroke: {
-            curve: 'straight'
-        },
-        fill: {
-            opacity: 1,
-        },
-        series: [{
-            name: 'Sales',
-            data: randomizeArray(sparklineData)
-        }],
-        labels: [...Array(24).keys()].map(n => `2018-09-0${n + 1}`),
-        yaxis: {
-            min: 0
-        },
-        xaxis: {
-            type: 'datetime',
-        },
-        colors: ['#DCE6EC'],
-        title: {
-            text: '$424,652',
-            offsetX: 30,
-            style: {
-                fontSize: '24px',
-                cssClass: 'apexcharts-yaxis-title'
-            }
-        },
-        subtitle: {
-            text: 'Sales',
-            offsetX: 30,
-            style: {
-                fontSize: '14px',
-                cssClass: 'apexcharts-yaxis-title'
-            }
-        }
     };
+
+    useEffect(()=>{
+        //get listAmount
+        axios.get('http://localhost:8080/admin/getAmountChart', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            }
+        }).then((res) => {
+            setListAmount(res.data);
+            });
+
+        //getNumberOfClients
+        axios.get('http://localhost:8080/admin/getNumberOfClients', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                }
+            }).then((res) => {
+                setClients(res.data);
+                });
+
+        //getNumberOfBranches
+        axios.get('http://localhost:8080/admin/getNumberOfBranches', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                }
+            }).then((res) => {
+                setBranches(res.data);
+                });
+
+        //getHighestAmount
+        axios.get('http://localhost:8080/admin/getHighestAmount', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                }
+            }).then((res) => {
+                setHighestBalance(res.data);
+                });
+
+        //
+    }, []);
 
     const spark2 = {
         chart: {
             id: 'sparkline2',
             group: 'sparklines',
             type: 'area',
-            height: 160,
+            height: 100,
             sparkline: {
                 enabled: true
             },
@@ -109,10 +121,10 @@ export default function Charts() {
         },
         colors: ['#DCE6EC'],
         title: {
-            text: '$235,312',
-            offsetX: 30,
+            text: '',
+            offsetX: 20,
             style: {
-                fontSize: '24px',
+                fontSize: '12px',
                 cssClass: 'apexcharts-yaxis-title'
             }
         },
@@ -187,13 +199,15 @@ export default function Charts() {
         },
         colors: colorPalette,
         series: [{
-            name: "Clothing",
-            data: [42, 52, 16, 55, 59, 51, 45, 32, 26, 33, 44, 51, 42, 56],
-        }, {
-            name: "Food Products",
-            data: [6, 12, 4, 7, 5, 3, 6, 4, 3, 3, 5, 6, 7, 4],
+            name: "Amount",
+            data: listAmount,
         }],
-        labels: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+        labels: ['Under 10k', 
+        'Under 100k', 
+        'Under 1 Million', 
+        'Under 10 Million', 
+        'Under 100 Million', 
+        'Over 100 Million'],
         xaxis: {
             labels: {
                 show: false
@@ -219,7 +233,7 @@ export default function Charts() {
             }
         },
         title: {
-            text: 'Monthly Sales',
+            text: 'Amount Range',
             align: 'left',
             style: {
                 fontSize: '18px'
@@ -228,10 +242,10 @@ export default function Charts() {
 
     };
 
-    const optionsArea = {
+    const pieChart = {
         chart: {
             height: 340,
-            type: 'area',
+            type: 'pie',
             zoom: {
                 enabled: false
             },
@@ -239,89 +253,24 @@ export default function Charts() {
         stroke: {
             curve: 'straight'
         },
-        colors: colorPalette,
-        series: [
-            {
-                name: "Blog",
-                data: [{
-                    x: 0,
-                    y: 0
-                }, {
-                    x: 4,
-                    y: 5
-                }, {
-                    x: 5,
-                    y: 3
-                }, {
-                    x: 9,
-                    y: 8
-                }, {
-                    x: 14,
-                    y: 4
-                }, {
-                    x: 18,
-                    y: 5
-                }, {
-                    x: 25,
-                    y: 0
-                }]
-            },
-            {
-                name: "Social Media",
-                data: [{
-                    x: 0,
-                    y: 0
-                }, {
-                    x: 4,
-                    y: 6
-                }, {
-                    x: 5,
-                    y: 4
-                }, {
-                    x: 14,
-                    y: 8
-                }, {
-                    x: 18,
-                    y: 5.5
-                }, {
-                    x: 21,
-                    y: 6
-                }, {
-                    x: 25,
-                    y: 0
-                }]
-            },
-            {
-                name: "External",
-                data: [{
-                    x: 0,
-                    y: 0
-                }, {
-                    x: 2,
-                    y: 5
-                }, {
-                    x: 5,
-                    y: 4
-                }, {
-                    x: 10,
-                    y: 11
-                }, {
-                    x: 14,
-                    y: 4
-                }, {
-                    x: 18,
-                    y: 8
-                }, {
-                    x: 25,
-                    y: 0
-                }]
+        series: [62, 0, 0],
+        labels: ['RUSSIAN', 'ENGLISH', 'GERMAN'],
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
             }
-        ],
+        }],
         fill: {
             opacity: 1,
         },
         title: {
-            text: 'Daily Visits Insights',
+            text: 'Currency',
             align: 'left',
             style: {
                 fontSize: '18px'
@@ -371,33 +320,36 @@ export default function Charts() {
 
     return (
         <div>
-            <Box sx={{flexGrow: 1}}>
+            <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={5}>
                     <Grid item xs={6} md={4}>
                         <Item width={400}>
-                            <Chart options={spark1} type="area" series={spark1.series} height={spark1.chart.height}/>
+                            <Typography fontSize="30px" color="#78909c">{clients}</Typography>
+                            <Typography fontSize="20px" color="#78909c">Clients</Typography>
                         </Item>
                     </Grid>
                     <Grid item xs={6} md={4}>
                         <Item width={400}>
-                            <Chart options={spark2} type="area" series={spark2.series} height={spark2.chart.height}/>
+                            <Typography fontSize="30px" color="#78909c">{branches}</Typography>
+                            <Typography fontSize="20px" color="#78909c">Branches</Typography>
                         </Item>
                     </Grid>
                     <Grid item xs={6} md={4}>
                         <Item width={400}>
-                            <Chart options={spark3} type="area" series={spark3.series} height={spark3.chart.height}/>
+                            <Typography fontSize="30px" color="#78909c">{formatter.format(highestBalance)}</Typography>
+                            <Typography fontSize="20px" color="#78909c">Highest Balance</Typography>
                         </Item>
                     </Grid>
                     <Grid item xs={6} md={6}>
                         <Item>
                             <Chart options={optionsBar} type={optionsBar.chart.type} series={optionsBar.series}
-                                   height={optionsBar.chart.height}/>
+                                height={optionsBar.chart.height} />
                         </Item>
                     </Grid>
                     <Grid item xs={6} md={6}>
                         <Item width={645}>
-                            <Chart options={optionsArea} type={optionsArea.chart.type} series={optionsArea.series}
-                                   height={optionsArea.chart.height}/>
+                            <Chart options={pieChart} type={pieChart.chart.type} series={pieChart.series}
+                                   height={pieChart.chart.height}/>
                         </Item>
                     </Grid>
                 </Grid>
