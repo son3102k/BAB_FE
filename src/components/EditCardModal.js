@@ -108,22 +108,6 @@ export default function EditCardModal(props) {
                                     }}>
                             Card Information
                         </Typography>
-                        {/*<TextField*/}
-                        {/*    id="branch"*/}
-                        {/*    label="Branch"*/}
-                        {/*    size="small"*/}
-                        {/*    sx={{*/}
-                        {/*        width: "93%",*/}
-                        {/*        m: 1,*/}
-                        {/*        mb: 2,*/}
-                        {/*    }}*/}
-                        {/*    inputRef={branch}*/}
-                        {/*    defaultValue={branch.current}*/}
-                        {/*    InputProps={{*/}
-                        {/*        readOnly: true,*/}
-                        {/*    }}*/}
-                        {/*    autoComplete="off"*/}
-                        {/*/>*/}
                         <TextField
                             id="cardName"
                             label="Card Name"

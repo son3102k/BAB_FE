@@ -30,12 +30,12 @@ export const storeProducts = [
     },
     {
         id: 4,
-        title: "HTC 10 - Black",
+        title: "Bó rau",
         img: "img/product-3.png",
         price: 1699,
-        company: "htc",
+        company: "market",
         info:
-            "Lorem ipsum dolor amet offal butcher quinoa sustainable gastropub, echo park actually green juice sriracha paleo. Brooklyn sriracha semiotics, DIY coloring book mixtape craft beer sartorial hella blue bottle. Tote bag wolf authentic try-hard put a bird on it mumblecore. Unicorn lumbersexual master cleanse blog hella VHS, vaporware sartorial church-key cardigan single-origin coffee lo-fi organic asymmetrical. Taxidermy semiotics celiac stumptown scenester normcore, ethical helvetica photo booth gentrify.",
+            "Bó rau muống 10k ở chợ, nhưng bị gian thương đẩy giá lên. Rau sạch vừa cắt từ vườn",
         inCart: false,
         count: 0,
         total: 0
