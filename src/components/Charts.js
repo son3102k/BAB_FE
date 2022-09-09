@@ -8,15 +8,37 @@ import Typography from '@mui/material/Typography';
 import { useEffect, useRef, useState } from 'react';
 import axios from "axios";
 
-const Item = styled(Paper)(({ theme, width }) => ({
+const Item = styled(Paper)(({ theme, width, height }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
+    display: "flex",
+    justifyContent: 'center',
+    alignItems: 'center',
     color: theme.palette.text.secondary,
     width: width,
     borderRadius: '10px',
+    height: height,
+    flexWrap: 'wrap',
+
 }));
+
+const ItemChart = styled(Paper)(({ theme, width }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+
+
+    alignItems: 'center',
+    color: theme.palette.text.secondary,
+    width: width,
+    borderRadius: '10px',
+
+
+}));
+
 export default function Charts() {
     const colorPalette = ['#00D8B6', '#008FFB', '#FEB019', '#FF4560', '#775DD0'];
     // const sparklineData = [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19, 46];
@@ -29,7 +51,7 @@ export default function Charts() {
 
     const [pieChart, setPieChart] = useState({
         chart: {
-            height: 300,
+            height: 391,
             type: 'pie',
             zoom: {
                 enabled: false
@@ -105,7 +127,7 @@ export default function Charts() {
 
     var formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'RUR',
+        currency: 'RUB',
     });
 
     useEffect(() => {
@@ -269,7 +291,7 @@ export default function Charts() {
         },
         plotOptions: {
             bar: {
-                columnWidth: '45%',
+                columnWidth: '40%',
             }
         },
         colors: colorPalette,
@@ -322,34 +344,34 @@ export default function Charts() {
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={5}>
                     <Grid item xs={6} md={4}>
-                        <Item width={400}>
-                            <Typography fontSize="30px" color="#78909c">{clients}</Typography>
+                        <Item width={400} height={150}>
+                            <Typography fontSize="40px" color="#000" width='100%'>{clients}</Typography>
                             <Typography fontSize="20px" color="#78909c">Clients</Typography>
                         </Item>
                     </Grid>
                     <Grid item xs={6} md={4}>
-                        <Item width={400}>
-                            <Typography fontSize="30px" color="#78909c">{branches}</Typography>
+                        <Item width={400} height={150}>
+                            <Typography fontSize="30px" color="#000" width='100%'>{branches}</Typography>
                             <Typography fontSize="20px" color="#78909c">Branches</Typography>
                         </Item>
                     </Grid>
                     <Grid item xs={6} md={4}>
-                        <Item width={400}>
-                            <Typography fontSize="30px" color="#78909c">{formatter.format(highestBalance)}</Typography>
+                        <Item width={400} height={150}>
+                            <Typography fontSize="30px" color="#000" width='100%'>{formatter.format(highestBalance)}</Typography>
                             <Typography fontSize="20px" color="#78909c">Highest Balance</Typography>
                         </Item>
                     </Grid>
                     <Grid item xs={6} md={6}>
-                        <Item>
+                        <ItemChart>
                             <Chart options={optionsBar} type={optionsBar.chart.type} series={optionsBar.series}
                                 height={optionsBar.chart.height} />
-                        </Item>
+                        </ItemChart>
                     </Grid>
                     <Grid item xs={6} md={6}>
-                        <Item width={645}>
+                        <ItemChart width={630}>
                             <Chart options={pieChart} type={pieChart.chart.type} series={pieChart.series}
                                 height={pieChart.chart.height} />
-                        </Item>
+                        </ItemChart>
                     </Grid>
                 </Grid>
             </Box>
