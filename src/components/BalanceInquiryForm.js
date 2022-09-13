@@ -120,6 +120,14 @@ export default function BalanceInquiryForm({ font }) {
                                 defaultValue={cardNumber.current.value}
                                 autoComplete="off"
                             />
+                            <Typography component="h1" variant="h5" fontWeight="500"
+                                        fontFamily={font.typography.fontFamily} color="#e60b0b"
+                                        sx={{
+                                            m: 1,
+                                            mb: 3,
+                                        }}>
+                                Attention: Each request requires fee !!!
+                            </Typography>
                         </Item>
                     </Grid>
                     <Grid item xs={6}>
