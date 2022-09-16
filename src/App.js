@@ -29,6 +29,7 @@ function App() {
                 <Route path="/cardmanage" element={<PrivateRoute admin={1}><CardManage/></PrivateRoute>}/>
                 <Route path="/createcard" element={<PrivateRoute admin={1}><CreateCard/></PrivateRoute>}/>
                 <Route path="/clearpinattempt" element={<PrivateRoute admin={1}><ClearPinAttempts/></PrivateRoute>}/>
+                <Route path="/reissuecard" element={<PrivateRoute admin={1}><ClearPinAttempts/></PrivateRoute>}/>
                 <Route path="/acqbalanceinquiry" element={<BalanceInquiry/>}/>
                 <Route exact path="/buy" element={<UserHomepage></UserHomepage>}/>
                 <Route path="/details" element={<Details></Details>}/>

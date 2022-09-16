@@ -28,7 +28,7 @@ export const Cart = props => {
                                         <CartTotals value={value} history={props.history} />
                                     </Grid>
                                 </Grid>
-
+                                
 
                             </>
                         );

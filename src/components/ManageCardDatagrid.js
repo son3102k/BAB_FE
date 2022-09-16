@@ -287,7 +287,7 @@ export default function ManageCardDatagrid({font}) {
         <Box sx={{width: '95%', backgroundColor: "#ffffff", borderRadius: 4}}>
             <Typography component="h1" fontWeight="800" fontFamily={font.typography.fontFamily} fontSize={42}
                         color="#1a8cff" sx={{p: 3}}>
-                Client List
+                Client
             </Typography>
             <div id="modal"/>
             <DataGrid sx={{

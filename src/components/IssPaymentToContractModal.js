@@ -91,7 +91,7 @@ export default function IssPaymentToContractModal(props) {
                                     sx={{
                                         mb: 3,
                                     }}>
-                                    From Account
+                                    To Account
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} md={6}>
