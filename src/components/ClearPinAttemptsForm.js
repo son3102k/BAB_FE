@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useEffect, useState, useRef} from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from "@mui/material/Button";
-import {Alert, Snackbar} from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 import ReactDOM from "react-dom/client";
 import MainModal from "./MainModal";
 import axios from "axios";
@@ -56,44 +56,48 @@ export default function ClearPinAttemptsForm({ font }) {
 
 
     return (
-        <Box sx={{ width: '50%', backgroundColor: "#ffffff", borderRadius: 4}}>
+        <div align="center">
+            <Box sx={{ width: '100%', backgroundColor: "#ffffff", borderRadius: 4 }}>
 
-            <Typography component="h1" fontWeight="800" fontFamily={font.typography.fontFamily} fontSize={42}
-                color="#1a8cff" sx={{ p: 3 }}>
-                Clear PIN Attempts
-            </Typography>
-            <div id="modal" />
-            <TextField
-                            id="Card Number"
-                            label="Card Number"
-                            size="small"
-                            sx={{
-                                width: "93%",
-                                m: 1,
-                                mb: 2,
-                            }}
-                            inputRef={cardNumber}
-                            defaultValue={cardNumber.current}
-                            autoComplete="off"
+                <Typography component="h1" fontWeight="700" fontFamily={font.typography.fontFamily} fontSize={40}
+                    color="#1a8cff" sx={{ p: 4 }}>
+                    Clear PIN Attempts
+                </Typography>
+                <div id="modal" />
+                <TextField
+                    id="Card Number"
+                    label="Card Number"
+                    size="small"
+                    sx={{
+                        width: "93%",
+                        m: 1,
+                        mb: 2,
 
-                        />
-            <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                    mt: 2, fontSize: 13, p: 1.3, fontWeight: 'bold',
-                    backgroundImage: "linear-gradient(120deg,#00bfae 0,#0066ad 100%)",
-                    mb: 1
-                }}
-                onClick={handleSubmit}
-            >
-                Submit
-            </Button>
-            <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
-                <Alert onClose={handleCloseSnackbar} severity={snackbarData.severity} sx={{width: 300}}>
-                    {snackbarData.message}
-                </Alert>
-            </Snackbar>
-        </Box>
+                    }}
+                    inputRef={cardNumber}
+                    defaultValue={cardNumber.current}
+                    autoComplete="off"
+
+                />
+                <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{
+                        mt: 2, fontSize: 13, p: 1.3, fontWeight: 'bold',
+                        backgroundImage: "linear-gradient(120deg,#00bfae 0,#0066ad 100%)",
+                        mb: 1
+                    }}
+                    onClick={handleSubmit}
+                >
+                    Submit
+                </Button>
+                <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+                    <Alert onClose={handleCloseSnackbar} severity={snackbarData.severity} sx={{ width: 300 }}>
+                        {snackbarData.message}
+                    </Alert>
+                </Snackbar>
+            </Box>
+        </div>
+
     );
 }

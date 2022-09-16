@@ -63,7 +63,7 @@ export default function CheckoutForm({value}) {
                     setIsLoading(false);
                     value.clearCart();
                 } else {
-                    setResult("We can't identify your card number");
+                    setResult(`${res.data['acqPurchaseResult']['value']['retMsg']['value']}`);
                     setIsLoading(false);
                 }
             });

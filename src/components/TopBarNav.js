@@ -29,21 +29,14 @@ const adminPages = [
         name: 'action',
         function: [
             {
-                value: 'acqpurchase',
-                label: 'Acq Purchase',
-            },
-            {
                 value: 'acqbalanceinquiry',
                 label: 'Acq Balance Inquiry'
             },
             {
                 value: 'clearpinattempt',
                 label: 'Clear PIN Attempt'
-            },
-            {
-                value: 'reissuecard',
-                label: 'Reissue Card'
-            }],
+            }
+            ],
     },
 ];
 
@@ -64,7 +57,7 @@ const userPages = [
         name: 'action',
         function: [
             {
-                value: 'balanceinquiry',
+                value: 'acqbalanceinquiry',
                 label: 'Balance Inquiry',
             }],
     }

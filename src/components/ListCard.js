@@ -1,6 +1,6 @@
 import CircularProgress from "@mui/material/CircularProgress";
-import {List, ListItem, ListItemButton, ListItemText} from "@mui/material";
-import {useEffect, useState} from "react";
+import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import ReactDOM from "react-dom/client";
 import EditCardModal from "./EditCardModal";
@@ -98,8 +98,8 @@ export default function ListCard(props) {
                                 selected={selectedIndex === i}
                             >
                                 <div>
-                                    <IconButton edge="end" aria-label="PaymentFrom">
-                                        <RemoveCircleOutlineIcon color="error" onClick={(event) => handleOpenTransferModal(event, e, i)}/>
+                                    <IconButton edge="end" aria-label="PaymentFrom" >
+                                        <RemoveCircleOutlineIcon color="error" onClick={(event) => handleOpenTransferModal(event, e, i)} />
                                     </IconButton>
                                     <IconButton edge="end" aria-label="PaymentTo" sx={{
                                         mr: 1,

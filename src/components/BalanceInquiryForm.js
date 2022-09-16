@@ -74,6 +74,9 @@ export default function BalanceInquiryForm({ font }) {
                 setOpenSnackbar(true);
             } else {
                 alert(res.data['acqBalanceInquiryResult']['value']['retMsg']['value']);
+                
+                setAmountAvailable('');
+                setCreditLimit('');
             }
         });
     }
@@ -212,6 +215,11 @@ export default function BalanceInquiryForm({ font }) {
                     </DialogActions>
                 </Dialog>
             </div>
+            <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar} >
+                <Alert onClose={handleCloseSnackbar} severity={snackbarData.severity} sx={{width: 400, backgroundColor: '#42f55a'}}>
+                    {snackbarData.message}
+                </Alert>
+            </Snackbar>
         </div>
         
     );
