@@ -18,7 +18,7 @@ export const ProductList = () => {
                         <ButtonContainer>
                           <span className="mr-2">
                             <FontAwesomeIcon icon={faCartPlus}/>
-                            my cart
+                            My cart
                           </span>
                         </ButtonContainer>
                     </IconButton>

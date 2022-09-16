@@ -6,24 +6,24 @@ https://www.iconfinder.com/Makoto_msk */
 export const storeProducts = [
     {
         id: 2,
-        title: "Google Pixel - Black",
+        title: "Apple MacBook",
         img: "img/product-1.png",
-        price: 5599,
-        company: "GOOGLE",
+        price: 999,
+        company: "Apple",
         info:
-            "Lorem ipsum dolor amet offal butcher quinoa sustainable gastropub, echo park actually green juice sriracha paleo. Brooklyn sriracha semiotics, DIY coloring book mixtape craft beer sartorial hella blue bottle. Tote bag wolf authentic try-hard put a bird on it mumblecore. Unicorn lumbersexual master cleanse blog hella VHS, vaporware sartorial church-key cardigan single-origin coffee lo-fi organic asymmetrical. Taxidermy semiotics celiac stumptown scenester normcore, ethical helvetica photo booth gentrify.",
+            "The MacBook is Apple's third laptop computer family, introduced in 2006. Prior laptops were the PowerBook and iBook. In 2015, new MacBooks featured Apple's Retina Display and higher resolutions, as well as the Force Touch trackpad that senses different pressure levels.",
         inCart: false,
         count: 0,
         total: 0
     },
     {
         id: 3,
-        title: "Samsung S7",
+        title: "Rocket",
         img: "img/product-2.png",
-        price: 1999,
-        company: "SAMSUNG",
+        price: 100000,
+        company: "Space-X",
         info:
-            "Lorem ipsum dolor amet offal butcher quinoa sustainable gastropub, echo park actually green juice sriracha paleo. Brooklyn sriracha semiotics, DIY coloring book mixtape craft beer sartorial hella blue bottle. Tote bag wolf authentic try-hard put a bird on it mumblecore. Unicorn lumbersexual master cleanse blog hella VHS, vaporware sartorial church-key cardigan single-origin coffee lo-fi organic asymmetrical. Taxidermy semiotics celiac stumptown scenester normcore, ethical helvetica photo booth gentrify.",
+            "Rocket from SpaceX company. Pro vip",
         inCart: false,
         count: 0,
         total: 0
@@ -90,13 +90,35 @@ export const storeProducts = [
     },
     {
         id: 9,
-        title: "Smashed Iphone",
+        title: "WH-1000XM5 Headphone",
         img: "img/product-8.png",
-        price: 99999,
-        company: "apple",
+        price: 99,
+        company: "Sony",
         info:
-            "Lorem ipsum dolor amet offal butcher quinoa sustainable gastropub, echo park actually green juice sriracha paleo. Brooklyn sriracha semiotics, DIY coloring book mixtape craft beer sartorial hella blue bottle. Tote bag wolf authentic try-hard put a bird on it mumblecore. Unicorn lumbersexual master cleanse blog hella VHS, vaporware sartorial church-key cardigan single-origin coffee lo-fi organic asymmetrical. Taxidermy semiotics celiac stumptown scenester normcore, ethical helvetica photo booth gentrify.",
+            "Khả năng chống ồn đứng đầu ngành với hai bộ xử lý hiệu suất cao và tám micrô. Chất lượng âm thanh vượt trội với bộ trình điều khiển 30mm được thiết kế đặc biệt. Cuộc gọi khử tiếng ồn vượt trội với micrô lọc không gian 2x2 và hệ thống giảm tiếng ồn (sử dụng AI)",
         inCart: false,
+        count: 0,
+        total: 0
+    },
+    {
+        id: 10,
+        title: "Gold",
+        img: "img/product-9.png",
+        price: 9900,
+        company: "SJC",
+        info:
+            "9999 Gold. Very luxury",
+        count: 0,
+        total: 0
+    },
+    {
+        id: 11,
+        title: "Candy",
+        img: "img/product-10.png",
+        price: 1,
+        company: "Candy Factory",
+        info:
+            "Very Delicious",
         count: 0,
         total: 0
     }
