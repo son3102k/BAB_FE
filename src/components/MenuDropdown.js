@@ -41,9 +41,9 @@ export default function MenuDropdown(props) {
                 MenuListProps={{onMouseLeave: handleCloseToggle}}
                 getContentAnchorEl={null}
             >
-                {page.function.map((func) => (
+                {page.function.map((func, index) => (
 
-                    <MenuItem component={Link} to={`/${func.value}`}>
+                    <MenuItem component={Link} to={`/${func.value}`} key={index}>
                         {func.label}
                     </MenuItem>
                 ))}
