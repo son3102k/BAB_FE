@@ -138,15 +138,15 @@ const TopBarNav = (props) => {
                                 display: {xs: 'block', md: 'none'},
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuDropdown page={page}/>
+                            {pages.map((page, index) => (
+                                <MenuDropdown page={page} key={index}/>
                             ))}
-                        </Menu>
+                        </Menu>s
                     </Box>
                     <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                         {
-                            pages.map((page) => (
-                                <MenuDropdown page={page}/>
+                            pages.map((page, index) => (
+                                <MenuDropdown page={page} key={index}/>
                             ))}
                     </Box>
                     <Box sx={{flexGrow: 0}}>
